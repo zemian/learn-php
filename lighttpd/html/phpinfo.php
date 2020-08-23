@@ -2,9 +2,9 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>PHP Hello</title>
+	<title>PHP Info</title>
 </head>
 <body>
-	<?php echo '<p>Hello World</p>'; ?> 
+	<?php phpinfo(); ?> 
 </body>
 </html>
