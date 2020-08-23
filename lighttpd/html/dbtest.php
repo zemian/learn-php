@@ -1,52 +1,38 @@
-<?php
-// https://www.php.net/manual/en/mysqli.examples-basic.php
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>PHP Hello</title>
+</head>
+<body>
+    <?php
+    /*
+    https://www.w3schools.com/php/php_mysql_connect.asp
 
-$dbname = 'wordpress';
-$dbuser = 'root';
-$dbpass = '';
-$dbhost = 'localhost:3306';
+    PHP 5 and later can work with a MySQL database using:
 
-$mysqli = new mysqli('127.0.0.1', 'zemian', 'test123', 'wordpress');
-if ($mysqli->connect_errno) {
-    // The connection failed. What do you want to do? 
-    // You could contact yourself (email?), log the error, show a nice page, etc.
-    // You do not want to reveal sensitive information
+        MySQLi extension (the "i" stands for improved)
+        PDO (PHP Data Objects)
 
-    // Let's try this:
-    echo "Sorry, this website is experiencing problems.";
+    PDO will work on 12 different database systems, whereas MySQLi will only work with MySQL databases.
+    */
 
-    // Something you should not do on a public site, but this example will show you
-    // anyways, is print out MySQL error related information -- you might log this
-    echo "Error: Failed to make a MySQL connection, here is why: \n";
-    echo "Errno: " . $mysqli->connect_errno . "\n";
-    echo "Error: " . $mysqli->connect_error . "\n";
-    
-    // You might want to show them something nice, but we will simply exit
-    exit;
-}
+    // Example (MySQLi Object-Oriented)
+    $servername = "localhost";
+    $username = "zemian";
+    $password = "test123";
 
-// Perform an SQL query
-$sql = "SELECT version()";
-if (!$result = $mysqli->query($sql)) {
-    // Oh no! The query failed. 
-    echo "Sorry, the website is experiencing problems.";
+    // Create connection
+    $conn = new mysqli($servername, $username, $password);
 
-    // Again, do not do this on a public site, but we'll show you how
-    // to get the error information
-    echo "Error: Our query failed to execute and here is why: \n";
-    echo "Query: " . $sql . "\n";
-    echo "Errno: " . $mysqli->errno . "\n";
-    echo "Error: " . $mysqli->error . "\n";
-    exit;
-}
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+    echo "Connected successfully";
 
-// Print our 5 random actors in a list, and link to each actor
-$ver = $result->fetch_row();
-echo "MySQL version: $ver[0]\n";
-
-// The script will automatically free the result and close the MySQL
-// connection when it exits, but let's just do it anyways
-$result->free();
-$mysqli->close();
-
-?>
+    // The connection will be closed automatically when the script ends. To close the connection before, use the following:
+    $conn->close();
+    ?> 
+</body>
+</html>
