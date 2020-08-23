@@ -8,6 +8,8 @@
 	<h1>$_SERVER</h1>
 	<pre><code>
 	<?php 
+		// https://www.php.net/manual/en/reserved.variables.php
+	
 		echo "$_SERVER";
 		#echo $_SERVER['HTTP_USER_AGENT'];
 		var_dump($_SERVER);
