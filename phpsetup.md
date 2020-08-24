@@ -14,7 +14,7 @@ We can try to install latest version with `brew install php`
 
 1. Download source [`php-7.4.9.tar.gz`](https://www.php.net/downloads)
 2. Run `brew install libiconv`
-3. Run `./configure --prefix=/usr/local --with-iconv=/usr/local/opt/libiconv --enable-sockets --with-mysqli=mysqlnd --with-zlib`
+3. Run `./configure --prefix=/usr/local --with-iconv=/usr/local/opt/libiconv --enable-sockets --with-mysqli=mysqlnd --with-zlib --with-apxs2=/usr/local/bin/apxs`
 4. Run `make`
 5. Run `sudo make install`
 
