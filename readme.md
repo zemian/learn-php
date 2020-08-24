@@ -64,15 +64,26 @@ You might to preinstall the following first:
 
 1. Download source [`php-7.4.9.tar.gz`](https://www.php.net/downloads)
 2. Run `brew install libiconv`
-3. Run `./configure --prefix=/usr/local --with-iconv=/usr/local/opt/libiconv --enable-sockets --with-mysqli=mysqlnd --with-zlib=/usr/local/opt/zlib --with-apxs2=/usr/local/bin/apxs`
+3. Run `./configure --prefix=/usr/local --with-iconv=/usr/local/opt/libiconv --enable-sockets --with-mysqli=mysqlnd`
 4. Run `make`
 5. Run `sudo make install`
 
+
+Example of more full options:
+
+```
+./configure --prefix=/usr/local --with-iconv=/usr/local/opt/libiconv --enable-sockets --with-mysqli=mysqlnd --with-pdo-mysql --with-zlib=/usr/local/opt/zlib --with-apxs2=/usr/local/bin/apxs
+```
+
+#### Compiling PHP with MySQL
+
 NOTE: PHP 7 uses option `--with-mysqli` instead of `--with-mysql`. The `mysqlnd` is a PHP native driver.
 
-NOTE: The `--with-apxs2=/usr/local/bin/apxs` is only needed if you were to compile mod_php7.so for Apache HTTPD web server.
+If you need the MySQL POD, add `--with-pdo-mysql`. This allows you to connect to many DB with same interface API.
 
-NOTE: The `--with-zlib` is required for Joomla CMS, but not for WordPress! 
+#### Compiling PHP with Apache HTTPD
+
+Add the `--with-apxs2=/usr/local/bin/apxs` is only needed if you were to compile mod_php7.so for Apache HTTPD web server.
 
 ## PHP versions
 

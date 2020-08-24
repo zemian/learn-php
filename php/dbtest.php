@@ -22,25 +22,20 @@
     $password = "test123";
 
     /*
-    // == Example (MySQLi Object-Oriented)
+    // == Example (MySQLi Object-Oriented)    
     */ 
-    
     // Create connection
     $conn = new mysqli($servername, $username, $password);
-
-    // Check connection
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
     echo "Connected successfully";
-
     // The connection will be closed automatically when the script ends. To close the connection before, use the following:
     $conn->close();
 
 
     /*
     // == Example (MySQLi Procedural)
-
     // Create connection
     $conn = mysqli_connect($servername, $username, $password);
 
