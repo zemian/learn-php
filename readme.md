@@ -54,11 +54,18 @@ We can try to install latest version with `brew install php`
 
 ### Installing php by building from source
 
+You might to preinstall the following first:
+
+	brew install libiconv zlib apxs mysql
+
 1. Download source [`php-7.4.9.tar.gz`](https://www.php.net/downloads)
 2. Run `brew install libiconv`
-3. Run `./configure --prefix=/usr/local --with-iconv=/usr/local/opt/libiconv --enable-sockets --with-mysqli=mysqlnd --with-zlib --with-apxs2=/usr/local/bin/apxs`
+3. Run `./configure --prefix=/usr/local --with-iconv=/usr/local/opt/libiconv --enable-sockets --with-mysqli=mysqlnd --with-zlib=/usr/local/opt/zlib --with-apxs2=/usr/local/bin/apxs`
 4. Run `make`
 5. Run `sudo make install`
 
 NOTE: PHP 7 uses option `--with-mysqli` instead of `--with-mysql`. The `mysqlnd` is a PHP native driver.
 
+## PHP versions
+
+* 5.6.40 is the last version release before 7 and it has been discontinued since 10 Jan 2019.
