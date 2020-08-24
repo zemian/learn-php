@@ -39,6 +39,10 @@ INSERT INTO config(name, value) values('foo', 'bar'), ('num', '123');
 NOTE: If you are using PHP 7.4 with `mysqli`, then you need to use `mysql_native_password`.
 See https://stackoverflow.com/questions/50026939/php-mysqli-connect-authentication-method-unknown-to-the-client-caching-sha2-pa
 
+### How to update existing DB user password
+
+	ALTER USER 'zemian'@'localhost' IDENTIFIED WITH mysql_native_password BY 'test123';
+
 ## PHP Installation
 
 ### Mac Setup
