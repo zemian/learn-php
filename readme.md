@@ -26,7 +26,7 @@ mysql -u root
 mysql -u root
 
 CREATE USER 'zemian'@'localhost' IDENTIFIED WITH mysql_native_password BY 'test123';
-CREATE DATABASE learnphp CHARACTER SET utf8 COLLATE utf8_general_ci;
+CREATE DATABASE learnphp CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 GRANT ALL PRIVILEGES ON learnphp.* TO 'zemian'@'localhost';
 FLUSH PRIVILEGES;
 
