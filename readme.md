@@ -66,6 +66,10 @@ You might to preinstall the following first:
 
 NOTE: PHP 7 uses option `--with-mysqli` instead of `--with-mysql`. The `mysqlnd` is a PHP native driver.
 
+NOTE: The `--with-apxs2=/usr/local/bin/apxs` is only needed if you were to compile mod_php7.so for Apache HTTPD web server.
+
+NOTE: The `--with-zlib` is required for Joomla CMS, but not for WordPress! 
+
 ## PHP versions
 
 * 5.6.40 is the last version release before 7 and it has been discontinued since 10 Jan 2019.
