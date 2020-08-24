@@ -26,11 +26,11 @@ mysql -u root
 mysql -u root
 
 CREATE USER 'zemian'@'localhost' IDENTIFIED WITH mysql_native_password BY 'test123';
-CREATE DATABASE learnphp CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-GRANT ALL PRIVILEGES ON learnphp.* TO 'zemian'@'localhost';
+CREATE DATABASE learnphpdb CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+GRANT ALL PRIVILEGES ON learnphpdb.* TO 'zemian'@'localhost';
 FLUSH PRIVILEGES;
 
-mysql -u zemian -p learnphp
+mysql -u zemian -p learnphpdb
 
 CREATE TABLE config(id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(200), value VARCHAR(1000));
 INSERT INTO config(name, value) values('foo', 'bar'), ('num', '123');
