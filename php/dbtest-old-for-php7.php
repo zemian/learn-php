@@ -7,6 +7,10 @@
 <body>
     <?php
     
+    // PHP7 will not include mysql_connect(), so this is the workaround for it!
+    // https://github.com/rubo77/php-mysql-fix
+    include_once('fix_mysql.inc.php');
+
     $servername = "localhost";
     $username = "zemian";
     $password = "test123";
