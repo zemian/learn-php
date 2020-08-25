@@ -30,8 +30,41 @@ See https://stackoverflow.com/questions/50026939/php-mysqli-connect-authenticati
 
 	ALTER USER 'zemian'@'localhost' IDENTIFIED WITH mysql_native_password BY 'test123';
 
+## PHP 5.6 and MySQL Error - character-set
 
-## MAMP pre-package install
+```
+Warning: mysql_connect(): Server sent charset (255) unknown to the client. Please, report to the developers in /Users/zedeng/src/zemian/learn-php/php/dbtest-old.php on line 18
+```
 
-* [XAMP](https://www.apachefriends.org/index.html) - XAMPP is a completely free, easy to install Apache distribution containing MariaDB, PHP, and Perl. 
-* [MAMP](https://www.mamp.info/en/mamp) - The free web development solution with Apache, Nginx, PHP & MySQL
+To fix this, change your database encoding from `utf8mb4` to `utf8` ON the server `my.cnf` config file!
+
+```	
+# For PHP 5.6 support, we will default character-set to utf8 insetad of utf8mb4
+
+[client]
+default-character-set=utf8
+ 
+[mysql]
+default-character-set=utf8
+ 
+[mysqld]
+collation-server = utf8_unicode_ci
+character-set-server = utf8
+```
+
+NOTE: Run `mysql --help` to see where `my.cnf` is loaded.
+
+Ref: https://thisinterestsme.com/charset-255-unknown-mysql/
+
+## PHP 5.6 and MySQL Error - password
+
+```
+Warning: mysql_connect(): The server requested authentication method unknown to the client [caching_sha2_password] in /Users/zedeng/src/zemian/learn-php/php/dbtest-old.php on line 18`
+```
+
+In the DB server `my.cnf` config file, add the following:
+
+```
+# For PHP 5.6 support, we will default older user password auth method
+default-authentication-plugin=mysql_native_password
+```

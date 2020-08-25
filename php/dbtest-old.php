@@ -7,7 +7,7 @@
 <body>
     <?php
     
-    $servername = "localhost";
+    $servername = "localhost:3306";
     $username = "zemian";
     $password = "test123";
 
