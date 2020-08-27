@@ -9,7 +9,7 @@
 	<pre><code>
 	<?php 
 		// https://www.php.net/manual/en/reserved.variables.php
-	
+	    // Also see "phpinfo.php" for list of all values!
 		echo "$_SERVER";
 		#echo $_SERVER['HTTP_USER_AGENT'];
 		var_dump($_SERVER);
