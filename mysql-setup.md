@@ -97,8 +97,8 @@ brew services start mysql@5.7
 # Or you may start it manually:
 mysql.server start
 
-# To change the root password
-mysqladmin -u root -p password 'test123'
+# To change the root password, or NOT set password
+mysqladmin -u root -p password ''
 ```
 
 You must change root password with 5.7: 
