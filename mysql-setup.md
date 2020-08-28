@@ -1,13 +1,16 @@
-## MySQL on Mac
+## MySQL 8 on Mac
 
 ```bash
 brew install services mysql
 brew services start mysql
 
+# Or you may start it manually:
+mysql.server start
+
 mysql -u root
 ```
 
-## Setup MySQL DB
+## Setup MySQL DB 8
 
 ```
 mysql -u root
@@ -68,3 +71,36 @@ In the DB server `my.cnf` config file, add the following:
 # For PHP 5.6 support, we will default older user password auth method
 default-authentication-plugin=mysql_native_password
 ```
+
+## Setup MySQL 5.7 on Mac
+
+ref: https://gist.github.com/operatino/392614486ce4421063b9dece4dfe6c21
+
+```
+brew install mysql@5.7
+brew link --force mysql@5.7
+
+# Add the following to path
+echo 'export PATH="/usr/local/opt/mysql@5.7/bin:$PATH"' >> ~/.zshrc
+
+# Verify
+mysql -V # => mysql  Ver 14.14 Distrib 5.7.31, for osx10.15 (x86_64) using  EditLine wrapper
+
+
+# NOTE: If you have previous database already created `/usr/local/var/mysql` data directory, 
+# you need to remove it and then reinitialize database first.
+# Note and record the root password
+mysqld --initialize
+
+brew services start mysql@5.7
+
+# Or you may start it manually:
+mysql.server start
+
+# To change the root password
+mysqladmin -u root -p password 'test123'
+```
+
+You must change root password with 5.7: 
+
+```/usr/local/opt/mysql@5.7/bin/mysqladmin -u root password 'test123'```
