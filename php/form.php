@@ -1,5 +1,12 @@
+<html>
+<!-- https://www.w3schools.com/php/php_forms.asp -->
+<body>
+
 <form action="form-action.php" method="post">
- <p>Your name: <input type="text" name="name" /></p>
- <p>Your age: <input type="text" name="age" /></p>
- <p><input type="submit" /></p>
+Name: <input type="text" name="name"><br>
+E-mail: <input type="text" name="email"><br>
+<input type="submit">
 </form>
+
+</body>
+</html> 
