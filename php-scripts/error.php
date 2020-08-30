@@ -1,5 +1,5 @@
 <?php 
-// https://stackify.com/display-php-errors/
+// https://stackoverflow.com/questions/1053424/how-do-i-get-php-errors-to-display
 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
