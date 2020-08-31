@@ -18,6 +18,9 @@ CREATE TABLE contacts (
   message VARCHAR(2000) NOT NULL
 );
 
+INSERT INTO contacts VALUES (NULL, NULL, 'test', 'test@test.com', 'just a test');
+INSERT INTO contacts VALUES (NULL, NULL, 'test2', 'test@test.com', 'just a test');
+
 // How RESTful works:
 
 // return all records
@@ -40,15 +43,6 @@ DELETE /contact/{id}
 
 */
 
-// Setup Response headers
-// ==================
-header("Access-Control-Allow-Origin: *");
-header("Content-Type: application/json; charset=UTF-8");
-header("Access-Control-Allow-Methods: OPTIONS,GET,POST,PUT,DELETE");
-header("Access-Control-Max-Age: 3600");
-header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
-
-
 // Make DB connection
 // ==================
 
@@ -67,49 +61,91 @@ if ($conn->connect_error) {
 // RESTful operations
 // ==================
 function getAll() {
-	$response = array("status_code_header" => 200, "body" => "getAll");
+	global $conn;
+	$sql = "SELECT * FROM contacts";
+	$result = $conn->query($sql);
+	$list = $result->fetch_all(MYSQLI_ASSOC);
+	//var_dump($body);
+
+	$body = json_encode($list);
+	$response = array("status_code_header" => 200, "body" => $body);
+	return $response;
 }
 function create() {
-	$response = array("status_code_header" => 200, "body" => "create");
+	// TODO
+	$body = array();
+	$response = array("status_code_header" => 200, "body" => $body);
+	return $response;
 	
 }
-function get($user_id) {
-	$response = array("status_code_header" => 200, "body" => "get " . $user_id);
+function get($contact_id) {
+	global $conn;
+	$sql = "SELECT * FROM contacts WHERE id = ?";
+	// var_dump($sql, $contact_id);
+	$stmt = $conn->prepare($sql);
+	$stmt->bind_param('i', $contact_id);
+	$stmt->execute();
+	$result = $stmt->get_result();
+	$body = $result->fetch_assoc();
+	// var_dump($body);
+	$stmt->close();
+
+	$body = json_encode($body, JSON_FORCE_OBJECT);
+	$response = array("status_code_header" => 200, "body" => $body);
+	return $response;
 }
-function update($user_id) {
-	$response = array("status_code_header" => 200, "body" => "update " . $user_id);
+function update($contact_id) {
+	// TODO
+	$body = array();
+	$response = array("status_code_header" => 200, "body" => $body);
+	return $response;
 }
-function delete($user_id) {
-	$response = array("status_code_header" => 200, "body" => "delete " . $user_id);
+function delete($contact_id) {
+	global $conn;
+	$sql = "DELETE FROM contacts WHERE id = ?";
+	// var_dump($sql, $contact_id);
+	$stmt = $conn->prepare($sql);
+	$stmt->bind_param('i', $contact_id);
+	$result = $stmt->execute();
+	$body = array("result" => $result);
+	// var_dump($body);
+	$stmt->close();
+
+	$body = json_encode($body, JSON_FORCE_OBJECT);
+	$response = array("status_code_header" => 200, "body" => $body);
+	return $response;
 }
 
 // Process REST reqeust URL
 // ========================
 
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-$uri = explode( '/', $uri );
+// var_dump($uri);
+$uri = explode('/', $uri);
+// var_dump($uri);
 
 // all of our endpoints start with /contact
 // everything else results in a 404 Not Found
-if ($uri[1] !== 'contact') {
+if ($uri[2] !== 'contacts') {
     header("HTTP/1.1 404 Not Found");
     exit();
 }
 
 // the user id is, of course, optional and must be a number:
-$user_id = null;
-if (isset($uri[2])) {
-    $user_id = (int) $uri[2];
+$contact_id = null;
+if (isset($uri[3])) {
+    $contact_id = (int) $uri[3];
 }
-
-$requestMethod = $_SERVER["REQUEST_METHOD"];
 
 // Process REST request method
 // ===========================
-switch ($requestMethod) {
+$response = array();
+$request_method = $_SERVER["REQUEST_METHOD"];
+//var_dump($request_method, $contact_id);
+switch ($request_method) {
     case 'GET':
-        if ($user_id) {
-            $response = get($user_id);
+        if ($contact_id) {
+            $response = get($contact_id);
         } else {
             $response = getAll();
         };
@@ -118,21 +154,30 @@ switch ($requestMethod) {
         $response = create();
         break;
     case 'PUT':
-        $response = update($user_id);
+        $response = update($contact_id);
         break;
     case 'DELETE':
-        $response = delete($user_id);
+        $response = delete($contact_id);
         break;
     default:
-        $response = array("status_code_header" => 400, "body" => "Invalid request method: " . $requestMethod);
+        $response = array("status_code_header" => 400, "body" => "Invalid request method: " . $request_method);
         break;
 }
+// var_dump($response);
+
 
 // Write response
 // ==============
+header("Access-Control-Allow-Origin: *");
+header("Content-Type: application/json; charset=UTF-8");
+header("Access-Control-Allow-Methods: OPTIONS,GET,POST,PUT,DELETE");
+// header("Access-Control-Max-Age: 3600");
+// header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
+header('Content-Type: application/json');
 header($response['status_code_header']);
 if ($response['body']) {
+	// JSON_FORCE_OBJECT is needed to return empty array
     echo $response['body'];
 }
 

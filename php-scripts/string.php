@@ -43,4 +43,16 @@ echo 'strlen($s)=', strlen($s), "\n";
 for ($i = 0; $i < strlen($s); $i++) {
     echo "\$s[$i]=", $s[$i], "\n";
 }
+
+// Heredoc
+$str = <<<EOD
+Example of string
+spanning multiple lines
+using heredoc syntax.
+EOD;
+var_dump($str);
+
+// Split string
+$array = explode("/", "foo/bar/baz");
+var_dump($array);
 ?>

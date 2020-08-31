@@ -14,12 +14,96 @@
 	<script type="text/javascript" src="https://unpkg.com/vue"></script>
 </head>
 <body>
-
-	<section class="section">
-		<h1 class="title">List of Contacts</h1>
-		<div>
+	<div id="app">
+		<section class="section">
+			<button class="button is-primary" @click="getAllData()">Refresh</button>
+			<h1 class="title">List of Contacts</h1>
+			<table class="table">
+				<tr v-for="contact in contacts">
+					<td>{{ contact.id }}</td>
+					<td>{{ contact.create_date }}</td>
+					<td>{{ contact.name }}</td>
+					<td>
+						<button class="button is-info" @click="getData(contact.id)">View</button>
+						<button class="button is-danger" @click="deleteData(contact.id)">Delete</button>
+					</td>
+				</tr>
+			</table>
+		</section>
+		<div id="viewContact" v-if="viewRecord">
+			<div class="panel">
+			  <p class="panel-heading">
+			    Contact Details
+			    <a class="delete" @click="closeViewRecord"></a>
+			  </p>
+			  <div class="panel-block">
+				<table class="table">
+					<tr>
+						<td>ID</td>
+						<td>{{ viewRecord.id }}</td>
+					</tr>
+					<tr>
+						<td>Create Date</td>
+						<td>{{ viewRecord.create_date }}</td>
+					</tr>
+					<tr>
+						<td>Name</td>
+						<td>{{ viewRecord.name }}</td>
+					</tr>
+					<tr>
+						<td>Email</td>
+						<td>{{ viewRecord.email }}</td>
+					</tr>
+					<tr>
+						<td>Message</td>
+						<td>{{ viewRecord.message }}</td>
+					</tr>
+				</table>
+			  </div>
+			</div>
 		</div>
-	</section>
+	</div>
 
+	<script>
+		new Vue({
+			el: "#app",
+			data: {
+				contacts: [],
+				viewRecord: null
+			},
+			created: function () {
+				this.getAllData();
+			},
+			methods: {
+				getAllData: function() {
+					fetch("db-contact-crud-ajax.php/contacts").then(resp => resp.json())
+						.then(data => {
+							console.log("Received " + data.length + " records.");
+							this.contacts = data;
+						});
+				},
+				deleteData: function(contactId) {
+					const options = {
+						method: "DELETE"
+					};
+					fetch(`db-contact-crud-ajax.php/contacts/${contactId}`, options).then(resp => resp.json())
+						.then(data => {
+							console.log("Deleted record " + contactId);
+							this.contacts = this.contacts.filter(e => e.id !== contactId);
+						});
+				},
+				getData: function(contactId) {
+					fetch(`db-contact-crud-ajax.php/contacts/${contactId}`).then(resp => resp.json())
+						.then(data => {
+							console.log("Viewing record ", data);
+							this.viewRecord = data;
+						});
+				},
+				closeViewRecord: function() {
+					this.viewRecord = null;
+				}
+			}
+		});
+	</script>
 </body>
 </html>
