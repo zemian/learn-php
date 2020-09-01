@@ -25,10 +25,6 @@ By default it will listen on `127.0.0.1:9000`
 
 ## To run it as service (MacOSX)
 
-	brew install services
-	brew services start nginx
-
-
 ```
 brew info nginx
 
@@ -40,28 +36,30 @@ nginx can run without sudo.
 nginx will load all files in /usr/local/etc/nginx/servers/.
 ```
 
-To enable PHP:
-
 1. Edit `/usr/local/etc/nginx/nginx.conf` and enable the following section:
 
 	# Add root under server, adn remove "root" in each location setup
 	# This shoud be default anyway
     root         /usr/local/var/www;
 
+    # Add index.php to index under root location
     location / {
         index 	index.html index.php;
     }
 
 	# pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
     location ~ \.php$ {
+        include        /usr/local/etc/nginx/fastcgi.conf;
         fastcgi_pass   127.0.0.1:9000;
-        fastcgi_index  index.php;
-        fastcgi_param  SCRIPT_FILENAME  /scripts$fastcgi_script_name;
         include        fastcgi_params;
+        fastcgi_index  index.php;
     }
 
 2. Start up `php-fpm`:
 
 	/usr/local/php-5.6.40/sbin/php-fpm -D
 
+3. Start web server
 
+	brew install services
+	brew services start nginx

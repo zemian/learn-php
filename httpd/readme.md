@@ -1,8 +1,7 @@
 ## Install on Mac
 
 ```
-brew install httpd
-
+brew info httpd
 
 DocumentRoot is /usr/local/var/www.
 
@@ -20,7 +19,9 @@ Or, if you don't want/need a background service you can just run:
 To debug `tail -f /usr/local/var/log/httpd/error_log`
 
 1. Edit `httpd.conf`  and set "DocumentRoot" and "Directory" to /Users/zedeng/src/zemian/learn-php/html
+
 2. Restart server: `brew services restart httpd`
+
 3. Open `http://localhost:8080/`
 
 ## Setup for PHP development
@@ -40,5 +41,6 @@ To debug `tail -f /usr/local/var/log/httpd/error_log`
 	```
 
 2. Restart server: `brew services restart httpd`
+
 3. Open `http://localhost:8080/`
 
