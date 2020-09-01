@@ -4,7 +4,7 @@
 
 ## Setup for plain HTML web server
 
-	lighttpd -D -f lighttpd/lighttpd-html.conf
+	lighttpd -D -f lighttpd/lighttpd-www.conf
 
 ## Setup for PHP development
 
@@ -16,6 +16,8 @@
 	brew services start lighttpd
 
 ```
+brew info lighttpd
+
 Docroot is: /usr/local/var/www
 
 The default port has been set in /usr/local/etc/lighttpd/lighttpd.conf to 8080 so that
