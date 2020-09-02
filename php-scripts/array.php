@@ -3,6 +3,10 @@
 
 // Functions to manipulate array https://www.php.net/manual/en/ref.array.php
 
+// PHP > 5.4, you can use [] instead of array();
+
+$my_array = ["foo" => 123, "bar" => 49];
+
 // Using it as list
 // ================
 $array = array('red', 'blue', 'green', 'yellow');
