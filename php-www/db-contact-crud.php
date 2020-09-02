@@ -16,7 +16,8 @@
 <body>
 	<div id="app">
 		<section class="section">
-			<button class="button is-primary" @click="getAllData()">Refresh</button>
+            <button class="button is-primary" @click="create()">Create</button>
+			<button class="button" @click="getAllRecords()">Refresh</button>
 			<h1 class="title">List of Contacts</h1>
 			<table class="table">
 				<tr v-for="contact in contacts">
@@ -24,13 +25,30 @@
 					<td>{{ contact.create_date }}</td>
 					<td>{{ contact.name }}</td>
 					<td>
-						<button class="button is-info" @click="getData(contact.id)">View</button>
-						<button class="button is-danger" @click="deleteData(contact.id)">Delete</button>
+						<button class="button is-info" @click="getRecord(contact.id)">View</button>
+						<button class="button is-danger" @click="deleteRecord(contact.id)">Delete</button>
 					</td>
 				</tr>
 			</table>
 		</section>
-		<div id="viewContact" v-if="viewRecord">
+        <div id="createRecord">
+            <div class="panel">
+                <p class="panel-heading">
+                    Create New Contact
+                    <a class="delete" @click="closeCreateRecord"></a>
+                </p>
+                <div class="panel-block">
+                    <div>
+                        <div class="field">
+                            <div class="label">Name</div>
+                            <div class="control"><input class="input" name="name"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+		<div id="viewRecord" v-if="viewRecord">
 			<div class="panel">
 			  <p class="panel-heading">
 			    Contact Details
@@ -69,20 +87,21 @@
 			el: "#app",
 			data: {
 				contacts: [],
-				viewRecord: null
+				viewRecord: null,
+                createRecord: null
 			},
 			created: function () {
-				this.getAllData();
+				this.getAllRecords();
 			},
 			methods: {
-				getAllData: function() {
+				getAllRecords: function() {
 					fetch("db-contact-crud-ajax.php/contacts").then(resp => resp.json())
 						.then(data => {
 							console.log("Received " + data.length + " records.");
 							this.contacts = data;
 						});
 				},
-				deleteData: function(contactId) {
+				deleteRecord: function(contactId) {
 					const options = {
 						method: "DELETE"
 					};
@@ -92,16 +111,19 @@
 							this.contacts = this.contacts.filter(e => e.id !== contactId);
 						});
 				},
-				getData: function(contactId) {
+				getRecord: function(contactId) {
 					fetch(`db-contact-crud-ajax.php/contacts/${contactId}`).then(resp => resp.json())
 						.then(data => {
 							console.log("Viewing record ", data);
 							this.viewRecord = data;
 						});
 				},
-				closeViewRecord: function() {
-					this.viewRecord = null;
-				}
+				closeCreateRecord: function() {
+					this.createRecord = null;
+				},
+                closeViewRecord: function() {
+                    this.viewRecord = null;
+                }
 			}
 		});
 	</script>
