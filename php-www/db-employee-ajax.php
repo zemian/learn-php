@@ -6,18 +6,14 @@
 
 // To test this page alone: http://localhost:3000/db-employee-ajax.php?q=2
 
-$servername = "localhost";
-$username = "zemian";
-$password = "test123";
-$dbname = "learnphpdb";
+include_once "db-config.php";
+$conn = new mysqli($db_config["servername"], $db_config["username"], $db_config["password"], $db_config["dbname"]);
 
-$q = intval($_GET['q']);
-
-$con = mysqli_connect($servername, $username, $password, $dbname);
 if (!$con) {
   die('Could not connect: ' . mysqli_error($con));
 }
 
+$q = intval($_GET['q']);
 // mysqli_select_db($con, $dbname);
 $sql="SELECT * FROM employees WHERE id = ".$q."";
 //echo $sql;
