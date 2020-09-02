@@ -1,13 +1,8 @@
 <?php
 // https://www.w3schools.com/php/php_mysql_update.asp
 
-$servername = "localhost";
-$username = "zemian";
-$password = "test123";
-$dbname = "learnphpdb";
-
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
+include_once '../db-config.php';
+$conn = new mysqli($db_config['servername'], $db_config['username'], $db_config['password'], $db_config['dbname']);
 // Check connection
 if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
