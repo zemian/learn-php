@@ -35,7 +35,7 @@
             <div class="panel">
                 <p class="panel-heading">
                     Create New Contact
-                    <a class="delete" @click="closeCreateRecord"></a>
+                    <a class="delete is-pulled-right" @click="closeCreateRecord"></a>
                 </p>
                 <div class="panel-block">
                     <div>
@@ -52,7 +52,7 @@
 			<div class="panel">
 			  <p class="panel-heading">
 			    Contact Details
-			    <a class="delete" @click="closeViewRecord"></a>
+			    <a class="delete is-pulled-right" @click="closeViewRecord"></a>
 			  </p>
 			  <div class="panel-block">
 				<table class="table">
