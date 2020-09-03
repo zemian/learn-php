@@ -81,7 +81,29 @@ location .*/cgi-bin/.* {
 
 https://www.nginx.com/resources/wiki/start/topics/recipes/wordpress/
 
-## Example of how to remap nice RESTful URL to php request
+## Example of how to setup pretty URL with php scripts
 
-https://www.nginx.com/resources/wiki/start/topics/recipes/osticket/
+Example from https://docs.modx.com/3.x/en/getting-started/friendly-urls/nginx
+```
+location / {
+    if (!-e $request_filename) {
+        rewrite ^/(.*)$ /index.php?q=$1 last;
+    }
+}
+```
 
+More example here:
+
+- https://www.nginx.com/blog/creating-nginx-rewrite-rules/
+- https://www.nginx.com/resources/wiki/start/topics/recipes/osticket/
+
+## What does try_files means?
+
+The following `try_files` means if the requested URI exists as file in system, continue processing, else sends 404.
+this is good way to ensure such as `.php` should execute only if exists, else sends 404.
+
+```
+location ~ \.php$ {
+    try_files $uri $uri/ =404;
+}
+```
