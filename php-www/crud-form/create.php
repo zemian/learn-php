@@ -46,15 +46,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="utf-8">
     <title>Form CRUD Example</title>
-    <link rel="stylesheet" type="text/css" href="https://unpkg.com/bulma">
-    <script type="text/javascript" src="https://unpkg.com/vue"></script>
+    <link rel="stylesheet" type="text/css" href="/learn-php/www/bulma.css">
 </head>
 <body>
 <div id="app">
-    <div class="notification" :class="isError ? 'is-danger' : 'is-success'" v-if="notiMessage">
-        <a class="delete" @click="notiMessage = null"></a>
-        <p>{{ notiMessage }}</p>
+    <?php if(!empty($notiMessage)) { ?>
+    <div class="notification <?php echo ($is_error ? 'is-danger' : 'is-success') ?>">
+        <a class="delete" onclick="event.target.parentElement.style.display = 'none'"></a>
+        <p><?php echo $notiMessage ?></p>
     </div>
+    <?php } ?>
     <div class="section">
         <form method="POST" action="create.php">
             <div class="box">
@@ -90,15 +91,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
 </div>
 
-<script>
-    new Vue({
-        el: '#app',
-        data: {
-            notiMessage: '<?php echo $notiMessage; ?>',
-            isError: <?php echo $is_error ? 'true' : 'false'; ?>
-        }
-    });
-</script>
 </body>
 </html>
  

@@ -6,7 +6,7 @@ if ($conn->connect_error) {
 }
 
 // Query data
-$sql = 'SELECT * FROM contacts';
+$sql = 'SELECT * FROM contacts ORDER BY create_date DESC';
 $stmt = $conn->prepare($sql);
 $stmt->execute();
 $result = $stmt->get_result();
