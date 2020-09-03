@@ -1,27 +1,27 @@
 ## How to run web server
 
-	nginx -p . -c nginx/nginx-www.conf
-	nginx -s stop
-	nginx -s reload
+    nginx -p . -c nginx/nginx-www.conf
+    nginx -s stop
+    nginx -s reload
 
 ## Setup for PHP development
-	
-	php-cgi -b 127.0.0.1:9000
-	nginx -c nginx/nginx-php.conf
+    
+    php-cgi -b 127.0.0.1:9000
+    nginx -c nginx/nginx-php.conf
 
 Or you may use the `php-fpm`:
 
-	cp /usr/local/php-5.6.40/etc/php-fpm.conf.default /usr/local/php-5.6.40/etc/php-fpm.conf
-	/usr/local/php-5.6.40/sbin/php-fpm -F
+    cp /usr/local/php-5.6.40/etc/php-fpm.conf.default /usr/local/php-5.6.40/etc/php-fpm.conf
+    /usr/local/php-5.6.40/sbin/php-fpm -F
 
-	# To in daemon background:
-	/usr/local/php-5.6.40/sbin/php-fpm -D
+    # To in daemon background:
+    /usr/local/php-5.6.40/sbin/php-fpm -D
 
 By default it will listen on `127.0.0.1:9000`
 
 ## Debugging nginx server
 
-	tail -f /usr/local/var/log/nginx/error.log
+    tail -f /usr/local/var/log/nginx/error.log
 
 ## To run it as service (MacOSX)
 
@@ -38,28 +38,39 @@ nginx will load all files in /usr/local/etc/nginx/servers/.
 
 1. Edit `/usr/local/etc/nginx/nginx.conf` and enable the following section:
 
-	# Add root under server, adn remove "root" in each location setup
-	# This shoud be default anyway
+    # Add root under server, adn remove "root" in each location setup
+    # This shoud be default anyway
     root         /usr/local/var/www;
 
     # Add index.php to index under root location
     location / {
-        index 	index.html index.php;
+        index           index.html index.php;
     }
 
-	# pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
+    # pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
     location ~ \.php$ {
-        include        /usr/local/etc/nginx/fastcgi.conf;
-        fastcgi_pass   127.0.0.1:9000;
-        include        fastcgi_params;
-        fastcgi_index  index.php;
+        include         /usr/local/etc/nginx/fastcgi.conf;
+        include         /usr/local/etc/nginx/fastcgi_params;
+        fastcgi_pass    127.0.0.1:9000;
     }
 
 2. Start up `php-fpm`:
 
-	/usr/local/php-5.6.40/sbin/php-fpm -D
+    /usr/local/php-5.6.40/sbin/php-fpm -D
 
 3. Start web server
 
-	brew install services
-	brew services start nginx
+    brew install services
+    brew services start nginx
+
+## Setup generic cgi-bin scripts
+
+```
+# Enable cgi-gin scripts
+# NOTE: You will need fcgiwrap command to run in background first
+location /cgi-bin/ {
+    include        /usr/local/etc/nginx/fastcgi.conf;
+    include        /usr/local/etc/nginx/fastcgi_params;
+    fastcgi_pass   unix:/var/run/fcgiwrap.socket;
+}
+```
