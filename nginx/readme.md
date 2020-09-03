@@ -39,8 +39,8 @@ nginx will load all files in /usr/local/etc/nginx/servers/.
 1. Edit `/usr/local/etc/nginx/nginx.conf` and enable the following section:
 
     # Add root under server, adn remove "root" in each location setup
-    # This shoud be default anyway
-    root         /usr/local/var/www;
+    # Setup document root into this project "www" directory.
+    root          /Users/zedeng/src/zemian/learn-php/www;
 
     # Add index.php to index under root location
     location / {
