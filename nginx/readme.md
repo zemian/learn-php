@@ -76,3 +76,12 @@ location .*/cgi-bin/.* {
     fastcgi_pass   unix:/usr/local/var/run/nginx/fcgiwrap.socket;
 }
 ```
+
+## How to configure WordPress in nginx
+
+https://www.nginx.com/resources/wiki/start/topics/recipes/wordpress/
+
+## Example of how to remap nice RESTful URL to php request
+
+https://www.nginx.com/resources/wiki/start/topics/recipes/osticket/
+
