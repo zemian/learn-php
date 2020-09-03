@@ -67,10 +67,12 @@ nginx will load all files in /usr/local/etc/nginx/servers/.
 
 ```
 # Enable cgi-gin scripts
-# NOTE: You will need fcgiwrap command to run in background first
-location /cgi-bin/ {
+# NOTE: You may restrict the location path if needed
+# NOTE: The scripts inside the "cgi-bin" must be executable mode.
+# NOTE: You will need run "fcgiwrap -s unix:/usr/local/var/run/nginx/fcgiwrap.socket" command to run in background first
+location .*/cgi-bin/.* {
     include        /usr/local/etc/nginx/fastcgi.conf;
     include        /usr/local/etc/nginx/fastcgi_params;
-    fastcgi_pass   unix:/var/run/fcgiwrap.socket;
+    fastcgi_pass   unix:/usr/local/var/run/nginx/fcgiwrap.socket;
 }
 ```
