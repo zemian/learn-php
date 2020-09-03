@@ -1,8 +1,10 @@
 ## How to run web server
 
-    nginx -p . -c nginx/nginx-www.conf
+    nginx -c nginx/nginx-www.conf
     nginx -s stop
     nginx -s reload
+
+NOTE: The nginx works best if you set web root document folder as asbsolute path.
 
 ## Setup for PHP development
     
@@ -36,23 +38,7 @@ nginx can run without sudo.
 nginx will load all files in /usr/local/etc/nginx/servers/.
 ```
 
-1. Edit `/usr/local/etc/nginx/nginx.conf` and enable the following section:
-
-    # Add root under server, adn remove "root" in each location setup
-    # Setup document root into this project "www" directory.
-    root          /Users/zedeng/src/zemian/learn-php/www;
-
-    # Add index.php to index under root location
-    location / {
-        index           index.html index.php;
-    }
-
-    # pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
-    location ~ \.php$ {
-        include         /usr/local/etc/nginx/fastcgi.conf;
-        include         /usr/local/etc/nginx/fastcgi_params;
-        fastcgi_pass    127.0.0.1:9000;
-    }
+1. Copy and override `nginx/nginx-php.conf` to `/usr/local/etc/nginx/nginx.conf`
 
 2. Start up `php-fpm`:
 
@@ -64,22 +50,17 @@ nginx will load all files in /usr/local/etc/nginx/servers/.
     brew services start nginx
 
 ## Setup generic cgi-bin scripts
-
-```
-# Enable cgi-gin scripts
-# NOTE: You may restrict the location path if needed
-# NOTE: The scripts inside the "cgi-bin" must be executable mode.
-# NOTE: You will need run "fcgiwrap -s unix:/usr/local/var/run/nginx/fcgiwrap.socket" command to run in background first
-location .*/cgi-bin/.* {
-    include        /usr/local/etc/nginx/fastcgi.conf;
-    include        /usr/local/etc/nginx/fastcgi_params;
-    fastcgi_pass   unix:/usr/local/var/run/nginx/fcgiwrap.socket;
-}
-```
+    
+    fastcgi -s unix:/usr/local/var/run/nginx/fcgiwrap.socket
+    nginx -c nginx/nginx-cgi-bin.conf
 
 ## How to configure WordPress in nginx
 
-https://www.nginx.com/resources/wiki/start/topics/recipes/wordpress/
+You should able to link `wordpress` folder into `www/apps` and then open 
+
+    http://localhost:3000/wordpress/wp-admin
+
+For more custom server config, see https://www.nginx.com/resources/wiki/start/topics/recipes/wordpress/
 
 ## Example of how to setup pretty URL with php scripts
 
