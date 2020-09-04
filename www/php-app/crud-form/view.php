@@ -23,6 +23,12 @@ $conn->close();
 <body>
 <div id="app">
     <div class="section">
+        <nav class="breadcrumb">
+            <ul>
+                <li><a href="index.php">List</a></li>
+                <li class="is-active"><a href="#">View</a></li>
+            </ul>
+        </nav>
         <h1 class="title">Contact Details</h1>
         <table class="table">
             <tr>

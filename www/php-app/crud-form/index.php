@@ -20,6 +20,11 @@ $conn->close();
 <body>
 <div id="app">
     <div class="section">
+        <nav class="breadcrumb">
+            <ul>
+                <li class="is-active"><a href="#">List</a></li>
+            </ul>
+        </nav>
         <a class="button is-primary" href="create.php">Create New Contact</a>
         <h1 class="title">List of Contacts</h1>
         <table class="table">

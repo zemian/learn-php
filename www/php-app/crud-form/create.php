@@ -38,18 +38,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 <body>
 <div id="app">
-    <?php if(!empty($notiMessage)) { ?>
-    <div class="notification <?php echo ($is_error ? 'is-danger' : 'is-success') ?>">
-        <a class="delete" onclick="event.target.parentElement.style.display = 'none'"></a>
-        <p><?php echo $notiMessage ?></p>
-    </div>
-    <?php } ?>
     <div class="section">
+        <nav class="breadcrumb">
+            <ul>
+                <li><a href="index.php">List</a></li>
+                <li class="is-active"><a href="#">Create</a></li>
+            </ul>
+        </nav>
+        <h1 class="title">Create New Contact</h1>
+        <?php if(!empty($notiMessage)) { ?>
+            <div class="notification <?php echo ($is_error ? 'is-danger' : 'is-success') ?>">
+                <a class="delete" onclick="event.target.parentElement.style.display = 'none'"></a>
+                <p><?php echo $notiMessage ?></p>
+            </div>
+        <?php } ?>
         <form method="POST" action="create.php">
             <div class="box">
-                <div class="box-header">
-                    <h1 class="title has-text-centered">Create New Contact</h1>
-                </div>
                 <div class="box-body">
                     <div class="field">
                         <label class="label">Name</label>

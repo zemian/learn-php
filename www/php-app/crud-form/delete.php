@@ -24,19 +24,25 @@ if ($confirmed === "true") {
 <body>
 <div id="app">
     <div class="section">
+        <nav class="breadcrumb">
+            <ul>
+                <li><a href="index.php">List</a></li>
+                <li class="is-active"><a href="#">Delete</a></li>
+            </ul>
+        </nav>
         <?php if ($confirmed === "true" && $is_success) { ?>
-            <div class="notification is-success">
-                Contact ID=<?php echo $contact_id; ?> has been deleted!
-            </div>
+        <div class="notification is-success">
+            Contact ID=<?php echo $contact_id; ?> has been deleted!
+        </div>
         <?php } else { ?>
-            <h1 class="title">Delete Contact?</h1>
-            <div class="message">
-                <div class="message-body">
-                    <p>Are you sure you want to delete Contact ID=<?php echo $contact_id; ?>?</p>
-                    <a class="button is-danger" href="delete.php?id=<?php echo $contact_id; ?>&confirmed=true">Delete</a>
-                    <a class="button" href="index.php">Cancel</a>
-                </div>
+        <h1 class="title">Delete Contact?</h1>
+        <div class="message">
+            <div class="message-body">
+                <p>Are you sure you want to delete Contact ID=<?php echo $contact_id; ?>?</p>
+                <a class="button is-danger" href="delete.php?id=<?php echo $contact_id; ?>&confirmed=true">Delete</a>
+                <a class="button" href="index.php">Cancel</a>
             </div>
+        </div>
         <?php } ?>
     </div>
 </div>
