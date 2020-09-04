@@ -1,5 +1,19 @@
 <?php
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+include_once '../db-config.php';
+$conn = new mysqli($db_config['servername'], $db_config['username'], $db_config['password'], $db_config['dbname']);
+
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    $contact_id = $_GET['id'];
+    $sql = 'SELECT * FROM contacts WHERE id = ?';
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('i', $contact_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $contact = $result->fetch_assoc();
+    $stmt->close();
+    $conn->close();
+} if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $notiMessage = null;
     $is_error = false;
 
@@ -12,14 +26,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if (!$is_error) {
-        include_once '../db-config.php';
-        $conn = new mysqli($db_config['servername'], $db_config['username'], $db_config['password'], $db_config['dbname']);
-        $sql = 'INSERT INTO contacts (name, email, message) VALUES (?, ?, ?)';
+        $contact_id = $_POST['id'];
+        $sql = 'UPDATE contacts SET name = ?, email = ?, message = ? WHERE id = ?';
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param('sss', $_POST['name'], $_POST['email'], $_POST['message']);
+        $stmt->bind_param('sssi', $_POST['name'], $_POST['email'], $_POST['message'], $contact_id);
         $dbresult = $stmt->execute();
         if ($dbresult) {
-            $notiMessage = "Record inserted. ID=$conn->insert_id";
+            $notiMessage = "Record update. ID=$contact_id";
         } else {
             $notiMessage = "Failed to insert: $conn->error";
         }
@@ -45,7 +58,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
     <?php } ?>
     <div class="section">
-        <form method="POST" action="create.php">
+        <form method="POST" action="update.php">
+            <input type="hidden" name="id" value="<?php echo $contact_id; ?>">
             <div class="box">
                 <div class="box-header">
                     <h1 class="title has-text-centered">Create New Contact</h1>
@@ -53,18 +67,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="box-body">
                     <div class="field">
                         <label class="label">Name</label>
-                        <div class="control"><input class="input" name="name" value="<?php echo $_POST['name']; ?>">
+                        <div class="control"><input class="input" name="name" value="<?php echo $contact['name']; ?>">
                         </div>
                     </div>
                     <div class="field">
                         <label class="label">Email</label>
-                        <div class="control"><input class="input" name="email" value="<?php echo $_POST['email']; ?>">
+                        <div class="control"><input class="input" name="email" value="<?php echo $contact['email']; ?>">
                         </div>
                     </div>
                     <div class="field">
                         <label class="label">Message</label>
                         <div class="control">
-                            <textarea class="textarea" name="message"><?php echo $_POST['message']; ?></textarea>
+                            <textarea class="textarea" name="message"><?php echo $contact['message']; ?></textarea>
                         </div>
                     </div>
                     <div class="field">
