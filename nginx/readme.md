@@ -38,6 +38,8 @@ nginx can run without sudo.
 nginx will load all files in /usr/local/etc/nginx/servers/.
 ```
 
+NOTE: We will use our config file, which uses port `3000` instead.
+
 1. Copy and override `nginx/nginx-php.conf` to `/usr/local/etc/nginx/nginx.conf`
 
 2. Start up `php-fpm`:
@@ -48,6 +50,8 @@ nginx will load all files in /usr/local/etc/nginx/servers/.
 
     brew install services
     brew services start nginx
+
+4. Open http://localhost:3000
 
 ## Setup generic cgi-bin scripts
     
