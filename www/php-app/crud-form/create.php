@@ -17,8 +17,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $sql = 'INSERT INTO contacts (name, email, message) VALUES (?, ?, ?)';
         $stmt = $conn->prepare($sql);
         $stmt->bind_param('sss', $_POST['name'], $_POST['email'], $_POST['message']);
-        $dbresult = $stmt->execute();
-        if ($dbresult) {
+        $result = $stmt->execute();
+        if ($result) {
             $notiMessage = "Record inserted. ID=$conn->insert_id";
         } else {
             $notiMessage = "Failed to insert: $conn->error";

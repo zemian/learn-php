@@ -119,7 +119,7 @@
             template: '#deleteRecord'
         };
 		let app = new Vue({
-			el: "#app",
+			el: '#app',
             components: {
                 'view-record': ViewRecord,
                 'create-record': CreateRecord,
@@ -138,23 +138,23 @@
 			},
 			methods: {
 				getAllRecords: function() {
-					fetch("contact-rest.php?/contacts").then(resp => resp.json())
+					fetch('contact-rest.php?/contacts').then(resp => resp.json())
 						.then(data => {
-							console.log("Received " + data.length + " records.");
+							console.log('Received ' + data.length + ' records.');
 							this.contacts = data;
 						});
 				},
 				confirmDelete: function() {
 				    const contactId = this.deleteId;
 					const options = {
-						method: "DELETE"
+						method: 'DELETE'
 					};
 					fetch(`contact-rest.php?/contacts/${contactId}`, options).then(resp => resp.json())
 						.then(data => {
-							console.log("Deleted record ID=" + contactId + ", response=", data);
+							console.log('Deleted record ID=' + contactId + ', response=', data);
 							this.contacts = this.contacts.filter(e => e.id !== contactId);
-							this.showDeleteRecord = false;
                             this.deleteId = null;
+                            this.showDeleteRecord = false;
 						});
 				},
                 deleteRecord: function(contactId) {
@@ -162,18 +162,30 @@
                     this.deleteId = contactId;
                 },
                 getRecord: function(contactId) {
-                    console.log("Viewing record ID ", contactId);
+                    console.log('Viewing record ID ', contactId);
                     fetch(`contact-rest.php?/contacts/${contactId}`).then(resp => resp.json())
                         .then(data => {
-                            console.log("Got record ", data);
+                            console.log('Got record ', data);
                             this.viewRecord = data;
                         });
                 },
                 submitCreateRecord: function() {
-				    this.showCreateRecord = false;
-                    console.log("Creating record", this.createRecord);
-					this.createRecord = {};
-					this.createRecord = {};
+                    const body = JSON.stringify(this.createRecord);
+                    console.log('Creating record', body);
+                    const options = {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: body
+                    };
+                    fetch(`contact-rest.php?/contacts`, options).then(resp => resp.json())
+                        .then(data => {
+                            console.log('Created new record, response=', data);
+                            //this.contacts.push(data);
+                            this.createRecord = {};
+                            this.showCreateRecord = false;
+                        });
 				}
 			}
 		});

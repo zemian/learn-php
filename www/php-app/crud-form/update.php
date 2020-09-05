@@ -30,8 +30,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         $sql = 'UPDATE contacts SET name = ?, email = ?, message = ? WHERE id = ?';
         $stmt = $conn->prepare($sql);
         $stmt->bind_param('sssi', $_POST['name'], $_POST['email'], $_POST['message'], $contact_id);
-        $dbresult = $stmt->execute();
-        if ($dbresult) {
+        $result = $stmt->execute();
+        if ($result) {
             $notiMessage = "Record update. ID=$contact_id";
         } else {
             $notiMessage = "Failed to insert: $conn->error";

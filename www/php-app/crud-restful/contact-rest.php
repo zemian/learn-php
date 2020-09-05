@@ -25,18 +25,31 @@ INSERT INTO contacts VALUES (NULL, NULL, 'test2', 'test@test.com', 'just a test'
 
 // return all records
 GET /contact
+curl 'http://localhost:3000/php-app/crud-restful/contact-rest.php?/contacts'
+NOTE: It's important to use quote!
 
 // return a specific record
 GET /contact/{id}
+curl 'http://localhost:3000/php-app/crud-restful/contact-rest.php?/contacts/1'
 
 // create a new record
 POST /contact
+curl -H 'Content-Type: application/json'\
+ -X POST\
+ -d '{"name":"test","email":"test@localhost.com","message":"just a test"}'\
+ 'http://localhost:3000/php-app/crud-restful/contact-rest.php?/contacts'
 
 // update an existing record
 PUT /contact/{id}
 
+curl -H 'Content-Type: application/json'\
+ -X PUT\
+ -d '{"name":"test-update","email":"test@localhost.com","message":"just a test"}'\
+ 'http://localhost:3000/php-app/crud-restful/contact-rest.php?/contacts/1'
+
 // delete an existing record
 DELETE /contact/{id}
+curl -X DELETE 'http://localhost:3000/php-app/crud-restful/contact-rest.php?/contacts/1'
 
 // Our implementation is based on a solution posted here:
 // Ref: https://developer.okta.com/blog/2019/03/08/simple-rest-api-php
@@ -63,15 +76,31 @@ function getAll() {
 	//var_dump($body);
 
 	$body = json_encode($list);
-	$response = array("status_code_header" => 200, "body" => $body);
+	$response = ["status_code_header" => 200, "body" => $body];
 	return $response;
 }
 function create() {
-	// TODO
-	$body = array();
-	$response = array("status_code_header" => 200, "body" => $body);
-	return $response;
+	global $conn;
+	date_default_timezone_set('UTC');
+	$json_input = file_get_contents('php://input');
+	//file_put_contents("/tmp/php.txt", $json_input);
+	$post_data = (array) json_decode($json_input);
+	$post_data['create_date'] = date('Y-m-d H:i:s');
+	$sql = 'INSERT INTO contacts (create_date, name, email, message) VALUES (?, ?, ?, ?)';
+	$stmt = $conn->prepare($sql);
+	$stmt->bind_param('ssss', $post_data['create_date'], $post_data['name'], $post_data['email'], $post_data['message']);
+	$result = $stmt->execute();
+	if ($result) {
+		$post_data['id'] = $conn->insert_id;
+		$body = json_encode($post_data);
+		$response = ["status_code_header" => 200, "body" => $body];
+	} else {
+		$body = json_encode(['error' => 'DB insert failed']);
+		$response = ["status_code_header" => 500, "body" => $body];
+	}
+	$stmt->close();
 	
+	return $response;
 }
 function get($contact_id) {
 	global $conn;
@@ -82,32 +111,54 @@ function get($contact_id) {
 	$stmt->execute();
 	$result = $stmt->get_result();
 	$body = $result->fetch_assoc();
-	// var_dump($body);
 	$stmt->close();
 
 	$body = json_encode($body, JSON_FORCE_OBJECT);
-	$response = array("status_code_header" => 200, "body" => $body);
+	$response = ["status_code_header" => 200, "body" => $body];
 	return $response;
 }
 function update($contact_id) {
-	// TODO
-	$body = array();
-	$response = array("status_code_header" => 200, "body" => $body);
+	global $conn;
+	$json_input = file_get_contents('php://input');
+	//file_put_contents("/tmp/php.txt", $json_input);
+	$post_data = (array) json_decode($json_input);
+	$post_data['id'] = $contact_id;
+	$sql = 'UPDATE contacts SET name = ?, email = ?, message = ? WHERE id = ?';
+	$stmt = $conn->prepare($sql);
+	$stmt->bind_param('sssi', $post_data['name'], $post_data['email'], $post_data['message'], $post_data['id']);
+	$result = $stmt->execute();
+	if ($result) {
+//		var_dump($stmt->affected_rows);
+		if ($stmt->affected_rows > 0) {
+			$body = json_encode($post_data);
+			$response = ["status_code_header" => 200, "body" => $body];
+		}
+	}
+	
+	if (empty($response)) {
+		$body = json_encode(['error' => 'DB update failed: ' . $stmt->error]);
+		$response = ["status_code_header" => 500, "body" => $body];
+	}
+	$stmt->close();
+
 	return $response;
 }
 function delete($contact_id) {
 	global $conn;
 	$sql = "DELETE FROM contacts WHERE id = ?";
-	// var_dump($sql, $contact_id);
 	$stmt = $conn->prepare($sql);
 	$stmt->bind_param('i', $contact_id);
 	$result = $stmt->execute();
-	$body = array("result" => $result);
-	// var_dump($body);
+	if ($result) {
+		$body = ["deleted" => $stmt->affected_rows];
+		$body = json_encode($body, JSON_FORCE_OBJECT);
+		$response = ["status_code_header" => 200, "body" => $body];
+	} else {
+		$body = json_encode(['error' => 'DB insert failed']);
+		$response = ["status_code_header" => 500, "body" => $body];
+	}
 	$stmt->close();
 
-	$body = json_encode($body, JSON_FORCE_OBJECT);
-	$response = array("status_code_header" => 200, "body" => $body);
 	return $response;
 }
 
@@ -137,7 +188,7 @@ if (isset($uri[2])) {
 
 // Process REST request method
 // ===========================
-$response = array();
+$response = [];
 $request_method = $_SERVER["REQUEST_METHOD"];
 //var_dump($request_method, $contact_id);
 switch ($request_method) {
@@ -158,7 +209,7 @@ switch ($request_method) {
         $response = delete($contact_id);
         break;
     default:
-        $response = array("status_code_header" => 400, "body" => "Invalid request method: " . $request_method);
+        $response = ["status_code_header" => 400, "body" => "Invalid request method: " . $request_method];
         break;
 }
 // var_dump($response);
