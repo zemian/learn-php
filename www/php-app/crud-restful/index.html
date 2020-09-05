@@ -14,15 +14,24 @@
 </head>
 <body>
 	<div id="app">
-        <view-record v-if="viewRecord" @close-view="viewRecord = null" :contact="viewRecord"></view-record>
-        <create-record v-if="showCreateRecord" @submit-create="submitCreateRecord" @cancel-create="showCreateRecord = false" :contact="createRecord"></create-record>
+        <view-record v-if="viewRecord" 
+                     @close-view="viewRecord = null" 
+                     :contact="viewRecord"></view-record>
+        <create-record v-if="showCreateRecord" 
+                       @submit-create="submitCreateRecord" 
+                       @cancel-create="showCreateRecord = false" 
+                       :contact="createRecord"></create-record>
+        <delete-record v-if="showDeleteRecord" 
+                       @confirm-delete="confirmDelete()" 
+                       @cancel-delete="showDeleteRecord = false" 
+                       :contact-id="deleteId"></delete-record>
         <h1 class="title">List of Contacts</h1>
         <button @click="showCreateRecord = true" class="button is-primary">Create</button>
         <table class="table">
             <tr v-for="contact in contacts">
                 <td>
                     <a href="#">Update</a>
-                    <a href="#">Delete</a>
+                    <a @click="deleteRecord(contact.id)">Delete</a>
                 </td>
                 <td><a @click="getRecord(contact.id)">{{ contact.id }}</a></td>
                 <td>{{ contact.create_date }}</td>
@@ -30,6 +39,14 @@
             </tr>
         </table>
 	</div>
+
+    <script type="text/x-template" id="deleteRecord">
+        <div class="box">
+            <p>Are you sure you want to delete Contact ID={{ contactId }}?</p>
+            <a class="button is-danger" @click="$emit('confirm-delete')">Delete</a>
+            <a class="button" @click="$emit('cancel-delete')">Cancel</a>
+        </div>
+    </script>
     
     <script type="text/x-template" id="viewRecord">
         <div class="box">
@@ -97,17 +114,24 @@
             props: ['contact'],
             template: '#createRecord'
         };
+        let DeleteRecord = {
+            props: ['contactId'],
+            template: '#deleteRecord'
+        };
 		let app = new Vue({
 			el: "#app",
             components: {
                 'view-record': ViewRecord,
-                'create-record': CreateRecord
+                'create-record': CreateRecord,
+                'delete-record': DeleteRecord,
             },
 			data: {
 				contacts: [],
                 viewRecord: null,
                 createRecord: {},
-                showCreateRecord: false
+                showCreateRecord: false,
+                showDeleteRecord: false,
+                deleteId: null
 			},
 			created: function () {
 				this.getAllRecords();
@@ -120,16 +144,23 @@
 							this.contacts = data;
 						});
 				},
-				deleteRecord: function(contactId) {
+				confirmDelete: function() {
+				    const contactId = this.deleteId;
 					const options = {
 						method: "DELETE"
 					};
 					fetch(`contact-rest.php?/contacts/${contactId}`, options).then(resp => resp.json())
 						.then(data => {
-							console.log("Deleted record " + contactId);
+							console.log("Deleted record ID=" + contactId + ", response=", data);
 							this.contacts = this.contacts.filter(e => e.id !== contactId);
+							this.showDeleteRecord = false;
+                            this.deleteId = null;
 						});
 				},
+                deleteRecord: function(contactId) {
+                    this.showDeleteRecord = true;
+                    this.deleteId = contactId;
+                },
                 getRecord: function(contactId) {
                     console.log("Viewing record ID ", contactId);
                     fetch(`contact-rest.php?/contacts/${contactId}`).then(resp => resp.json())
