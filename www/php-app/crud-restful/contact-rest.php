@@ -1,8 +1,8 @@
 <?php
+/*
 // We will implement a typical Data CRUD (Create, Retrieve, Update and Delete) operations
 // in PHP with ajax RESTful solution here.
 
-/*
 You need to setup DB and a table first
 
 CREATE USER 'zemian'@'localhost' IDENTIFIED WITH mysql_native_password BY 'test123';
@@ -46,7 +46,7 @@ DELETE /contact/{id}
 // Make DB connection
 // ==================
 
-include_once "db-config.php";
+include_once "../db-config.php";
 $conn = new mysqli($db_config["servername"], $db_config["username"], $db_config["password"], $db_config["dbname"]);
 // Check connection
 if ($conn->connect_error) {
@@ -111,25 +111,28 @@ function delete($contact_id) {
 	return $response;
 }
 
-// Process REST reqeust URL
+// Process REST request URL
 // ========================
 
-$uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-// var_dump($uri);
-$uri = explode('/', $uri);
-// var_dump($uri);
+$uri = explode('/', $_SERVER['QUERY_STRING']);
+//var_dump($uri);
 
 // all of our endpoints start with /contact
 // everything else results in a 404 Not Found
-if ($uri[2] !== 'contacts') {
+if ($uri[1] !== 'contacts') {
     header("HTTP/1.1 404 Not Found");
-    exit();
+    die();
 }
 
 // the user id is, of course, optional and must be a number:
 $contact_id = null;
-if (isset($uri[3])) {
-    $contact_id = (int) $uri[3];
+if (isset($uri[2])) {
+    $contact_id = (int) $uri[2];
+	//var_dump($contact_id);
+	if ($contact_id < 1) {
+		echo '{"error": "ID not found."}';
+		die();
+	}
 }
 
 // Process REST request method
