@@ -70,7 +70,7 @@ if ($conn->connect_error) {
 // ==================
 function getAll() {
 	global $conn;
-	$sql = "SELECT * FROM contacts";
+	$sql = "SELECT * FROM contacts ORDER BY create_date DESC";
 	$result = $conn->query($sql);
 	$list = $result->fetch_all(MYSQLI_ASSOC);
 	//var_dump($body);
