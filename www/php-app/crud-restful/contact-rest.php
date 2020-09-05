@@ -83,7 +83,7 @@ function create() {
 	global $conn;
 	date_default_timezone_set('UTC');
 	$json_input = file_get_contents('php://input');
-	//file_put_contents("/tmp/php.txt", $json_input);
+	//var_dump($json_input);
 	$post_data = (array) json_decode($json_input);
 	$post_data['create_date'] = date('Y-m-d H:i:s');
 	$sql = 'INSERT INTO contacts (create_date, name, email, message) VALUES (?, ?, ?, ?)';

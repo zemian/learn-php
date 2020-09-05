@@ -15,42 +15,64 @@
 <body>
 	<div id="app">
         <div class="section">
-            <view-record v-if="showViewRecord" 
-                         @close-view="showViewRecord = false" 
-                         :contact="viewRecord"></view-record>
             <create-record v-if="showCreateRecord" 
                            @submit-create="submitCreateRecord" 
                            @cancel-create="showCreateRecord = false" 
-                           :contact="createRecord"></create-record>
-            <delete-record v-if="showDeleteRecord" 
-                           @confirm-delete="confirmDelete()" 
-                           @cancel-delete="showDeleteRecord = false" 
-                           :contact-id="deleteId"></delete-record>
+                           :contact="currentContact"></create-record>
+            <view-record v-if="showViewRecord"
+                         @close-view="showViewRecord = false"
+                         :contact="currentContact"></view-record>
             <update-record v-if="showUpdateRecord"
                            @submit-update="submitUpdateRecord"
                            @cancel-update="showUpdateRecord = false"
-                           :contact="viewRecord"></update-record>
+                           :contact="currentContact"></update-record>
+            <delete-record v-if="showDeleteRecord" 
+                           @confirm-delete="submitDeleteRecord" 
+                           @cancel-delete="showDeleteRecord = false" 
+                           :contact-id="currentContact.id"></delete-record>
             <h1 class="title">List of Contacts</h1>
-            <button @click="showCreateRecord = true" class="button is-primary">Create</button>
+            
+            <button @click="createRecord" class="button is-primary">Create</button>
+            
             <table class="table">
                 <tr v-for="contact in contacts">
                     <td>
-                        <a @click="showUpdateRecordAction(contact.id)">Update</a>
+                        <a @click="updateRecord(contact.id)">Update</a>
                         <a @click="deleteRecord(contact.id)">Delete</a>
                     </td>
-                    <td><a @click="getRecord(contact.id)">{{ contact.id }}</a></td>
+                    <td><a @click="viewRecord(contact.id)">{{ contact.id }}</a></td>
                     <td>{{ contact.create_date }}</td>
                     <td>{{ contact.name }}</td>
                 </tr>
             </table>
         </div>
 	</div>
-
-    <script type="text/x-template" id="deleteRecord">
+        
+    <script type="text/x-template" id="createRecord">
         <div class="box">
-            <p>Are you sure you want to delete Contact ID={{ contactId }}?</p>
-            <a class="button is-danger" @click="$emit('confirm-delete')">Delete</a>
-            <a class="button" @click="$emit('cancel-delete')">Cancel</a>
+            <h1 class="title">Create New Contact</h1>
+            <div class="field">
+                <label class="label">Name</label>
+                <div class="control"><input class="input" name="name" v-model="contact.name">
+                </div>
+            </div>
+            <div class="field">
+                <label class="label">Email</label>
+                <div class="control"><input class="input" name="email" v-model="contact.email">
+                </div>
+            </div>
+            <div class="field">
+                <label class="label">Message</label>
+                <div class="control">
+                    <textarea class="textarea" name="message" v-model="contact.message"></textarea>
+                </div>
+            </div>
+            <div class="field">
+                <div class="control">
+                    <button class="button is-link" @click="$emit('submit-create')">Submit</button>
+                    <button class="button" @click="$emit('cancel-create')">Cancel</button>
+                </div>
+            </div>
         </div>
     </script>
     
@@ -84,34 +106,6 @@
         </div>
     </script>
     
-    <script type="text/x-template" id="createRecord">
-        <div class="box">
-            <h1 class="title">Create New Contact</h1>
-            <div class="field">
-                <label class="label">Name</label>
-                <div class="control"><input class="input" name="name" v-model="contact.name">
-                </div>
-            </div>
-            <div class="field">
-                <label class="label">Email</label>
-                <div class="control"><input class="input" name="email" v-model="contact.email">
-                </div>
-            </div>
-            <div class="field">
-                <label class="label">Message</label>
-                <div class="control">
-                    <textarea class="textarea" name="message" v-model="contact.message"></textarea>
-                </div>
-            </div>
-            <div class="field">
-                <div class="control">
-                    <button class="button is-link" @click="$emit('submit-create')">Submit</button>
-                    <button class="button" @click="$emit('cancel-create')">Cancel</button>
-                </div>
-            </div>
-        </div>
-    </script>
-    
     <script type="text/x-template" id="updateRecord">
         <div class="box">
             <h1 class="title">Update Contact ID: {{contact.id}}</h1>
@@ -140,22 +134,30 @@
         </div>
     </script>
 
+    <script type="text/x-template" id="deleteRecord">
+        <div class="box">
+            <p>Are you sure you want to delete Contact ID={{ contactId }}?</p>
+            <a class="button is-danger" @click="$emit('confirm-delete')">Delete</a>
+            <a class="button" @click="$emit('cancel-delete')">Cancel</a>
+        </div>
+    </script>
+
 	<script>
-        let ViewRecord = {
-            props: ['contact'],
-            template: '#viewRecord'
-        };
         let CreateRecord = {
             props: ['contact'],
             template: '#createRecord'
         };
-        let DeleteRecord = {
-            props: ['contactId'],
-            template: '#deleteRecord'
+        let ViewRecord = {
+            props: ['contact'],
+            template: '#viewRecord'
         };
         let UpdateRecord = {
             props: ['contact'],
             template: '#updateRecord'
+        };
+        let DeleteRecord = {
+            props: ['contactId'],
+            template: '#deleteRecord'
         };
 		let app = new Vue({
 			el: '#app',
@@ -167,53 +169,29 @@
             },
 			data: {
 				contacts: [],
-                showViewRecord: false,
-                viewRecord: {},
-                createRecord: {},
+                currentContact: {},
                 showCreateRecord: false,
-                showDeleteRecord: false,
-                deleteId: null,
-                showUpdateRecord: false
+                showViewRecord: false,
+                showUpdateRecord: false,
+                showDeleteRecord: false
 			},
 			created: function () {
 				this.getAllRecords();
 			},
 			methods: {
-				getAllRecords: function() {
-					fetch('contact-rest.php?/contacts').then(resp => resp.json())
-						.then(data => {
-							console.log('Received ' + data.length + ' records.');
-							this.contacts = data;
-						});
-				},
-				confirmDelete: function() {
-				    const contactId = this.deleteId;
-					const options = {
-						method: 'DELETE'
-					};
-					fetch(`contact-rest.php?/contacts/${contactId}`, options).then(resp => resp.json())
-						.then(data => {
-							console.log('Deleted record ID=' + contactId + ', response=', data);
-							this.contacts = this.contacts.filter(e => e.id !== contactId);
-                            this.deleteId = null;
-                            this.showDeleteRecord = false;
-						});
-				},
-                deleteRecord: function(contactId) {
-                    this.showDeleteRecord = true;
-                    this.deleteId = contactId;
-                },
-                getRecord: function(contactId) {
-                    console.log('Viewing record ID ', contactId);
-                    fetch(`contact-rest.php?/contacts/${contactId}`).then(resp => resp.json())
+                getAllRecords: function() {
+                    fetch('contact-rest.php?/contacts').then(resp => resp.json())
                         .then(data => {
-                            console.log('Got record ', data);
-                            this.viewRecord = data;
-                            this.showViewRecord = true;
+                            console.log('Received ' + data.length + ' records.');
+                            this.contacts = data;
                         });
                 },
+			    createRecord: function() {
+                    this.showCreateRecord = true;
+                    this.currentContact = {};
+                },
                 submitCreateRecord: function() {
-                    const body = JSON.stringify(this.createRecord);
+                    const body = JSON.stringify(this.currentContact);
                     console.log('Creating record', body);
                     const options = {
                         method: 'POST',
@@ -225,17 +203,31 @@
                     fetch(`contact-rest.php?/contacts`, options).then(resp => resp.json())
                         .then(data => {
                             console.log('Created new record, response=', data);
-                            this.contacts.push(data);
-                            this.createRecord = {};
+                            this.contacts.unshift(data); // this so it will be on top of the list on display
+                            this.currentContact = {};
                             this.showCreateRecord = false;
                         });
-				},
-                showUpdateRecordAction: function(contactId) {
-                    this.showUpdateRecord = true;
-                    this.getRecord(contactId);
+                },
+                viewRecord: function(contactId) {
+                    console.log('Viewing record ID ', contactId);
+                    fetch(`contact-rest.php?/contacts/${contactId}`).then(resp => resp.json())
+                        .then(data => {
+                            console.log('Got record ', data);
+                            this.currentContact = data;
+                            this.showViewRecord = true;
+                        });
+                },
+                updateRecord: function(contactId) {
+                    console.log('Fetching for update record ID ', contactId);
+                    fetch(`contact-rest.php?/contacts/${contactId}`).then(resp => resp.json())
+                        .then(data => {
+                            console.log('Got record ', data);
+                            this.currentContact = data;
+                            this.showUpdateRecord = true;
+                        });
                 },
                 submitUpdateRecord: function() {
-                    const body = JSON.stringify(this.viewRecord);
+                    const body = JSON.stringify(this.currentContact);
                     console.log('Updating record', body);
                     const options = {
                         method: 'PUT',
@@ -244,17 +236,34 @@
                         },
                         body: body
                     };
-                    const contactId = this.viewRecord.id;
+                    const contactId = this.currentContact.id;
                     fetch(`contact-rest.php?/contacts/${contactId}`, options).then(resp => resp.json())
                         .then(data => {
                             console.log('DB Updated ID=' + contactId + ', response=', data);
                             let contact = this.contacts.find(e => Number(e.id) === contactId);
                             // console.log("debug", contact);
                             Object.assign(contact, data);
-                            this.viewRecord = {};
+                            this.currentContact = {};
                             this.showUpdateRecord = false;
                         });
-                }
+                },
+                deleteRecord: function(contactId) {
+                    this.showDeleteRecord = true;
+                    this.currentContact.id = contactId;
+                },
+				submitDeleteRecord: function() {
+				    const contactId = this.currentContact.id;
+					const options = {
+						method: 'DELETE'
+					};
+					fetch(`contact-rest.php?/contacts/${contactId}`, options).then(resp => resp.json())
+						.then(data => {
+							console.log('Deleted record ID=' + contactId + ', response=', data);
+							this.contacts = this.contacts.filter(e => e.id !== contactId);
+                            this.currentContact = {};
+                            this.showDeleteRecord = false;
+						});
+				}
 			}
 		});
 	</script>
