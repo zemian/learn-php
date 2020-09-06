@@ -1,15 +1,3 @@
-## Where is php.ini and what to set there?
-
-Run `phpinfo.php` and you will see where the `.ini` file is located.
-
-For example, PHP 5.6 is at `/usr/local/etc/php/5.6/php.ini`
-
-You should set default timezone in `php.ini` file:
-
-```
-date.timezone = 'UTC'
-```
-
 ## PHP on Mac
 
 The easiest way is to use `brew install php`.
