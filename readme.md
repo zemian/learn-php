@@ -4,6 +4,14 @@ PHP is a popular general-purpose scripting language that is especially suited to
 
 ## Setup
 
+You will need the following:
+
+* PHP (PHP 7 is much faster than 5!)
+* Database (MySQL or MariaDB)
+* WebServer (Apache/Nginx/Lighttpd)
+
+The easier way to get started with all above is using a pre-package installer. See [XAMPP](https://www.apachefriends.org/)
+
 ## How to run
 
 	lighttpd -D -f lighttpd/lighttpd.conf
@@ -22,12 +30,6 @@ CREATE DATABASE learnphpdb CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 GRANT ALL PRIVILEGES ON learnphpdb.* TO 'zemian'@'localhost';
 FLUSH PRIVILEGES;
 ```
-
-## Pre-package installer for Apache, Mysql and PHP (XAMP)
-
-* [AMPPS](https://ampps.com/) - AMPPS is an easy to install software stack of Apache, Mysql, PHP, Perl, Python
-
-* [XAMP](https://www.apachefriends.org/) - Apache + MariaDB + PHP + Perl
 
 ## PHP Scripts
 
