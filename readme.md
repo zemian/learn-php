@@ -23,11 +23,11 @@ GRANT ALL PRIVILEGES ON learnphpdb.* TO 'zemian'@'localhost';
 FLUSH PRIVILEGES;
 ```
 
-## Pre-package setup for Apache, Mysql and PHP (XAMP)
+## Pre-package installer for Apache, Mysql and PHP (XAMP)
 
-* [XAMP](https://www.apachefriends.org/index.html) - XAMPP is a completely free, easy to install Apache distribution containing MariaDB, PHP, and Perl. 
-* MAMP](https://www.mamp.info/en/mamp) - The free web development solution with Apache, Nginx, PHP & MySQL
 * [AMPPS](https://ampps.com/) - AMPPS is an easy to install software stack of Apache, Mysql, PHP, Perl, Python
+
+* [XAMP](https://www.apachefriends.org/) - Apache + MariaDB + PHP + Perl
 
 ## PHP Scripts
 
