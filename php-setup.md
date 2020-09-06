@@ -4,7 +4,7 @@ The easiest way is to use `brew install php`.
 
 The package should also install `php-fpm`, and that allow you to run a background service like this:
 
-  brew services start php
+  ```brew services start php```
 
 This is needed for web server suce as `nginx`.
 
