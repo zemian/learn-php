@@ -10,7 +10,7 @@ You will need the following:
 * Database (MySQL or MariaDB)
 * WebServer (Apache, Nginx or Lighttpd)
 
-The easier way to get started with all above is using a pre-package installer. See [XAMPP](https://www.apachefriends.org/)
+The easier way to get started with all above is using a pre-package installer. See [XAMPP](https://www.apachefriends.org/) See [xampp-setup.md](xampp-setup.md) for more details.
 
 If you are using Mac, then the following can setup the package easily as well:
 
