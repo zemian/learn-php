@@ -2,13 +2,63 @@
 
 The easiest way is to use `brew install php`.
 
-(Or if you need older version of php, simply run `brew install php@5.6`)
-
 The package should also install `php-fpm`, and that allow you to run a background service like this:
 
   brew services start php
 
 This is needed for web server suce as `nginx`.
+
+NOTE: If you have multiple versions of PHP installed, ensure you setup your PATH correctly to pickup the correct version.
+
+## PHP 5.6 on MacOS 10.15.16 and Homebrew 2.4.16
+
+Current Homebrew 2.4.16 on MacOS 10.15.16 will install default php 7. If you want older PH 5.6, Run:
+
+  brew tap exolnet/homebrew-deprecated
+  brew install php@5.6
+
+Then ensure to update PATH where it's installed.
+
+### Error: `dyld: Library not loaded:`
+
+You might see this error:
+
+```
+zedeng@zedeng-mac httpd % php -v
+dyld: Library not loaded: /usr/local/opt/icu4c/lib/libicui18n.64.dylib
+  Referenced from: /usr/local/opt/php@5.6/bin/php
+  Reason: image not found
+zsh: abort      php -v
+
+# Or this:
+zedeng@zedeng-mac httpd % php -v
+dyld: Library not loaded: /usr/local/opt/openssl/lib/libcrypto.1.0.0.dylib
+  Referenced from: /usr/local/opt/php@5.6/bin/php
+  Reason: image not found
+zsh: abort      php -v
+```
+
+PHP 5.6 requires `openssl@1.0` and `icu4c`. 
+
+Ref: https://github.com/kelaberetiv/TagUI/issues/86
+
+> This error is happening because macOS decided to drop OpenSSL and switched to LibreSSL. Furthermore, macOS Homebrew switched from OpenSSL v.1.0 to v1.1, breaking many other apps that are dependent on OpenSSL v1.0.
+
+So we can try to reinstall these:
+
+  brew uninstall --ignore-dependencies openssl icu4c
+
+  # installing openssl version 1.0
+  brew install https://github.com/tebelorg/Tump/releases/download/v1.0.0/openssl.rb
+  ln -snf /usr/local/Cellar/openssl/1.0.2t /usr/local/opt/openssl
+
+  # installing icu4c version 64
+  brew install https://raw.githubusercontent.com/Homebrew/homebrew-core/a806a621ed3722fb580a58000fb274a2f2d86a6d/Formula/icu4c.rb
+  ln -snf /usr/local/Cellar/icu4c/64.2 /usr/local/opt/icu4c
+
+  # You might need to reinstall php@5.6 again
+  brew uninstall php@5.6
+  brew install php@5.6
 
 ## Compiling from Source
 

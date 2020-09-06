@@ -1,6 +1,6 @@
 [XAMPP](https://www.apachefriends.org/) Setup
 
-## Error: "TempDir is not accessible"
+## Error: "TempDir is not accessible" on Mac
 
 > The `$cfg['TempDir'] (./tmp/)` is not accessible. phpMyAdmin is not able to cache templates and will be slow because of this
 

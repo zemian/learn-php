@@ -33,10 +33,10 @@ See https://stackoverflow.com/questions/50026939/php-mysqli-connect-authenticati
 
 	ALTER USER 'zemian'@'localhost' IDENTIFIED WITH mysql_native_password BY 'test123';
 
-## PHP 5.6 and MySQL Error - character-set
+## PHP 5.6 and MySQL 8 Error - character-set
 
 ```
-Warning: mysql_connect(): Server sent charset (255) unknown to the client. Please, report to the developers in /Users/zedeng/src/zemian/learn-php/php/dbtest-old.php on line 18
+Warning: mysql_connect(): Server sent charset (255) unknown to the client. Please, report to the developers in /Users/zedeng/src/zemian/learn-php/www/php-app/dbtest-old.php on line 18
 ```
 
 To fix this, change your database encoding from `utf8mb4` to `utf8` ON the server `my.cnf` config file!
