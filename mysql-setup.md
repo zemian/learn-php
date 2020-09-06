@@ -100,7 +100,3 @@ mysql.server start
 # To change the root password, or NOT set password
 mysqladmin -u root -p password ''
 ```
-
-You must change root password with 5.7: 
-
-```/usr/local/opt/mysql@5.7/bin/mysqladmin -u root password 'test123'```
