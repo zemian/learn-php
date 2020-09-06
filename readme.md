@@ -8,7 +8,7 @@ You will need the following:
 
 * PHP (PHP 7 is much faster than 5!)
 * Database (MySQL or MariaDB)
-* WebServer (Apache/Nginx/Lighttpd)
+* WebServer (Apache, Nginx or Lighttpd)
 
 The easier way to get started with all above is using a pre-package installer. See [XAMPP](https://www.apachefriends.org/)
 
@@ -19,7 +19,7 @@ If you are using Mac, then the following can setup the package easily as well:
 	brew services start httpd
 	open http://localhost:3000/
 
-## MySQL Setup
+## Setup Database
 
 Setup a new database to do PHP web development.
 
@@ -32,7 +32,7 @@ FLUSH PRIVILEGES;
 
 Now try `http://localhost:3000/php-app/dbtest.php`
 
-## PHP Scripts
+## Commandline PHP Scripts
 
 You can run PHP as command line script when learning without web server. See `php-scripts` folder. 
 

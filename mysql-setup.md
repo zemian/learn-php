@@ -100,3 +100,13 @@ mysql.server start
 # To change the root password, or NOT set password
 mysqladmin -u root -p password ''
 ```
+
+## How to backup and restore DB for local dev
+
+```
+# Backup
+mysqldump --single-transaction --quick --no-autocommit --extended-insert=false -u root learnphpdb > learnphpdb-`date +%s`-dump.sql
+
+# Restore
+mysql -f -u root learnphpdb < learnphpdb-<date>-dump.sql
+```
