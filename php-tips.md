@@ -2,9 +2,11 @@
 
 1. Try to add this directly in `.php` file for debugging:
 
+	```
 	ini_set('display_errors', 1);
 	ini_set('display_startup_errors', 1);
 	error_reporting(E_ALL | E_STRICT);
+	```
 
 2. Or add the same in `php.ini` globally. It would require web server (Apache) restart!
 
