@@ -19,6 +19,12 @@ If you are using Mac, then the following can setup the package easily as well:
 	brew services start httpd
 	open http://localhost:3000/
 
+## Setup PHP
+
+Run `php -v` to verify you have installed. 
+
+See [php-setup.md](php-setup.md) for more details.
+
 ## Setup Database
 
 Setup a new database to do PHP web development.
@@ -31,6 +37,14 @@ FLUSH PRIVILEGES;
 ```
 
 Now try `http://localhost:3000/php-app/dbtest.php`
+
+See [mysql-setup.md](mysql-setup.md) for more details.
+
+## Setup Web Server
+
+Choose one of the server to setup. See [webserver-setup](webserver-setup.md)
+
+It's recommended to use Apache HTTPD, even for local development.
 
 ## Commandline PHP Scripts
 

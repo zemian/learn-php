@@ -1,3 +1,15 @@
+## Where is php.ini and what to set there?
+
+Run `phpinfo.php` and you will see where the `.ini` file is located.
+
+For example, PHP 5.6 is at `/usr/local/etc/php/5.6/php.ini`
+
+You should set default timezone in `php.ini` file:
+
+```
+date.timezone = 'UTC'
+```
+
 ## PHP on Mac
 
 The easiest way is to use `brew install php`.
@@ -157,7 +169,7 @@ int readdir_r(DIR *, struct dirent *, struct dirent **) __DARWIN_INODE64(readdir
 1 error generated.l
 ```
 
-## PHP versions
+## PHP Error with "mysql_connect()" not defined
 
 * 5.6.40 is the last version release before 7 and it has been discontinued since 10 Jan 2019.
 * The `mysql_connect()` is only avaible in PHP 5 or below!

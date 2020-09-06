@@ -1,51 +1,20 @@
-## Install
+## Install on Mac
 
-	brew install lighttpd
+  brew install lighttpd
 
-## Setup for plain HTML web server
+## Setup for a web server
 
-	lighttpd -D -f lighttpd/lighttpd-www.conf
+1. Copy and override `lighttpd/lighttpd-php.conf` into `/usr/local/etc/lighttpd/lighttpd.conf`.
 
-## Setup for PHP development
+2. Re/start web server `brew services start lighttpd`
 
-	lighttpd -D -f lighttpd/lighttpd-php.conf
+3. Open http://localhost:3001/
 
-## To run it as service (MacOSX)
+## Run as simle application process
 
-```
-brew info lighttpd
+You can run lightty as quick server with a specific config file:
 
-Docroot is: /usr/local/var/www
+  lighttpd -D -f lighttpd/lighttpd-php.conf
+  open http://localhost:3001
 
-The default port has been set in /usr/local/etc/lighttpd/lighttpd.conf to 8080 so that
-lighttpd can run without sudo.
-```
-
-We should version control these two folder!
-
-1. Enable `include "conf.d/fastcgi.conf"` in `/usr/local/etc/lighttpd/modules.conf`
-
-2. Enable PHP config in `/usr/local/etc/lighttpd/conf.d/fastcgi.conf`
-
-  ```
-  fastcgi.server = (
-    ".php" =>
-    (
-      ( 
-        "socket" => "/tmp/php.socket",
-        "bin-path" => "/usr/local/php-5.6.40/bin/php-cgi",
-        "bin-environment" => (
-        "PHP_FCGI_CHILDREN" => "16",
-        "PHP_FCGI_MAX_REQUESTS" => "10000"
-      ),
-      "min-procs" => 1,
-      "max-procs" => 1,
-      "idle-timeout" => 20
-    ))
-  )
-  ```
-
-3. Start web server
-
-  brew install services
-  brew services start lighttpd
+Press CTRL+C to stop the server
