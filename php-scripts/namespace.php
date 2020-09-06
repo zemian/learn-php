@@ -23,4 +23,3 @@ $d = namespace\MYCONST; // see "namespace operator and __NAMESPACE__
                         // constant" section
 $d = __NAMESPACE__ . '\MYCONST';
 echo constant($d); // see "Namespaces and dynamic language features" section
-?>

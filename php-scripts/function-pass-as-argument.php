@@ -52,4 +52,3 @@ class C {
 $c = new C();
 call_user_func($c, 'PHP!');
 
-?>

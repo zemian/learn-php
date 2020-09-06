@@ -12,4 +12,3 @@ it has been unset().
  */
 $var = NULL;
 echo is_null($var);
-?>

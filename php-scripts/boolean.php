@@ -62,4 +62,3 @@ var_dump((bool)"false", boolval("false"));
 // This is the proper way
 $b_val = "false";
 var_dump($b_val === "false");
-?>

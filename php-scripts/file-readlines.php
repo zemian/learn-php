@@ -5,4 +5,3 @@ while(!feof($fh)) {
     echo fgets($fh);
 }
 fclose($fh);
-?>

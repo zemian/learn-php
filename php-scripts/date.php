@@ -17,4 +17,4 @@ echo 'Next Week: '. date('Y-m-d', $nextWeek) ."\n";
 echo 'Next Week: '. date('Y-m-d', strtotime('+1 week')) ."\n"
 
 // NOTE: Timestamp of the start of the request is available in $_SERVER['REQUEST_TIME'] since PHP 5.1.
-?>
+

@@ -32,3 +32,7 @@ FLUSH PRIVILEGES;
 ## PHP Scripts
 
 You can run PHP as command line script when learning without web server. See `php-scripts`. 
+
+NOTE: If a file contains only PHP code, it is preferable to omit the PHP closing tag at the end of the file. This prevents accidental whitespace or new lines being added after the PHP closing tag
+
+Ref: https://www.php.net/manual/en/language.basic-syntax.phptags.php

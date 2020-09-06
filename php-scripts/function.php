@@ -38,5 +38,5 @@ nested_foo();
    made it accessible. */
 nested_bar();
 
-?>
+
 

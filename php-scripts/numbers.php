@@ -68,4 +68,4 @@ if(abs($a-$b) < $epsilon) {
 echo "NAN=", NAN, "\n";
 echo is_nan(1), "\n";
 echo is_nan(NAN), "\n";
-?>
+

@@ -23,5 +23,5 @@ function foo3($req, $opt = false) {
 foo3("test");
 foo3("test", true);
 
-?>
+
 

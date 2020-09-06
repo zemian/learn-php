@@ -18,4 +18,4 @@ echo 'empty list with array()=', json_encode(array()), "\n";
 
 // empty object
 echo 'empty object with array()=', json_encode(array(), JSON_FORCE_OBJECT), "\n"; 
-?>
+

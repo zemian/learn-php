@@ -13,5 +13,5 @@ function foo() {
 }
 foo();
 
-?>
+
 

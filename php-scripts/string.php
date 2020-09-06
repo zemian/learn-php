@@ -55,4 +55,3 @@ var_dump($str);
 // Split string
 $array = explode("/", "foo/bar/baz");
 var_dump($array);
-?>

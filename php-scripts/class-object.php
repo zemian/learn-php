@@ -74,4 +74,3 @@ class SubClass extends BaseClass {
     }
 }
 var_dump("SubClass", new SubClass());
-?>
