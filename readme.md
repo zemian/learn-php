@@ -12,6 +12,12 @@ You will need the following:
 
 The easier way to get started with all above is using a pre-package installer. See [XAMPP](https://www.apachefriends.org/)
 
+If you are using Mac, then the following can setup the package easily as well:
+
+	brew install services mysql php lighttd 
+	brew services start mysql
+	brew services list
+
 ## How to run webserver
 
 	lighttpd -D -f lighttpd/lighttpd.conf

@@ -14,15 +14,21 @@ Or, if you don't want/need a background service you can just run:
   apachectl start
 ```
 
-## Setup for plain HTML web server
+## Setup for a web server
 
-To debug `tail -f /usr/local/var/log/httpd/error_log`
+Make a backup or git source control the `/usr/local/etc/httpd` folder first.
 
-1. Edit `httpd.conf`  and set "DocumentRoot" and "Directory" to /Users/zedeng/src/zemian/learn-php/html
+1. Copy and override file `httpd-php.conf` into `/usr/local/etc/httpd/httpd.conf`.
 
-2. Restart server: `brew services restart httpd`
+1. Restart server: `brew services start httpd`
 
-3. Open `http://localhost:8080/`
+2. Open `http://localhost:3000/`
+
+
+Troubleshooting:
+
+* To debug server errors: `tail -f /usr/local/var/log/httpd/error_log`
+* To check config syntax: `apachectl configtest`
 
 ## Setup for PHP development
 

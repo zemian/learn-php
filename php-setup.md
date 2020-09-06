@@ -1,3 +1,13 @@
+## PHP on Mac
+
+The easiest way is to use `brew install php`. 
+
+The package should also install `php-fpm`, and that allow you to run a background service like this:
+
+  brew services start php
+
+This is needed for web server suce as `nginx`.
+
 ## Compiling from Source
 
 1. Download source [`php-7.4.9.tar.gz`](https://www.php.net/downloads)
