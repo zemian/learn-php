@@ -46,19 +46,21 @@ Ref: https://github.com/kelaberetiv/TagUI/issues/86
 
 So we can try to reinstall these:
 
-  brew uninstall --ignore-dependencies openssl icu4c
+```
+brew uninstall --ignore-dependencies openssl icu4c
 
-  # installing openssl version 1.0
-  brew install https://github.com/tebelorg/Tump/releases/download/v1.0.0/openssl.rb
-  ln -snf /usr/local/Cellar/openssl/1.0.2t /usr/local/opt/openssl
+# installing openssl version 1.0
+brew install https://github.com/tebelorg/Tump/releases/download/v1.0.0/openssl.rb
+ln -snf /usr/local/Cellar/openssl/1.0.2t /usr/local/opt/openssl
 
-  # installing icu4c version 64
-  brew install https://raw.githubusercontent.com/Homebrew/homebrew-core/a806a621ed3722fb580a58000fb274a2f2d86a6d/Formula/icu4c.rb
-  ln -snf /usr/local/Cellar/icu4c/64.2 /usr/local/opt/icu4c
+# installing icu4c version 64
+brew install https://raw.githubusercontent.com/Homebrew/homebrew-core/a806a621ed3722fb580a58000fb274a2f2d86a6d/Formula/icu4c.rb
+ln -snf /usr/local/Cellar/icu4c/64.2 /usr/local/opt/icu4c
 
-  # You might need to reinstall php@5.6 again
-  brew uninstall php@5.6
-  brew install php@5.6
+# You might need to reinstall php@5.6 again
+brew uninstall php@5.6
+brew install php@5.6
+```
 
 ## Compiling from Source
 
