@@ -2,12 +2,6 @@
 
 The easiest way is to use `brew install php`.
 
-The package should also install `php-fpm`, and that allow you to run a background service like this:
-
-  ```brew services start php```
-
-This is needed for web server suce as `nginx`.
-
 NOTE: If you have multiple versions of PHP installed, ensure you setup your PATH correctly to pickup the correct version.
 
 ## PHP 5.6 on MacOS 10.15.16 and Homebrew 2.4.16
@@ -163,3 +157,11 @@ int readdir_r(DIR *, struct dirent *, struct dirent **) __DARWIN_INODE64(readdir
 
 * 5.6.40 is the last version release before 7 and it has been discontinued since 10 Jan 2019.
 * The `mysql_connect()` is only avaible in PHP 5 or below!
+
+## PHP FastCGI
+
+The `php` package should also comes with `php-cgi` or `php-fpm`. This allow webserver to spawn PHP process much more efficiently. The NGINX web server requires you to manually start it, while other such as Apache manages it automatically.
+
+To start it manually:
+
+  ```brew services start php```
