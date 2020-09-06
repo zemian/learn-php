@@ -1,6 +1,8 @@
 ## PHP on Mac
 
-The easiest way is to use `brew install php`. 
+The easiest way is to use `brew install php`.
+
+(Or if you need older version of php, simply run `brew install php@5.6`)
 
 The package should also install `php-fpm`, and that allow you to run a background service like this:
 

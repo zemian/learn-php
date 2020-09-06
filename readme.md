@@ -14,16 +14,14 @@ The easier way to get started with all above is using a pre-package installer. S
 
 If you are using Mac, then the following can setup the package easily as well:
 
-	brew install services mysql php lighttd 
+	brew install services mysql php httpd
 	brew services start mysql
-	brew services list
-
-## How to run webserver
-
-	lighttpd -D -f lighttpd/lighttpd.conf
+	brew services start httpd
 	open http://localhost:3000/
 
 ## MySQL Setup
+
+Setup a new database to do PHP web development.
 
 ```sql
 CREATE USER 'zemian'@'localhost' IDENTIFIED WITH mysql_native_password BY 'test123';
@@ -32,9 +30,11 @@ GRANT ALL PRIVILEGES ON learnphpdb.* TO 'zemian'@'localhost';
 FLUSH PRIVILEGES;
 ```
 
+Now try `http://localhost:3000/php-app/dbtest.php`
+
 ## PHP Scripts
 
-You can run PHP as command line script when learning without web server. See `php-scripts`. 
+You can run PHP as command line script when learning without web server. See `php-scripts` folder. 
 
 NOTE: If a file contains only PHP code, it is preferable to omit the PHP closing tag at the end of the file. This prevents accidental whitespace or new lines being added after the PHP closing tag
 
