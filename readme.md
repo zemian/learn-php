@@ -12,19 +12,14 @@ You will need the following:
 
 The easier way to get started with all above is using a pre-package installer. See [XAMPP](https://www.apachefriends.org/)
 
-## How to run
+## How to run webserver
 
 	lighttpd -D -f lighttpd/lighttpd.conf
 	open http://localhost:3000/
 
 ## MySQL Setup
 
-```bash
-brew install services mysql
-brew services start mysql
-
-mysql -u root
-
+```sql
 CREATE USER 'zemian'@'localhost' IDENTIFIED WITH mysql_native_password BY 'test123';
 CREATE DATABASE learnphpdb CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 GRANT ALL PRIVILEGES ON learnphpdb.* TO 'zemian'@'localhost';
