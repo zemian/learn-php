@@ -90,7 +90,7 @@ If you need the MySQL POD, add `--with-pdo-mysql`. This allows you to connect to
 Add the `--with-apxs2=/usr/local/bin/apxs` is only needed if you were to compile mod_php7.so for Apache HTTPD web server.
 
 
-## Compiling PHP 5.6.40 on MacOSX
+## Compiling PHP 5.6.40 on MacOS 10.15.16
 
 ```
 ./configure --prefix=/usr/local/php-5.6.40 --with-iconv=/usr/local/opt/libiconv --enable-sockets --with-mysqli=mysqlnd --with-mysql --with-zlib=/usr/local/opt/zlib --enable-fpm
