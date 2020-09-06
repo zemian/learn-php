@@ -76,7 +76,7 @@ For example with Apahce, run `tail -f /usr/local/var/log/httpd/error_log`
 
 If you setting up multiple PHP env, ensure you used the same setting files. Check `phpinfo` page and verify if needed. Setting such as `short_open_tag` would have different values based on env, and if application is hardcoded to depend on this feature, you likely will get blank screen!
 
-## Where is php.ini?
+### Where is php.ini?
 
 Run `phpinfo.php` and you will see where the `.ini` file is located.
 
