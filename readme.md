@@ -2,6 +2,8 @@ https://www.php.net/
 
 PHP is a popular general-purpose scripting language that is especially suited to web development.
 
+If you are stuck with PHP, maybe this [PHP Tips](php-tips.md) might able to help you!
+
 ## Setup
 
 You will need the following:
