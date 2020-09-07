@@ -4,6 +4,10 @@ The easiest way is to use `brew install php`.
 
 NOTE: If you have multiple versions of PHP installed, ensure you setup your PATH correctly to pickup the correct version.
 
+## Where is php.ini?
+
+On MacOS that installed with Homebrew, it is under `/usr/local/etc/php/<version>`.
+
 ## PHP 5.6 on MacOS 10.15.16 and Homebrew 2.4.16
 
 Current Homebrew 2.4.16 on MacOS 10.15.16 will install default php 7. If you want older PH 5.6, Run:
@@ -165,3 +169,5 @@ The `php` package should also comes with `php-cgi` or `php-fpm`. This allow webs
 To start it manually:
 
   ```brew services start php```
+
+NOTE: Starting from release 5.3.3 in early 2010, PHP has merged the php-fpm fastCGI process manager into its codebase, and it is now (as of 5.4.1) quite stable. See https://cwiki.apache.org/confluence/display/HTTPD/PHP-FPM
