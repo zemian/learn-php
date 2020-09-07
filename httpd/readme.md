@@ -65,3 +65,6 @@ NOTE: As of MacOS 10.15.6, we can't run both php-fpm with `php` (7.4) and `php5.
 
 NOTE: You would need to shutdown `php-fpm` process manually with `kill` command when not in use.
 
+## What's in the `lib/httpd/modules/libphp7.so` file?
+
+When you building PHP from source, it usually replace file such as `lib/httpd/modules/libphp7.so` in your Apache lib directly. If you are using Hombrew to install PHP, then the httpd modules usually resides where the PHP package is (eg: `/usr/local/opt/php/lib/httpd/modules/libphp7.so`). You can use the `phpinfo.php` page to verify the version.

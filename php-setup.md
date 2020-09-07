@@ -10,6 +10,8 @@ On MacOS that installed with Homebrew, it is under `/usr/local/etc/php/<version>
 
 ## PHP 5.6 on MacOS 10.15.16 and Homebrew 2.4.16
 
+NOTE: If you reqlly need PHP 5.6, it's recommended you compile this on your own and leave Homebrew to keep latest PHP is more cleaner env setup.
+
 Current Homebrew 2.4.16 on MacOS 10.15.16 will install default php 7. If you want older PH 5.6, Run:
 
   brew tap exolnet/homebrew-deprecated
@@ -60,7 +62,19 @@ brew uninstall php@5.6
 brew install php@5.6
 ```
 
-## Compiling from Source
+## Switching back to latest PHP with Homebrew from PHP 5.6
+
+```
+ln -snf /usr/local/Cellar/icu4c/67.1 /usr/local/opt/icu4c
+ln -snf /usr/local/Cellar/openssl@1.1/1.1.1g /usr/local/opt/openssl
+brew uninstall --ignore-dependencies php
+brew install php
+brew link --overwrite php
+```
+
+To verify, run `/usr/local/bin/php -v` and this should be your default `php`
+
+## Compiling PHP from Source
 
 1. Download source [`php-7.4.9.tar.gz`](https://www.php.net/downloads)
 2. Run `brew install libiconv`
