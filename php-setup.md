@@ -62,6 +62,19 @@ brew uninstall php@5.6
 brew install php@5.6
 ```
 
+Fix summary:
+
+```
+ln -snf /usr/local/Cellar/openssl/1.0.2t /usr/local/opt/openssl
+ln -snf /usr/local/Cellar/icu4c/64.2 /usr/local/opt/icu4c
+```
+
+This Homebrew installed package is located at `/usr/local/opt/php@5.6` or linked to `/usr/local/Cellar/php@5.6/5.6.40`
+
+  /usr/local/opt/php@5.6/bin/php -v
+  /usr/local/opt/php@5.6/sbin/php-fpm -v
+  # /usr/local/etc/php/5.6/php-fpm.conf
+
 ## Switching back to latest PHP with Homebrew from PHP 5.6
 
 ```
@@ -87,7 +100,7 @@ make
 sudo make install
 ```
 
-Add more options:
+Extra:
 
 ```
 ./configure --prefix=/usr/local/php-7.4.9 --with-iconv=/usr/local/opt/libiconv --enable-sockets --with-mysqli=mysqlnd --with-pdo-mysql --with-zlib=/usr/local/opt/zlib --with-apxs2=/usr/local/bin/apxs --enable-fpm
@@ -106,8 +119,15 @@ Add the `--with-apxs2=/usr/local/bin/apxs` is only needed if you were to compile
 
 ## Compiling PHP 5.6.40 on MacOS 10.15.16
 
+Basic:
+
 ```
-./configure --prefix=/usr/local/php-5.6.40 --with-iconv=/usr/local/opt/libiconv --enable-sockets --with-mysqli=mysqlnd --with-mysql=mysqlnd --with-pdo-mysql --with-zlib=/usr/local/opt/zlib --with-apxs2=/usr/local/bin/apxs -enable-fpm
+./configure --prefix=/usr/local/php-5.6.40 --with-iconv=/usr/local/opt/libiconv --enable-sockets --with-mysqli=mysqlnd --with-mysql=mysqlnd --with-pdo-mysql --with-zlib=/usr/local/opt/zlib --with-apxs2=/usr/local/bin/apxs -enable-fpm --enable-bcmath --enable-calendar --enable-exif
+
+perl -p -i -e 's/#define HAVE_OLD_READDIR_R 1/#define HAVE_POSIX_READDIR_R 1/' main/php_config.h
+perl -p -i -e 's#EXTRA_LIBS = -lresolv -liconv -liconv#EXTRA_LIBS = -lresolv /usr/local/opt/libiconv/lib/libiconv.dylib#' Makefile
+make
+sudo make install
 ```
 
 * Fix1: Got `readdir_r` error:
