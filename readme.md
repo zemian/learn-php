@@ -44,7 +44,7 @@ See [mysql-setup.md](mysql-setup.md) for more details.
 
 ## Setup Web Server
 
-Simply get a web server running and find where the DocumentRoot is located. Then deploy/link/hardcode-path of this `learn-php` repository folder under it.
+Simply get a web server running and find where the DocumentRoot is located. Then copy/deploy/link/hardcode-path of this `learn-php` repository folder under it.
 
 For example: On Mac with `httpd`, you can simply symbolic link this repository like this:
 
@@ -52,6 +52,8 @@ For example: On Mac with `httpd`, you can simply symbolic link this repository l
 	open http://localhost:3000/learn-php/php-web/
 
 You may use any of the web server that supports PHP. See [webserver-setup](webserver-setup.md) for details.
+
+NOTE: For Windows systems that does not support symbolic link, you can just move the `learn-php` folder under DocumentRoot.
 
 ## PHP Web
 
