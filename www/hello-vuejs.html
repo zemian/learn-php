@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Hello VueJS</title>
+  <link rel="stylesheet" type="text/css" href="bulma.css">
+  <script src="vue.js"></script>
+</head>
+<body>
+  <div id="app" class="section">
+      <span v-text="message"></span>
+  </div>
+
+  <script>
+      let app = new Vue({
+          data: {
+              message: "Hello"
+          }
+      });
+      app.$mount("#app");
+  </script>
+</body>
+</html>
