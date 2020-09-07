@@ -14,9 +14,11 @@ Now you may configure and start the web server:
 
 1. Copy and override `nginx/nginx-php.conf` into `/usr/local/etc/nginx/nginx.conf`.
 
-2. Re/start web server `brew services start nginx`
+2. Modify `nginx.conf` and replace `/Users/zedeng/src/zemian/learn-php/www` with your own path.
 
-3. Open http://localhost:3002/
+3. Re/start web server `brew services start nginx`
+
+4. Open http://localhost:3002/
 
 ## Run php-cgi manually
 

@@ -8,10 +8,11 @@ Make a backup or git source control the `/usr/local/etc/httpd` folder first.
 
 1. Copy and override file `httpd-php.conf` into `/usr/local/etc/httpd/httpd.conf`.
 
-2. Re/start server: `brew services start httpd`
+2. Modify `httpd.conf` and replace `/Users/zedeng/src/zemian/learn-php/www` with your own path.
 
-3. Open http://localhost:3000/
+3. Re/start server: `brew services start httpd`
 
+4. Open http://localhost:3000/
 
 Troubleshooting:
 
