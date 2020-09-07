@@ -62,3 +62,6 @@ NOTE: As of MacOS 10.15.6, we can't run both php-fpm with `php` (7.4) and `php5.
 4. Use `httpd-php-multiple-fpm.conf`
 
 5. Now you should get PHP 5.6 for http://localhost:3000/learn-joomla/joomla, and rest of the url such as http://localhost:3000/learn-php/php-web using PHP 7.4.
+
+NOTE: You would need to shutdown `php-fpm` process manually with `kill` command when not in use.
+
