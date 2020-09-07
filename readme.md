@@ -53,10 +53,18 @@ For example: On Mac with `httpd`, you can simply symbolic link this repository l
 
 You may use any of the web server that supports PHP. See [webserver-setup](webserver-setup.md) for details.
 
+## PHP Web
+
+The `php-web` folder is a PHP enabled application where we can learn about web development with PHP code.
+
 ## Commandline PHP Scripts
 
-You can run PHP as command line script when learning without web server. See `php-scripts` folder. 
+The `php-scripts` folder contains PHP script fiels that can be run as commandline with `php` executable without the need of a web server.
 
 NOTE: If a file contains only PHP code, it is preferable to omit the PHP closing tag at the end of the file. This prevents accidental whitespace or new lines being added after the PHP closing tag
 
 Ref: https://www.php.net/manual/en/language.basic-syntax.phptags.php
+
+## Plain HTML `web` folder
+
+The `web` folder is a plain HTML/JavaScript/CSS files that demonstrate static web content.
