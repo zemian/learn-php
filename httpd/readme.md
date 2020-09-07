@@ -23,16 +23,42 @@ Troubleshooting:
 
 Ref: https://cwiki.apache.org/confluence/display/HTTPD/PHP-FPM
 
-1. Start php-fpm: `brew services start php@5.6`
+1. Start php-fpm: `brew services start php@`
 
 	Run `tail -f /usr/local/var/log/php-fpm.log` to check for activity
 
-	Config is at `/usr/local/etc/php/5.6/php-fpm.conf`
+	Config is at `/usr/local/etc/php/7.4/php-fpm.conf`
 
-2. 
+2. Use `httpd-php-fpm.conf`
 
 ## How to setup multiple PHP versions in Apache?
 
 NOTE: As of MacOS 10.15.6, we can't run both php-fpm with `php` (7.4) and `php5.6` with brew. If you need both of them, you would need to build your own from source.
 
-Ref: https://oanhnn.com/2015-09-22/running-multiple-php-versions-on-single-apache-instance.html
+1. Locate custom PHP installations:
+	
+	/usr/local/php-7.4.9/bin/php
+	/usr/local/php-7.4.9/sbin/php-fpm
+
+	/usr/local/php-5.6.40/bin/php
+	/usr/local/php-5.6.40/sbin/php-fpm
+
+2. Edit `etc/php-fpm.conf` for each installation to have a unique listenign port:
+
+	For `/usr/local/php-5.6.40/etc/php-fpm.conf` let's use 
+
+		listen = 127.0.0.1:9001
+
+	For `/usr/local/php-7.4.9/etc/php-fpm.conf` let's use (it's the default anyway)
+
+		listen = 127.0.0.1:9000
+
+3. Start all the php-fpm for all your PHP versions:
+
+	/usr/local/php-7.4.9/sbin/php-fpm
+	/usr/local/php-5.6.40/sbin/php-fpm
+	ps -ef |grep php
+
+4. Use `httpd-php-multiple-fpm.conf`
+
+5. Now you should get PHP 5.6 for http://localhost:3000/learn-joomla/joomla, and rest of the url such as http://localhost:3000/learn-php/php-web using PHP 7.4.

@@ -76,7 +76,7 @@ sudo make install
 Add more options:
 
 ```
-./configure --prefix=/usr/local --with-iconv=/usr/local/opt/libiconv --enable-sockets --with-mysqli=mysqlnd --with-pdo-mysql --with-zlib=/usr/local/opt/zlib --with-apxs2=/usr/local/bin/apxs
+./configure --prefix=/usr/local/php-7.4.9 --with-iconv=/usr/local/opt/libiconv --enable-sockets --with-mysqli=mysqlnd --with-pdo-mysql --with-zlib=/usr/local/opt/zlib --with-apxs2=/usr/local/bin/apxs --enable-fpm
 ```
 
 ### Compiling PHP with MySQL
@@ -93,7 +93,7 @@ Add the `--with-apxs2=/usr/local/bin/apxs` is only needed if you were to compile
 ## Compiling PHP 5.6.40 on MacOS 10.15.16
 
 ```
-./configure --prefix=/usr/local/php-5.6.40 --with-iconv=/usr/local/opt/libiconv --enable-sockets --with-mysqli=mysqlnd --with-mysql --with-zlib=/usr/local/opt/zlib --enable-fpm
+./configure --prefix=/usr/local/php-5.6.40 --with-iconv=/usr/local/opt/libiconv --enable-sockets --with-mysqli=mysqlnd --with-mysql=mysqlnd --with-pdo-mysql --with-zlib=/usr/local/opt/zlib --with-apxs2=/usr/local/bin/apxs -enable-fpm
 ```
 
 * Fix1: Got `readdir_r` error:
@@ -121,6 +121,11 @@ NOTE you need to fix this after you ran `./configure` script.
 
 Ref: https://board.phpbuilder.com/d/7109292-reentrancyc130-too-few-arguments-to-f
 
+Fix by commandline:
+  
+  perl -p -i -e 's/#define HAVE_OLD_READDIR_R 1/#define HAVE_POSIX_READDIR_R 1/' main/php_config.h
+  grep READDIR_R main/php_config.h
+
 * Fix2: Got `_libiconv` error:
 
 ```
@@ -136,26 +141,13 @@ NOTE: If you see two `-liconv`, replace both.
 
 Ref: https://stackoverflow.com/questions/40167324/php-compile-fails-with-undefined-symbols-for-architecture-x86-64-libiconv-on-ma
 
+  
+Fix by commandline:
+  
+  perl -p -i -e 's#EXTRA_LIBS = -lresolv -liconv -liconv#EXTRA_LIBS = -lresolv /usr/local/opt/libiconv/lib/libiconv.dylib#' Makefile
+  grep 'EXTRA_LIBS = ' Makefile
+
 NOTE: The binary for `php-fpm` is under `/usr/local/php-5.6.40/sbin/php-fpm`.
-
-## Compiling PHP 7.0.33 on MacOSX
-
-```
-./configure --prefix=/usr/local/php-7.0.33 --with-iconv=/usr/local/opt/libiconv --enable-sockets --with-mysqli=mysqlnd --with-zlib=/usr/local/opt/zlib
-```
-
-* Got still the same error. Same solution as in php 5.6 can be apply?
-
-```
-/Users/zedeng/src/zemian/php-7.0.33/main/reentrancy.c:139:23: error: too few arguments to function call, expected 3,
-      have 2
-        readdir_r(dirp, entry);
-        ~~~~~~~~~            ^
-/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/usr/include/dirent.h:110:1: note: 'readdir_r' declared here
-int readdir_r(DIR *, struct dirent *, struct dirent **) __DARWIN_INODE64(readdir_r);
-^
-1 error generated.l
-```
 
 ## PHP Error with "mysql_connect()" not defined
 

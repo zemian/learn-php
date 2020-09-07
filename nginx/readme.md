@@ -22,11 +22,17 @@ Now you may configure and start the web server:
 
 4. Open http://localhost:3002/learn-php/php-web/
 
-## Run php-cgi manually
+## Run php-fpm or php-cgi manually
 
-Instead of `php-fpm`, you may also run `php-cgi` process manually:
+Run `php-cgi` process manually (in the foreground):
     
     php-cgi -b 127.0.0.1:9000
+
+Or run `php-fpm` process manually (it will starts in background. Use `ps -ef |grep php` to see it):
+
+    php-fpm
+
+NOTE: The `php-fpm` has a config file of it's own where you can specify the listen port. eg: See `/usr/local/php-7.4.9/etc/php-fpm.conf`
 
 NOTE: Both `php-fpm` and `php-cgi` supports Unix socket instead of TCP port listener. In this
 case, you would use `unix:/path/to/php.socket` string in the `nginx.conf` instead.
