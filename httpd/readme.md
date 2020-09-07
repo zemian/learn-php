@@ -18,3 +18,9 @@ Troubleshooting:
 
 * To debug server errors: `tail -f /usr/local/var/log/httpd/error_log`
 * To check config syntax: `apachectl configtest`
+
+## How to setup php-fpm in Apache?
+
+## How to setup multiple PHP versions in Apache?
+
+Ref: https://oanhnn.com/2015-09-22/running-multiple-php-versions-on-single-apache-instance.html
