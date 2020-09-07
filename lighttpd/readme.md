@@ -2,15 +2,19 @@
 
   brew install lighttpd
 
-## Setup for a web server
+## Setup for a web server on MacOS
+
+The config file here assumes `/usr/local/var/www` is your DocumentRoot and port is 3001.
 
 1. Copy and override `lighttpd/lighttpd-php.conf` into `/usr/local/etc/lighttpd/lighttpd.conf`.
 
-2. Re/start web server `brew services start lighttpd`
+2. Link this resitory to DocumentRoot: `ln -s /Users/zedeng/src/zemian/learn-php /usr/local/var/www`
 
-3. Open http://localhost:3001/
+3. Re/start web server `brew services start lighttpd`
 
-## Run as simle application process
+3. Open http://localhost:3001/learn-php/php-web/
+
+## Run as simple application process
 
 You can run lightty as quick server with a specific config file:
 

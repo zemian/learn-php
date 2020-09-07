@@ -2,7 +2,9 @@
 
   brew install nginx
 
-## Setup for a web server
+## Setup for a web server on MacOS
+
+The config file here assumes `/usr/local/var/www` is your DocumentRoot and port is 3002.
 
 The `nginx` web server requires separate process of `php-fpm` running in order to work.
 
@@ -14,11 +16,11 @@ Now you may configure and start the web server:
 
 1. Copy and override `nginx/nginx-php.conf` into `/usr/local/etc/nginx/nginx.conf`.
 
-2. Modify `nginx.conf` and replace `/Users/zedeng/src/zemian/learn-php/www` with your own path.
+2. Link this resitory to DocumentRoot: `ln -s /Users/zedeng/src/zemian/learn-php /usr/local/var/www`
 
 3. Re/start web server `brew services start nginx`
 
-4. Open http://localhost:3002/
+4. Open http://localhost:3002/learn-php/php-web/
 
 ## Run php-cgi manually
 

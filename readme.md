@@ -44,9 +44,14 @@ See [mysql-setup.md](mysql-setup.md) for more details.
 
 ## Setup Web Server
 
-Choose one of the server to setup. See [webserver-setup](webserver-setup.md)
+Simply get a web server running and find where the DocumentRoot is located. Then deploy/link/hardcode-path of this `learn-php` repository folder under it.
 
-It's recommended to use Apache HTTPD, even for local development.
+For example: On Mac with `httpd`, you can simply symbolic link this repository like this:
+
+	ln -s /Users/zedeng/src/zemian/learn-php /usr/local/var/www
+	open http://localhost:3000/learn-php/php-web/
+
+You may use any of the web server that supports PHP. See [webserver-setup](webserver-setup.md) for details.
 
 ## Commandline PHP Scripts
 
