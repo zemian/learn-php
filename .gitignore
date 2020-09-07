@@ -2,6 +2,3 @@
 .idea/
 node_modules/
 temp/
-
-# Use this folder to link to other applications such as wordpress
-www/apps/
