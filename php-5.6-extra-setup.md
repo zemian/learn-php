@@ -178,33 +178,40 @@ make: *** [sapi/cli/php] Error 1
 --with-apxs2=/usr/local/bin/apxs
 ```
 
-Try more options:
+### Try more options:
+
+THIS WORKS!
 
 Notes:
-- zip will not compile - getpid() error
+- --enable-zip will not compile - getpid() error
 
 ```
 ./configure \
 --prefix=/usr/local/php-5.6.40 \
---enable-fpm \
---enable-sockets \
 --enable-bcmath \
 --enable-calendar \
 --enable-dba \
 --enable-exif \
 --enable-ftp \
+--enable-fpm \
 --enable-mysqlnd \
 --enable-pcntl \
 --enable-phpdbg \
 --enable-shmop \
 --enable-soap \
+--enable-sockets \
 --enable-sysvmsg \
 --enable-sysvsem \
 --enable-sysvshm \
 --enable-wddx \
+--with-gd \
+--with-pic \
+--with-xmlrpc \
+--with-libzip \
+--with-layout=GNU \
 --with-mysqli=mysqlnd \
 --with-mysql=mysqlnd \
---with-pdo-mysql \
+--with-pdo-mysql=mysqlnd \
 --with-iconv=/usr/local/opt/libiconv \
 --with-zlib=/usr/local/opt/zlib \
 --with-apxs2=/usr/local/bin/apxs \
