@@ -75,7 +75,7 @@ This Homebrew installed package is located at `/usr/local/opt/php@5.6` or linked
   /usr/local/opt/php@5.6/sbin/php-fpm -v
   # /usr/local/etc/php/5.6/php-fpm.conf
 
-## Switching back to latest PHP with Homebrew from PHP 5.6
+## Switching back to latest PHP 7.4 with Homebrew from PHP 5.6
 
 ```
 ln -snf /usr/local/Cellar/icu4c/67.1 /usr/local/opt/icu4c
