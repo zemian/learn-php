@@ -105,6 +105,8 @@ make: *** [libs/libphp5.bundle] Error 1
 --with-png-dir=/usr/local/opt/libpng \
 ```
 
+Result: Error
+
 ### Smaller options
 
 ```
@@ -177,6 +179,9 @@ make: *** [sapi/cli/php] Error 1
 ```
 
 Try more options:
+
+Notes:
+- zip will not compile - getpid() error
 
 ```
 ./configure \
