@@ -70,3 +70,8 @@ Ref: https://www.php.net/manual/en/language.basic-syntax.phptags.php
 ## Plain HTML `web` folder
 
 The `web` folder is a plain HTML/JavaScript/CSS files that demonstrate static web content.
+
+## Favicons
+
+The favicon files under `web` is generated from https://favicons.io
+
