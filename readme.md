@@ -16,10 +16,10 @@ The easier way to get started with all above is using a pre-package installer. S
 
 If you are using Mac, then the following can setup the package easily as well:
 
-	brew install services mysql php httpd
+	brew install services mysql php lighttpd
 	brew services start mysql
-	brew services start httpd
-	open http://localhost:3000/
+	lighttpd -D -f lighttpd/lighttpd-php.conf
+	open http://localhost:3001/
 
 ## Setup PHP
 
@@ -44,12 +44,12 @@ See [mysql-setup.md](mysql-setup.md) for more details.
 
 ## Setup Web Server
 
-Simply get a web server running and find where the DocumentRoot is located. Then copy/deploy/link/hardcode-path of this `learn-php` repository folder under it.
+Simply get a web server running and find where the DocumentRoot is located. Then copy or link this `learn-php` repository folder under there.
 
-For example: On Mac with `httpd`, you can simply symbolic link this repository like this:
+For example: On Mac with `lighttpd`, you can simply symbolic link this repository like this:
 
 	ln -s /Users/zedeng/src/zemian/learn-php /usr/local/var/www
-	open http://localhost:3000/learn-php/php-web/
+	open http://localhost:3001/learn-php/php-web/
 
 You may use any of the web server that supports PHP. See [webserver-setup](webserver-setup.md) for details.
 
