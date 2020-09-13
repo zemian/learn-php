@@ -18,8 +18,8 @@ If you are using Mac, then the following can setup the package easily as well:
 
 	brew install services mysql php lighttpd
 	brew services start mysql
-	lighttpd -D -f lighttpd/lighttpd-php.conf
-	open http://localhost:3001/
+	lighttpd -D -f lighttpd/lighttpd-php-cwd.conf
+	open http://localhost:3001/phpinfo.php
 
 ## Setup PHP
 
@@ -49,7 +49,7 @@ Simply get a web server running and find where the DocumentRoot is located. Then
 For example: On Mac with `lighttpd`, you can simply symbolic link this repository like this:
 
 	ln -s /Users/zedeng/src/zemian/learn-php /usr/local/var/www
-	open http://localhost:3001/learn-php/php-web/
+	open http://localhost:3001/learn-php/php-web/phpinfo.php
 
 You may use any of the web server that supports PHP. See [webserver-setup](webserver-setup.md) for details.
 
