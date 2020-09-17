@@ -2,7 +2,7 @@ https://www.php.net/
 
 PHP is a popular general-purpose scripting language that is especially suited to web development.
 
-If you are stuck with PHP, maybe this [PHP Tips](php-tips.md) might able to help you!
+If you are stuck with PHP, maybe this [PHP Tips](docs/php-tips.md) might able to help you!
 
 ## Setup & Quick Start
 
@@ -12,7 +12,7 @@ You will need the following:
 * Database (MySQL or MariaDB)
 * WebServer (Apache, Nginx or Lighttpd)
 
-The easier way to get started with all above is using a pre-package installer. See [XAMPP](https://www.apachefriends.org/) See [xampp-setup.md](xampp-setup.md) for more details.
+The easier way to get started with all above is using a pre-package installer. See [XAMPP](https://www.apachefriends.org/) See [xampp-setup.md](docs/xampp-setup.md) for more details.
 
 If you are using Mac, then the following can setup the package easily as well:
 
@@ -25,7 +25,7 @@ If you are using Mac, then the following can setup the package easily as well:
 
 Run `php -v` to verify you have installed. 
 
-See [php-setup.md](php-setup.md) for more details.
+See [php-setup.md](docs/php-setup.md) for more details.
 
 ## Setup Database
 
@@ -40,7 +40,7 @@ FLUSH PRIVILEGES;
 
 Now try `http://localhost:3000/php-app/dbtest.php`
 
-See [mysql-setup.md](mysql-setup.md) for more details.
+See [mysql-setup.md](docs/mysql-setup.md) for more details.
 
 ## Setup Web Server
 
@@ -51,7 +51,7 @@ For example: On Mac with `lighttpd`, you can simply symbolic link this repositor
 	ln -s /Users/zedeng/src/zemian/learn-php /usr/local/var/www
 	open http://localhost:3001/learn-php/php-web/phpinfo.php
 
-You may use any of the web server that supports PHP. See [webserver-setup](webserver-setup.md) for details.
+You may use any of the web server that supports PHP. See [webserver-setup](docs/webserver-setup.md) for details.
 
 NOTE: For Windows systems that does not support symbolic link, you can just move the `learn-php` folder under DocumentRoot.
 
