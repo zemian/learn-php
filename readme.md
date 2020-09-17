@@ -4,7 +4,7 @@ PHP is a popular general-purpose scripting language that is especially suited to
 
 If you are stuck with PHP, maybe this [PHP Tips](php-tips.md) might able to help you!
 
-## Setup
+## Setup & Quick Start
 
 You will need the following:
 
@@ -18,8 +18,8 @@ If you are using Mac, then the following can setup the package easily as well:
 
 	brew install services mysql php lighttpd
 	brew services start mysql
-	lighttpd -D -f lighttpd/lighttpd-php-cwd.conf
-	open http://localhost:3001/phpinfo.php
+	bin/server.sh
+	open http://localhost:3001
 
 ## Setup PHP
 
