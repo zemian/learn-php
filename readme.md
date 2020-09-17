@@ -75,3 +75,9 @@ The `web` folder is a plain HTML/JavaScript/CSS files that demonstrate static we
 
 The favicon files under `web` is generated from https://favicons.io
 
+## PHP Debug
+
+* Learn the PHP error display flag.
+* Learn your own application logging system.
+* Use the PHP `debug_backtrace()`. For example:	
+    ```file_put_contents('logs/debug.log', date("Y-m-d H:i:s ") . var_export(debug_backtrace(), true) . PHP_EOL);```
