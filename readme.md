@@ -21,6 +21,8 @@ If you are using Mac, then the following can setup the package easily as well:
 	bin/server.sh
 	open http://localhost:3001
 
+It's serving DocumentRoot with `php-web` folder in this repository.
+
 ## Setup PHP
 
 Run `php -v` to verify you have installed. 
@@ -38,15 +40,19 @@ GRANT ALL PRIVILEGES ON learnphpdb.* TO 'zemian'@'localhost';
 FLUSH PRIVILEGES;
 ```
 
-Now try `http://localhost:3000/php-app/dbtest.php`
+Now try `http://localhost:3000/dbtest.php`
 
 See [mysql-setup.md](docs/mysql-setup.md) for more details.
 
 ## Setup Web Server
 
-Simply get a web server running and find where the DocumentRoot is located. Then copy or link this `learn-php` repository folder under there.
+You can use the simple `lighttpd` with `bin/server.sh`. It's serving `php-web` folder in this repository as DocumentRoot with port `3001`.
 
-For example: On Mac with `lighttpd`, you can simply symbolic link this repository like this:
+### General Web Server Setup
+
+In general, you can use any web server supports PHP. Simply get a web server running and find where the DocumentRoot is located. Then copy or link this `learn-php` repository folder under there.
+
+For example: On Mac with `httpd`, you can simply symbolic link this repository like this:
 
 	ln -s /Users/zedeng/src/zemian/learn-php /usr/local/var/www
 	open http://localhost:3001/learn-php/php-web/phpinfo.php
@@ -79,5 +85,3 @@ The favicon files under `web` is generated from https://favicons.io
 
 * Learn the PHP error display flag.
 * Learn your own application logging system.
-* Use the PHP `debug_backtrace()`. For example:	
-    ```file_put_contents('logs/debug.log', date("Y-m-d H:i:s ") . var_export(debug_backtrace(), true) . PHP_EOL);```

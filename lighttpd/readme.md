@@ -22,3 +22,10 @@ You can run lightty as quick server with a specific config file:
   open http://localhost:3001
 
 Press CTRL+C to stop the server
+
+## Using php-cgi vs php-fpm
+
+The `php-cgi` is easier to setup and you can simply use `/tmp/php.socket` in the configuration without starting a daemon service. Note the `/tmp/php.socket` doesn't need to be exists to work!
+
+
+The `php-fpm` usually is used for production uses and run as a daemon service with a port. We can also configure it to use a unix socket file if needed.

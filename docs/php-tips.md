@@ -33,3 +33,11 @@ This value can be set in `php.ini` file globally. For example:
 ```
 date.timezone = 'UTC'
 ```
+
+## Debugging Live PHP Code
+
+* Use the PHP `debug_backtrace()`. For example:	
+
+    ```
+    file_put_contents('logs/debug.log', date("Y-m-d H:i:s ") . var_export(debug_backtrace(), true) . PHP_EOL);
+    ```
