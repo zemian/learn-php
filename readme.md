@@ -16,11 +16,9 @@ You will need the following:
 
 * PHP (PHP 7 is much faster than 5!)
 * Database (MySQL or MariaDB)
-* WebServer (Apache, Nginx or Lighttpd)
+* WebServer (Apache, Nginx, Lighttpd or just PHP web server)
 
-The easier way to get started with all above is using a pre-package installer. See [XAMPP](https://www.apachefriends.org/) See [xampp-setup.md](docs/xampp-setup.md) for more details.
-
-If you are using Mac, then the following can setup the package easily as well:
+If you are using Mac, then the following can setup the packages using Homebrew just as easily:
 
 	brew install services mysql php
 	brew services start mysql
@@ -29,7 +27,9 @@ Then fires up your web server. PHP comes with a simple development server! Just 
 
 	php -S localhost:3000
 
-We will go over each section setup in more details below.
+Another way to get these software is to use a pre-package installer. See [php-pakcage-installer.md](docs/php-pakcage-installer.md) for more details.
+
+Now we will go over each software setup in more details below.
 
 ## Setup PHP
 
