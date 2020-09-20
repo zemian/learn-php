@@ -1,4 +1,9 @@
-NOTE: You need to install PHP with fastcgi enabled in order to work with any of the webserver below.
+## Using PHP built-in web sever
+
+	php -S localhost:3000 -t php-web
+	open http://localhost:3000
+
+By defualt if you don't use use `-t` to provide DocumentRoot folder, it will server the current working directory.
 
 ## Using lighttpd
 

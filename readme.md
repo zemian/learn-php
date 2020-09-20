@@ -50,6 +50,8 @@ You can use the simple `lighttpd` with `bin/server.sh`. It's serving `php-web` f
 
 ### General Web Server Setup
 
+You may use any of the web server that supports PHP. See [webserver-setup](docs/webserver-setup.md) for details.
+
 In general, you can use any web server supports PHP. Simply get a web server running and find where the DocumentRoot is located. Then copy or link this `learn-php` repository folder under there.
 
 For example: On Mac with `httpd`, you can simply symbolic link this repository like this:
@@ -57,15 +59,15 @@ For example: On Mac with `httpd`, you can simply symbolic link this repository l
 	ln -s /Users/zedeng/src/zemian/learn-php /usr/local/var/www
 	open http://localhost:3001/learn-php/php-web/phpinfo.php
 
-You may use any of the web server that supports PHP. See [webserver-setup](docs/webserver-setup.md) for details.
-
 NOTE: For Windows systems that does not support symbolic link, you can just move the `learn-php` folder under DocumentRoot.
 
-## PHP Web
+## Project Folders
+
+### PHP Web Folder
 
 The `php-web` folder is a PHP enabled application where we can learn about web development with PHP code.
 
-## Commandline PHP Scripts
+### PHP Scripts Folder
 
 The `php-scripts` folder contains PHP script fiels that can be run as commandline with `php` executable without the need of a web server.
 
@@ -73,15 +75,10 @@ NOTE: If a file contains only PHP code, it is preferable to omit the PHP closing
 
 Ref: https://www.php.net/manual/en/language.basic-syntax.phptags.php
 
-## Plain HTML `web` folder
+### Plain HTML `web` Folder
 
 The `web` folder is a plain HTML/JavaScript/CSS files that demonstrate static web content.
 
-## Favicons
+### Favicons
 
 The favicon files under `web` is generated from https://favicons.io
-
-## PHP Debug
-
-* Learn the PHP error display flag.
-* Learn your own application logging system.

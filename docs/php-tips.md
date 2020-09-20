@@ -36,6 +36,8 @@ date.timezone = 'UTC'
 
 ## Debugging Live PHP Code
 
+* Learn the PHP error display flag.
+* Learn your own application logging system.
 * Use the PHP `debug_backtrace()`. For example:	
 
     ```
