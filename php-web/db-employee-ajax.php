@@ -7,24 +7,31 @@
 // To test this page alone: http://localhost:3000/db-employee-ajax.php?q=2
 
 include_once "db-config.php";
-$conn = new mysqli($db_config["hostname"], $db_config["username"], $db_config["password"], $db_config["dbname"]);
-
-if (!$con) {
-  die('Could not connect: ' . mysqli_error($con));
+include_once('fix_mysql.inc.php');
+$conn = mysql_connect($db_config["hostname"], 
+    $db_config["username"], 
+    $db_config["password"]);
+if (!$conn) {
+  die('Could not connect: ' . mysqli_error($conn));
 }
+mysql_select_db($db_config["dbname"]);
 
-$q = intval($_GET['q']);
-// mysqli_select_db($con, $dbname);
+$q = "1";
+if (isset($_GET['q'])) {
+  $q = $_GET['q'];
+}
+// mysqli_select_db($conn, $dbname);
+// TODO: SQL injection attack can happen here!
 $sql="SELECT * FROM employees WHERE id = ".$q."";
 //echo $sql;
-$result = mysqli_query($con, $sql);
+$result = mysqli_query($conn, $sql);
 
 // NOTE: If you don't check for error, then mysqli_fetch_array() might givey ou
 // odd error like this: 
 //  mysqli_fetch_array() expects parameter 1 to be mysqli_result, bool given in ...
 
 if (!$result) {
-    printf("Error: %s\n", mysqli_error($con));
+    printf("Error: %s\n", mysqli_error($conn));
     exit();
 }
 
@@ -48,5 +55,5 @@ while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
   echo "</tr>";
 }
 echo "</table>";
-mysqli_close($con);
+mysqli_close($conn);
 ?>
