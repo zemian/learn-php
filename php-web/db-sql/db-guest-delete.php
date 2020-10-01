@@ -2,7 +2,7 @@
 // https://www.w3schools.com/php/php_mysql_delete.asp
 
 include_once '../db-config.php';
-$conn = new mysqli($db_config['hostname'], $db_config['username'], $db_config['password'], $db_config['dbname']);
+$conn = create_conn();
 // Check connection
 if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);

@@ -2,7 +2,7 @@
 $contact_id = $_GET['id'];
 
 include_once '../db-config.php';
-$conn = new mysqli($db_config['hostname'], $db_config['username'], $db_config['password'], $db_config['dbname']);
+$conn = create_conn();
 $sql = 'SELECT * FROM contacts WHERE id = ?';
 $stmt = $conn->prepare($sql);
 $stmt->bind_param('i', $contact_id);

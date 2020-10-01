@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (!$is_error) {
         include_once '../db-config.php';
-        $conn = new mysqli($db_config['hostname'], $db_config['username'], $db_config['password'], $db_config['dbname']);
+        $conn = create_conn();
         $sql = 'INSERT INTO contacts (name, email, message) VALUES (?, ?, ?)';
         $stmt = $conn->prepare($sql);
         $stmt->bind_param('sss', $_POST['name'], $_POST['email'], $_POST['message']);

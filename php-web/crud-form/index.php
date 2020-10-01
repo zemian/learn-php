@@ -1,6 +1,6 @@
 <?php
 include_once '../db-config.php';
-$conn = new mysqli($db_config['hostname'], $db_config['username'], $db_config['password'], $db_config['dbname']);
+$conn = create_conn();
 $sql = 'SELECT * FROM contacts ORDER BY create_date DESC';
 $stmt = $conn->prepare($sql);
 $stmt->execute();
