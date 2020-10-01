@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="utf-8">
     <title>Contact Example</title>
-    <link rel="stylesheet" type="text/css" href="/bulma.css">
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/bulma@0.9.1/css/bulma.css">
 </head>
 <body>
 <div id="app">
@@ -57,18 +57,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="box-body">
                     <div class="field">
                         <label class="label">Name</label>
-                        <div class="control"><input class="input" name="name" value="<?php echo $_POST['name']; ?>">
+                        <div class="control"><input class="input" name="name" value="<?php echo $_POST['name'] ?? ''; ?>">
                         </div>
                     </div>
                     <div class="field">
                         <label class="label">Email</label>
-                        <div class="control"><input class="input" name="email" value="<?php echo $_POST['email']; ?>">
+                        <div class="control"><input class="input" name="email" value="<?php echo $_POST['email'] ?? ''; ?>">
                         </div>
                     </div>
                     <div class="field">
                         <label class="label">Message</label>
                         <div class="control">
-                            <textarea class="textarea" name="message"><?php echo $_POST['message']; ?></textarea>
+                            <textarea class="textarea" name="message"><?php echo $_POST['message'] ?? ''; ?></textarea>
                         </div>
                     </div>
                     <div class="field">

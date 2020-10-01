@@ -1,6 +1,6 @@
 <?php
-$confirmed = $_GET['confirmed'];
-$contact_id = $_GET['id'];
+$confirmed = isset($_GET['confirmed']) ? $_GET['confirmed'] : "false";
+$contact_id = isset($_GET['id']) ? $_GET['id'] : -1;
 
 if ($confirmed === "true") {
     include_once '../db-config.php';
@@ -19,7 +19,7 @@ if ($confirmed === "true") {
 <head>
     <meta charset="utf-8">
     <title>Contact Example</title>
-    <link rel="stylesheet" type="text/css" href="/bulma.css">
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/bulma@0.9.1/css/bulma.css">
 </head>
 <body>
 <div id="app">

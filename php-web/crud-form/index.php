@@ -15,7 +15,7 @@ $conn->close();
 <head>
     <meta charset="utf-8">
     <title>Contact Example</title>
-    <link rel="stylesheet" type="text/css" href="/bulma.css">
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/bulma@0.9.1/css/bulma.css">
 </head>
 <body>
 <div id="app">
