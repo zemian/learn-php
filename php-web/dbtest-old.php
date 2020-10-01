@@ -7,7 +7,7 @@
 <body>
     <?php
     
-    $servername = "localhost:3306";
+    $hostname = "localhost:3306";
     $username = "zemian";
     $password = "test123";
 
@@ -15,7 +15,7 @@
     // == Older style of mysql_connect()
     // https://www.php.net/manual/en/function.mysql-connect.php
     */
-    $link = mysql_connect($servername, $username, $password);
+    $link = mysql_connect($hostname, $username, $password);
     if (!$link) {
         die('Could not connect: ' . mysql_error());
     }

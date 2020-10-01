@@ -17,7 +17,7 @@
     PDO will work on 12 different database systems, whereas MySQLi will only work with MySQL databases.
     */
 
-    $servername = "localhost";
+    $hostname = "localhost";
     $username = "zemian";
     $password = "test123";
 
@@ -25,7 +25,7 @@
     // == Example (MySQLi Object-Oriented)    
     */ 
     // Create connection
-    $conn = new mysqli($servername, $username, $password);
+    $conn = new mysqli($hostname, $username, $password);
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
@@ -37,7 +37,7 @@
     /*
     // == Example (MySQLi Procedural)
     // Create connection
-    $conn = mysqli_connect($servername, $username, $password);
+    $conn = mysqli_connect($hostname, $username, $password);
 
     // Check connection
     if (!$conn) {
@@ -49,7 +49,7 @@
     /*
     // == Example (PDO)
     try {
-      $conn = new PDO("mysql:host=$servername;dbname=zemiandb", $username, $password);
+      $conn = new PDO("mysql:host=$hostname;dbname=zemiandb", $username, $password);
       // set the PDO error mode to exception
       $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
       echo "Connected successfully";

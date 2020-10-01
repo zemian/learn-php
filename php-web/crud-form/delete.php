@@ -4,7 +4,7 @@ $contact_id = $_GET['id'];
 
 if ($confirmed === "true") {
     include_once '../db-config.php';
-    $conn = new mysqli($db_config['servername'], $db_config['username'], $db_config['password'], $db_config['dbname']);
+    $conn = new mysqli($db_config['hostname'], $db_config['username'], $db_config['password'], $db_config['dbname']);
     $sql = 'DELETE FROM contacts WHERE id = ?';
     $stmt = $conn->prepare($sql);
     $stmt->bind_param('i', $contact_id);

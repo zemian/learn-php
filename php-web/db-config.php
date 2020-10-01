@@ -1,6 +1,6 @@
 <?php
 $db_config = [
-    "servername" => "localhost",
+    "hostname" => "localhost",
     "username" => "zemian",
     "password" => "test123",
     "dbname" => "learnphpdb"
