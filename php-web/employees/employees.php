@@ -40,8 +40,7 @@ HERE;
 <tbody>
 
 <?php
-$conn = app_create_conn();
-$result = $conn->query("SELECT * FROM employees LIMIT $offset, $limit");
+$result = $app_conn->query("SELECT * FROM employees LIMIT $offset, $limit");
 while($row = $result->fetch_assoc()) {
 	print_table_row($row);
 }

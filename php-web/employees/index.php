@@ -2,8 +2,7 @@
 <?php app_header(); ?>
 
 <?php
-$conn = app_create_conn();
-$result = $conn->query('SELECT count(*) AS count FROM employees');
+$result = $app_conn->query('SELECT count(*) AS count FROM employees');
 $employee_count = $result->fetch_row()[0];
 $result->close();
 ?>

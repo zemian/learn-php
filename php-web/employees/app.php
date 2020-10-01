@@ -1,18 +1,22 @@
 <?php
 
+// Global Variables
+$app_config = [
+	"hostname" => "localhost",
+	"username" => "zemian",
+	"password" => "test123",
+	"dbname" => "employees"
+];
+$app_conn = null; // will initialize in init() method
+
 // Create new instance of DB conn object. If the returned value is stored in
 // "$conn" variable, then it will auto close by calling "app_footer()".
 function app_create_conn() {
-	$db_config = [
-			"servername" => "localhost",
-			"username" => "zemian",
-			"password" => "test123",
-			"dbname" => "employees"
-	];
-	$conn = new mysqli($db_config["servername"], 
-		$db_config["username"], 
-		$db_config["password"], 
-		$db_config["dbname"]);
+	global $app_config;
+	$conn = new mysqli($app_config["hostname"], 
+		$app_config["username"], 
+		$app_config["password"], 
+		$app_config["dbname"]);
 	if ($conn->connect_error) {
 		die("Connection failed: " . $conn->connect_error);
 	}
@@ -20,7 +24,10 @@ function app_create_conn() {
 }
 
 function app_init() {
+	global $app_conn;
+
 	// Init app here before any header is printed
+	$app_conn = app_create_conn();
 }
 
 function app_header() {
