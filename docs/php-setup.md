@@ -98,8 +98,8 @@ Basic:
 ./configure \
 --prefix=/usr/local \
 --enable-sockets \
---with-mysqli=mysqlnd \
---with-iconv=/usr/local/opt/libiconv
+--with-iconv=/usr/local/opt/libiconv \
+--with-mysqli=mysqlnd
 
 make
 sudo make install
@@ -110,12 +110,12 @@ Extra:
 ```
 ./configure \
 --prefix=/usr/local/php-7.4.9 \
---enable-sockets \
 --enable-fpm \
---with-mysqli=mysqlnd \
---with-pdo-mysql \
+--enable-sockets \
 --with-iconv=/usr/local/opt/libiconv \
 --with-zlib=/usr/local/opt/zlib \
+--with-mysqli=mysqlnd \
+--with-pdo-mysql \
 --with-apxs2=/usr/local/bin/apxs
 ```
 
@@ -129,6 +129,22 @@ If you need the MySQL POD, add `--with-pdo-mysql`. This allows you to connect to
 
 Add the `--with-apxs2=/usr/local/bin/apxs` is only needed if you were to compile mod_php7.so for Apache HTTPD web server.
 
+### Compiling PHP 7.4.9 with PostgreSQL
+
+```
+./configure \
+--prefix=/usr/local/php-7.4.9 \
+--enable-fpm \
+--enable-sockets \
+--with-iconv=/usr/local/opt/libiconv \
+--with-zlib=/usr/local/opt/zlib \
+--with-mysqli=mysqlnd \
+--with-pdo-mysql \
+--with-apxs2=/usr/local/bin/apxs \
+--with-pgsql=/usr/local
+```
+
+See https://www.php.net/manual/en/pgsql.installation.php
 
 ## Compiling PHP 5.6.40 on MacOS 10.15.16
 
