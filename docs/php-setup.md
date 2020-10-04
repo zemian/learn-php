@@ -99,7 +99,7 @@ Basic:
 --prefix=/usr/local \
 --enable-sockets \
 --with-iconv=/usr/local/opt/libiconv \
---with-mysqli=mysqlnd
+--with-mysqli=mysqlnd \
 
 make
 sudo make install
@@ -116,7 +116,7 @@ Extra:
 --with-zlib=/usr/local/opt/zlib \
 --with-mysqli=mysqlnd \
 --with-pdo-mysql \
---with-apxs2=/usr/local/bin/apxs
+--with-apxs2=/usr/local/bin/apxs \
 ```
 
 ### Compiling PHP 7.4.9 with MySQL
@@ -141,7 +141,8 @@ Add the `--with-apxs2=/usr/local/bin/apxs` is only needed if you were to compile
 --with-mysqli=mysqlnd \
 --with-pdo-mysql \
 --with-apxs2=/usr/local/bin/apxs \
---with-pgsql=/usr/local
+--with-pgsql=/usr/local \
+--with-pdo-pgsql \
 ```
 
 See https://www.php.net/manual/en/pgsql.installation.php
