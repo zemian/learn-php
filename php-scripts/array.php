@@ -26,6 +26,7 @@ foreach ($array as $i => $value) {
 $array[] = "tomato";
 var_dump('Append using $array[]=...', $array);
 
+// Append items using function
 array_push($array, "purple");
 var_dump("Append using array_push", $array);
 
