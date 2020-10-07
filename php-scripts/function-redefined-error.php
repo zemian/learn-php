@@ -8,6 +8,12 @@
 function foo() {
     echo "first time";
 }
+
+if (function_exists("foo")) {
+	echo "function foo exists!";
+}
+
+// Ooops
 function foo() {
     echo "foo again";
 }
