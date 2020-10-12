@@ -42,10 +42,9 @@ See [php-setup.md](docs/php-setup.md) for more details.
 Setup a new database to do PHP web development.
 
 ```sql
-CREATE USER 'zemian'@'localhost' IDENTIFIED WITH mysql_native_password BY 'test123';
+CREATE USER 'zemian'@'localhost' IDENTIFIED BY 'test123';
 CREATE DATABASE learnphpdb CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 GRANT ALL PRIVILEGES ON learnphpdb.* TO 'zemian'@'localhost';
-FLUSH PRIVILEGES;
 ```
 
 Now try `http://localhost:3000/dbtest.php`
