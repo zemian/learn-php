@@ -3,17 +3,19 @@
 // Many features related to OO programming and Classes/Objects are here documented here:
 // https://www.php.net/manual/en/language.oop5.php
 
+// NOTE: Default visibility is public for properties and methods, but you need the "var" prefix!
 class SimpleClass
 {
     // property declaration
-    public $var = 'a default value';
+    var $var = 'a default value';
 
     // method declaration
-    public function displayVar() {
+    function displayVar() {
         echo $this->var;
     }
 }
-//echo "SimpleClass instance", new SimpleClass(), "\n"; // can't convert to string!
+
+//echo "SimpleClass instance", new SimpleClass(), "\n"; // can't convert to string unless you define "__toString()".
 var_dump("SimpleClass instance", new SimpleClass());
 
 $foo = new SimpleClass();
@@ -62,8 +64,10 @@ echo $class::CONSTANT."\n"; // As of PHP 5.3.0
 
 // Constructor
 class BaseClass {
-    function __construct() {
+    var $prop1;
+    function __construct($prop1 = "foo") {
         print "In BaseClass constructor\n";
+        $this->$prop1 = $prop1;
     }
 }
 
@@ -74,3 +78,5 @@ class SubClass extends BaseClass {
     }
 }
 var_dump("SubClass", new SubClass());
+
+// NOTE: A object instances of same type can access their "private" fields!
