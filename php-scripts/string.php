@@ -112,3 +112,4 @@ echo "str_repeat=" . str_repeat('foo', 3) . "\n";
 echo "strtolower=" . strtolower($s) . "\n";
 echo "strtoupper=" . strtoupper($s) . "\n";
 echo "strcmp=" . strcmp($s, $s) . "\n";
+echo "trim=" . trim('  foo  ') . "<--ends\n";
