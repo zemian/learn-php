@@ -1,120 +1,81 @@
-<?php 
-// PHP array can also be list or map!
+<?php
+//// Simple php array
+//$a = [1, 2, 3];
+//echo $a[0];
 
-// Functions to manipulate array https://www.php.net/manual/en/ref.array.php
+//// array() or [] - they are the same. The [] was added in PHP 5.4.
+//$a = [1, 2, 3];
+//$b = array(1,2,3);
+//echo $a === $b;
 
-// PHP > 5.4, you can use [] instead of array();
+//// [] or {} can be used to access array
+//$a = [1, 2, 3];
+//echo $a[1], $a{1};
 
-$my_array = ["foo" => 123, "bar" => 49];
+//// array looping
+//$a = [1, 2, 3];
+//
+//$i = 0;
+//while ($i < count($a)) {
+//    echo "$i: $a[$i]\n";
+//    $i++;
+//}
+//
+//for ($i = 0; $i < count($a); $i++)
+//    echo "$i: $a[$i]\n";
+//
+//foreach($a as $x)
+//    echo "$x\n";
 
-// Using it as list
-// ================
-$array = array('red', 'blue', 'green', 'yellow');
-var_dump($array);
-for ($i = 0; $i < count($array); $i++)
-    var_dump($array[$i]);
+// PHP array is also a map!
 
-foreach ($array as $color) {
-    echo "Do you like $color?\n";
-}
-// Loop with index
-foreach ($array as $i => $value) {
-    echo "Do you like $i : $color?\n";
-}
-
-// Append items
-$array[] = "tomato";
-var_dump('Append using $array[]=...', $array);
-
-// Append items using function
-array_push($array, "purple");
-var_dump("Append using array_push", $array);
-
-// Delete item
-array_pop($array);
-var_dump("Remove after array_pop", $array);
-
-unset($array[count($array) - 1]);
-var_dump("after delete", $array);
-
-// Using it as map
-// ===============
-$array = array(
-    "maptest" => "works",
-    "foo" => "bar",
-    "bar" => "foo",
-);
-foreach ($array as $key => $value) {
-    echo "$key = $value\n";
-}
-echo '$array["foo"]=', $array["foo"], "\n";
-
-// as of PHP 5.4
-$array = [
-    "maptest" => "PHP 5.4 style",
-    "foo" => "bar",
-    "bar" => "foo",
-];
-var_dump($array);
-
-// Careful with key types, some gets overwritten
-$array = array(
-    1    => "a",
-    "1"  => "b",
-    1.5  => "c",
-    true => "d",
-);
-var_dump($array);
-
-// 2D multi arrays
-$array = array(
-    "foo" => "bar",
-    42    => 24,
-    "multi" => array(
-        "dimensional" => array(
-            "array" => "foo"
-        )
-    )
-);
-
-var_dump($array["foo"]);
-var_dump($array[42]);
-var_dump($array["multi"]["dimensional"]["array"]);
-
-// Delete array
-$arr = array(5 => 1, 12 => 2);
-
-$arr[] = 56;    // This is the same as $arr[13] = 56;
-// at this point of the script
-
-$arr["x"] = 42; // This adds a new element to
-// the array with key "x"
-
-unset($arr[5]); // This removes the element from the array
-var_dump($arr);
-unset($arr);    // This deletes the whole array
-var_dump($arr); // NULL
+//// list() is a lang construct that "deconstruct" or "spread" an array into variable.
+//$a = [1, 2, 3];
+//list($x, $y, $y) = $a;
+//echo $x, $y, $y;
 
 
-// Looping map and use of "print_r"
-// Create a simple array.
-$array = array(1, 2, 3, 4, 5);
-print_r($array);
+//// PHP array can also be a map!
+//$a = ['a1' => 'apple', 'a2' => 'orange', 'a3' => 'banana'];
+//echo $a['a2'], "\n";
+//foreach ($a as $k => $v)
+//    echo "$k: $v\n";
 
-// Now delete every item, but leave the array itself intact:
-foreach ($array as $i => $value) {
-    unset($array[$i]);
-}
-print_r($array);
+//// Append to array
+//$a = [1, 2, 3];
+//$a[] = 4;
+//array_push($a, 5);
+//print_r($a);
 
-// Append an item (note that the new key is 5, instead of 0).
-$array[] = 6;
-print_r($array);
+//// Delete Array by index
+//$a = [1, 2, 3];
+//unset($a[1]);
+//print_r($a);
+//echo count($a), ", count\n";
+//foreach ($a as $x)
+//    echo "item: $x\n";
+//echo "keys: ";
+//print_r(array_keys($a));
 
-// Re-index:
-$array = array_values($array);
-$array[] = 7;
-print_r($array);
+//// Pop array (last item in the array)
+//$a = [1, 2, 3];
+//array_pop($a);
+//print_r($a);
 
-print_r(array_keys($array));
+//// Array slice
+//$a = range(1, 10);
+////print_r($a);
+//print_r(array_slice($a, 2, 5));
 
+//// Array map callback
+// NOTE: First parameter is function!
+//$a = [1, 2, 3];
+//$a2 = array_map(fn ($e) => $e * 2, $a);
+//print_r($a2);
+
+// Array filter callback
+// NOTE: First parameter is array!
+// See http://phpsadness.com/sad/6
+$a = range(1, 10);
+$a2 = array_filter($a, fn ($e) => $e % 2 == 0);
+print_r($a2);
