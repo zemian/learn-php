@@ -1,6 +1,2 @@
-<?php 
-
-// https://www.php.net/manual/en/langref.php
+<?php
 echo "Hello World\n"; 
-
-
