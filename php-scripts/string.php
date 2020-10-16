@@ -102,4 +102,13 @@
 
 // Substring
 $s = "The quick brown fox jumps over the lazy dog.";
-//echo "len=${strlen($s)}";
+echo "strlen=" . strlen($s) . "\n";
+echo "str_pad=" . str_pad("foo", 10, ' ', STR_PAD_LEFT) . "\n";
+echo "substr=" . substr($s, 2, 10) . "\n";
+echo "str_replace=" . str_replace('fox', 'rabbit', $s) . "\n";
+echo "strpos=" . strpos($s, 'fox') . "\n";
+echo "str_shuffle=" . str_shuffle($s) . "\n";
+echo "str_repeat=" . str_repeat('foo', 3) . "\n";
+echo "strtolower=" . strtolower($s) . "\n";
+echo "strtoupper=" . strtoupper($s) . "\n";
+echo "strcmp=" . strcmp($s, $s) . "\n";
