@@ -18,8 +18,8 @@ foreach ($drivers as $name)
 
 <h2>POD_MYSQL TEST</h2>
 <?php
+// See https://www.php.net/manual/en/class.pdo.php
 try {
-    // See https://www.php.net/manual/en/class.pdo.php
     $db = new PDO("mysql:host=localhost;dbname=learnphpdb", 'zemian', 'test123');
     echo "<p>MySQL DB connected successfully</p>";
     $version = $db->query('SELECT version()')->fetch()[0];
