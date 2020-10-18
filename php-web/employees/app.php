@@ -57,7 +57,7 @@ HERE;
 
 }
 
-function app_destory() {
+function app_destroy() {
 	// Let's try to close db if it's set from the application. 
 	// It will only work if we use "$conn" variable consistently
 	global $conn;
@@ -74,5 +74,5 @@ echo <<<HERE
 </html>
 HERE;
 
-	app_destory();
+	app_destroy();
 }
