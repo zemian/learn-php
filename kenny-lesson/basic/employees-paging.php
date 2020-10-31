@@ -19,9 +19,9 @@
     
     $limit = 10;
     $offset = ($page_num - 1) * $limit;
-        
-    $conn = new PDO('mysql:host=localhost;dbname=employees', 'zemian', 'test123');
-    $result = $conn->query("SELECT * FROM employees ORDER BY hire_date LIMIT $offset, $limit");
+
+    $db = new PDO('mysql:host=localhost;dbname=employees', 'zemian', 'test123');
+    $result = $db->query("SELECT * FROM employees ORDER BY hire_date LIMIT $offset, $limit");
     while($row = $result->fetch()) {
         //print_r( $row );
         ?>

@@ -11,8 +11,8 @@
 
 <pre>
     <?php
-    $conn = new PDO('mysql:host=localhost;dbname=employees', 'zemian', 'test123');
-    $result = $conn->query('SELECT count(*) FROM employees');
+    $db = new PDO('mysql:host=localhost;dbname=employees', 'zemian', 'test123');
+    $result = $db->query('SELECT count(*) FROM employees');
     $row = $result->fetch();
     print_r( $row );
     ?>

@@ -11,8 +11,8 @@
 
 <table>
     <?php
-    $conn = new PDO('mysql:host=localhost;dbname=employees', 'zemian', 'test123');
-    $result = $conn->query('SELECT * FROM employees ORDER BY hire_date LIMIT 10');
+    $db = new PDO('mysql:host=localhost;dbname=employees', 'zemian', 'test123');
+    $result = $db->query('SELECT * FROM employees ORDER BY hire_date LIMIT 10');
     while($row = $result->fetch()) {
         //print_r( $row );
         ?>
