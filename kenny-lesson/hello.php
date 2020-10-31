@@ -9,6 +9,6 @@
 </head>
 <body>
 <p>Hello World.</p>
-<p>Current Time is <?php echo date('D, d M Y H:i:s'); ?></p>
+<p>Current Time is <?php echo date('r'); ?></p>
 </body>
 </html>
