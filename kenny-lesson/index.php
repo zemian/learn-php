@@ -14,8 +14,9 @@
     $files = scandir(".");
     for ($i = 0; $i < count($files); $i++) {
         $file = $files[$i];
-        $len = strlen(".php");
-        if (substr( $file, - $len ) === ".php") {
+        $ext = ".php";
+        $len = strlen($ext);
+        if (substr_compare( $file, $ext, -$len ) === 0) {
             echo "<li><a href='$file'>$file</a></li>";
         }
     }
