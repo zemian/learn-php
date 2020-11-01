@@ -1,16 +1,31 @@
-https://www.php.net/
+## About PHP
 
-PHP is a popular general-purpose scripting language that is especially suited to web development.
-
-If you are stuck with PHP, maybe this [PHP Tips](docs/php-tips.md) might able to help you!
-
+[PHP](https://www.php.net/) is a popular general-purpose scripting language that is especially suited to web development.
 
 Getting started:
 
-	bin/server.sh
-	open http://localhost:3000
+```
+# Interactive Shell
+php -a
 
-## Full PHP Development Setup
+# Web Server
+cd php-web
+php -S localhost:3000
+open http://localhost:3000
+
+# Using startup script
+bin/server.sh
+open http://localhost:3000
+
+# Run php scripts
+php php-scripts/hello.php
+```
+
+## Learning Notes
+
+See `docs` folder for more.
+
+## Typical PHP Development Setup
 
 You will need the following:
 
