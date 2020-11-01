@@ -1,5 +1,5 @@
 {
-  "name": "acme/hello-world",
+  "name": "learn-php/composer-basic",
   "require": {
     "monolog/monolog": "1.0.*",
     "erusev/parsedown": "^1.7"
