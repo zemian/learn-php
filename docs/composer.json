@@ -1,0 +1,6 @@
+{
+  "name": "learn-php/docs",
+  "require": {
+    "erusev/parsedown": "^1.7"
+  }
+}
