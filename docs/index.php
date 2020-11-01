@@ -47,19 +47,14 @@ if (file_exists($file)) {
 
 <section class="section">
 <div class="columns">
-    <div class="column is-3">
-        <ul class="panel">
+    <div class="column is-3 menu">
+        <p class="menu-label">Notes</p>
+        <ul class="menu-list">
             <?php
             $service = new FileService(".", ".md");
             foreach ($service->get_files() as $md_file) {
-                // NOTE: Bulma is-active is only highlight icon?
-//                $is_active = ($md_file === $file) ? "is-active": "";
-//                echo "<li class='panel-block $is_active'><a href='index.php?file=$md_file'>$md_file</a></li>";
-                if ($md_file === $file) {
-                    echo "<li class='panel-block is-active'>$md_file</li>";
-                } else {
-                    echo "<li class='panel-block'><a href='index.php?file=$md_file'>$md_file</a></li>";
-                }
+                $is_active = ($md_file === $file) ? "is-active": "";
+                echo "<li><a class='$is_active' href='index.php?file=$md_file'>$md_file</a></li>";
             }
             ?>
         </ul>
