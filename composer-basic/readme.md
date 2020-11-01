@@ -14,6 +14,7 @@ A Dependency Manager for PHP
     
     # Install more dependency after setup
     composer require monolog/monolog
+    composer require erusev/parsedown
 
     # Update
     composer update

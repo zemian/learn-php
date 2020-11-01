@@ -1,6 +1,7 @@
 {
   "name": "acme/hello-world",
   "require": {
-    "monolog/monolog": "1.0.*"
+    "monolog/monolog": "1.0.*",
+    "erusev/parsedown": "^1.7"
   }
 }
