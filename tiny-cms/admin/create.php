@@ -20,27 +20,46 @@ if (isset($_POST['action'])) {
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>TinyCMS Admin</title>
+    <link rel="stylesheet" href="https://unpkg.com/bulma">
+    <title>Tiny CMS Admin</title>
 </head>
 <body>
 
-<h1>Create Content</h1>
-<a href="/admin/index.php">Cancel</a>
-<form method="POST">
-    <div>
-        <label>Slug</label>
-        <input type="text" name="slug">
+<nav class="navbar is-primary">
+    <div class="navbar-menu is-flex">
+        <div class="navbar-start">
+            <a class="navbar-item" href="/admin/index.php">Admin</a>
+        </div>
+        <div class="navbar-end">
+            <a class="navbar-item" href="/index.php">Site</a>
+        </div>
     </div>
-    <div>
-        <label>ContentType</label>
-        <input type="text" name="content_type" value="html">
-    </div>
-    <div>
-        <label>Content</label>
-        <textarea name="content" rows="25" cols="80"></textarea>
-    </div>
-    <input type="submit" value="Create" name="action">
-</form>
-
+</nav>
+<section class="section">
+    <nav class="breadcrumb">
+        <ul>
+            <li><a href="/admin/index.php">Content</a></li>
+            <li class="is-active"><a href="/admin/create.php">New</a></li>
+        </ul>
+    </nav>
+    <h1 class="title">Create Content</h1>
+    <form method="POST">
+        <div class="field">
+            <label class="label">Slug</label>
+            <div class="control"><input class="input" type="text" name="slug"></div>
+        </div>
+        <div class="field">
+            <label class="label">ContentType</label>
+            <div class="control"><input class="input" type="text" name="content_type" value="html"></div>
+        </div>
+        <div class="field">
+            <label class="label">Content</label>
+            <div class="control"><textarea class="textarea" name="content" rows="25" cols="80"></textarea></div>
+        </div>
+        <div class="field">
+            <div class="control"><input class="button" type="submit" value="Create" name="action"></div>
+        </div>
+    </form>
+</section>
 </body>
 </html>
