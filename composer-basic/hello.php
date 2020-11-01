@@ -9,6 +9,6 @@ $log->pushHandler(new Monolog\Handler\StreamHandler('php://stdout', Monolog\Logg
 $log->addWarning('Foo');
 
 // Markdown parser demo
-$Parsedown = new Parsedown();
-echo $Parsedown->text('Hello _Parsedown_!'); # prints: <p>Hello <em>Parsedown</em>!</p>
+$parsedown = new Parsedown();
+echo $parsedown->text('Hello _Parsedown_!'); # prints: <p>Hello <em>Parsedown</em>!</p>
 echo "\n";
