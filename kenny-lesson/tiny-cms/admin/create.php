@@ -3,7 +3,8 @@ if (isset($_POST['action'])) {
     $db = new PDO('mysql:host=localhost;dbname=tinycmsdb;charset=utf8mb4', 'zemian', 'test123');
     $slug = $db->quote($_POST['slug']);
     $content = $db->quote($_POST['content']);
-    $result = $db->exec("INSERT INTO content (slug, content) VALUES($slug, $content)");
+    $content_type = $db->quote($_POST['content_type']);
+    $result = $db->exec("INSERT INTO content (slug, content, content_type) VALUES($slug, $content, $content_type)");
     if (!$result) {
         echo "ERROR: Problem inserting data! " . $db->errorInfo()[2];
     } else {
@@ -29,6 +30,10 @@ if (isset($_POST['action'])) {
     <div>
         <label>Slug</label>
         <input type="text" name="slug">
+    </div>
+    <div>
+        <label>ContentType</label>
+        <input type="text" name="content_type" value="html">
     </div>
     <div>
         <label>Content</label>

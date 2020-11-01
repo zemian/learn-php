@@ -5,5 +5,6 @@ CREATE TABLE content (
     id SERIAL,
     created_ts TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     slug VARCHAR(200) UNIQUE,
-    content LONGTEXT
+    content LONGTEXT,
+    content_type VARCHAR(100) DEFAULT 'html'
 );

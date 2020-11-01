@@ -4,11 +4,14 @@ if (isset($_POST['action'])) {
     $content_id = $_POST['id'];
     $slug = $_POST['slug'];
     $content = $_POST['content'];
+    $content_type = $_POST['content_type'];
     
     $content_id_param = $db->quote($content_id);
     $slug_param = $db->quote($slug);
     $content_param = $db->quote($content);
-    $result = $db->exec("UPDATE content SET slug = $slug_param, content = $content_param WHERE id = $content_id_param");
+    $content_type_param = $db->quote($content_type);
+    
+    $result = $db->exec("UPDATE content SET slug = $slug_param, content = $content_param, content_type = $content_type_param WHERE id = $content_id_param");
     if (!$result) {
         echo "ERROR: Problem updating data! " . $db->errorInfo()[2];
     } else {
@@ -26,6 +29,7 @@ if (isset($_POST['action'])) {
         $row = $result->fetch();
         $slug = $row['slug'];
         $content = $row['content'];
+        $content_type = $row['content_type'];
     }
 }
 ?>
@@ -47,6 +51,10 @@ if (isset($_POST['action'])) {
     <div>
         <label>Slug</label>
         <input type="text" name="slug" value="<?= $slug ?>">
+    </div>
+    <div>
+        <label>ContentType</label>
+        <input type="text" name="content_type" value="<?= $content_type ?>">
     </div>
     <div>
         <label>Content</label>

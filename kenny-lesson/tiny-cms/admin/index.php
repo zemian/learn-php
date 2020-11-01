@@ -15,16 +15,16 @@
 <table>
     <?php
     $db = new PDO('mysql:host=localhost;dbname=tinycmsdb;charset=utf8mb4', 'zemian', 'test123');
-    $result = $db->query('SELECT id, slug, created_ts FROM content ORDER BY created_ts LIMIT 10');
+    $result = $db->query('SELECT id, slug, created_ts, content_type FROM content ORDER BY created_ts LIMIT 10');
     if ($result) {
         while($row = $result->fetch()) {
-            //print_r( $row );
             ?>
             <tr>
                 <td><a href="edit.php?id=<?= $row['id'] ?>">Edit</a></td>
                 <td><?= $row['id'] ?></td>
                 <td><?= $row['slug'] ?></td>
                 <td><?= $row['created_ts'] ?></td>
+                <td><?= $row['content_type'] ?></td>
             </tr>
             <?php
         }
