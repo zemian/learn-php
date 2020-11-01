@@ -21,12 +21,45 @@ class FileService {
         }
         return $ret;
     }
+    
+    function read($file) {
+        return file_get_contents($file);
+    }
+
+    function write($file, $contents) {
+        return file_put_contents($file, $contents);
+    }
 }
 
-require __DIR__ . '/vendor/autoload.php';
-$file = $_GET['file'] ?? 'readme.md';
+// Global Vars
+$action = $_GET['action'] ?? "file";
+$file_service = new FileService(".", ".md");
+
+// Process POST - Create Form
+if (isset($_POST['action']) && ($_POST['action'] === 'Create' || $_POST['action'] === 'Update')) {
+    $file = $_POST['file'];
+    $file_content = $_POST['file_content'];
+    $file_service->write($file, $file_content);
+} else if ($action === 'edit') {
+    // Process GET Edit Form
+    $file = $_GET['file'] ?? 'readme.md';
+    if (file_exists($file)) {
+        $file_content = $file_service->read($file);
+    } else {
+        $file_content = "File not found: $file";
+    }
+} else {
+    // Process GET file
+    $file = $_GET['file'] ?? 'readme.md';
+}
+
+// Continue Process GET - Convert Markdown template into HTML
+// We do this even after we process a Form
 if (file_exists($file)) {
-    $file_content = file_get_contents($file);
+    if (!isset($file_content)) {
+        $file_content = $file_service->read($file);
+    }
+    require_once __DIR__ . '/vendor/autoload.php';
     $parsedown = new Parsedown();
     $template_result = $parsedown->text($file_content);
 } else {
@@ -45,14 +78,23 @@ if (file_exists($file)) {
 </head>
 <body>
 
+<?php if ($action === 'file') { ?>
+    <div class="container is-pulled-right pr-1"><a href="index.php?action=edit&file=<?= $file ?>">Edit</a></div>
+<?php }?>
+
 <section class="section">
 <div class="columns">
     <div class="column is-3 menu">
-        <p class="menu-label">Notes</p>
+        <p class="menu-label">DOCS</p>
+        <ul class="menu-list">
+            <li><a href='index.php'>Home</a></li>
+            <li><a href='index.php?action=new'>New</a></li>
+        </ul>
+        
+        <p class="menu-label">FILES</p>
         <ul class="menu-list">
             <?php
-            $service = new FileService(".", ".md");
-            foreach ($service->get_files() as $md_file) {
+            foreach ($file_service->get_files() as $md_file) {
                 $is_active = ($md_file === $file) ? "is-active": "";
                 echo "<li><a class='$is_active' href='index.php?file=$md_file'>$md_file</a></li>";
             }
@@ -60,9 +102,39 @@ if (file_exists($file)) {
         </ul>
     </div>
     <div class="column is-9">
-        <div class="content">
-            <?= $template_result ?>
-        </div>
+        <?php if ($action === 'file') { ?>
+            <div class="content">
+                <?= $template_result ?>
+            </div>
+        <?php } else if ($action === 'new') { ?>
+            <form method="POST" action="index.php">
+                <div class="field">
+                    <div class="label">File Name</div>
+                    <div class="control"><input class="input" type="text" name="file"></div>
+                </div>
+                <div class="field">
+                    <div class="label">Markdown</div>
+                    <div class="control"><textarea class="textarea" rows="20" name="file_content"></textarea></div>
+                </div>
+                <div class="field">
+                    <div class="control"><input class="button" type="submit" name="action" value="Create"></div>
+                </div>
+            </form>
+        <?php } else if ($action === 'edit') { ?>
+            <form method="POST" action="index.php">
+                <div class="field">
+                    <div class="label">File Name</div>
+                    <div class="control"><input class="input" type="text" name="file" value="<?= $file ?>"></div>
+                </div>
+                <div class="field">
+                    <div class="label">Markdown</div>
+                    <div class="control"><textarea class="textarea" rows="20" name="file_content"><?= $file_content ?></textarea></div>
+                </div>
+                <div class="field">
+                    <div class="control"><input class="button" type="submit" name="action" value="Update"></div>
+                </div>
+            </form>
+        <?php }?>
     </div>
 </div>
 </section>
