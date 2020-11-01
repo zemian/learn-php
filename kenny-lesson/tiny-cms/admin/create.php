@@ -23,10 +23,12 @@ if (isset($_POST['action'])) {
 </head>
 <body>
 
+<h1>Create Content</h1>
+<a href="/admin/index.php">Cancel</a>
 <form method="POST">
     <div>
         <label>Slug</label>
-        <input name="slug">
+        <input type="text" name="slug">
     </div>
     <div>
         <label>Content</label>

@@ -21,6 +21,7 @@
             //print_r( $row );
             ?>
             <tr>
+                <td><a href="edit.php?id=<?= $row['id'] ?>">Edit</a></td>
                 <td><?= $row['id'] ?></td>
                 <td><?= $row['slug'] ?></td>
                 <td><?= $row['created_ts'] ?></td>
