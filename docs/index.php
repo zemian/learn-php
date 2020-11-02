@@ -4,7 +4,7 @@ class FileService {
     var $scan_dir;
     var $file_ext;
     
-    function __construct($scan_dir = ".", $file_ext = ".php") {
+    function __construct($scan_dir = ".", $file_ext = ".md") {
         $this->scan_dir = $scan_dir;
         $this->file_ext = $file_ext;
     }
@@ -29,6 +29,10 @@ class FileService {
     function write($file, $contents) {
         return file_put_contents($file, $contents);
     }
+
+    function delete($file) {
+        return unlink($file);
+    }
 }
 
 // Global Vars
@@ -47,6 +51,14 @@ if (isset($_POST['action']) && ($_POST['action'] === 'Create' || $_POST['action'
         $file_content = $file_service->read($file);
     } else {
         $file_content = "File not found: $file";
+    }
+} else if ($action === 'delete-confirmed') {
+    // Process GET - DELETE file
+    $file = $_GET['file'];
+    if (file_exists($file) && $file_service->delete($file)) {
+        $delete_status = "File $file deleted";
+    } else {
+        $delete_status = "File not found: $file";
     }
 } else {
     // Process GET file
@@ -79,7 +91,10 @@ if (file_exists($file)) {
 <body>
 
 <?php if ($action === 'file') { ?>
-    <div class="container is-pulled-right pr-1"><a href="index.php?action=edit&file=<?= $file ?>">Edit</a></div>
+    <div class="container is-pulled-right pr-1">
+        <a href="index.php?action=edit&file=<?= $file ?>">EDIT</a>
+        <a href="index.php?action=delete&file=<?= $file ?>">DELETE</a>
+    </div>
 <?php }?>
 
 <section class="section">
@@ -134,7 +149,17 @@ if (file_exists($file)) {
                     <div class="control"><input class="button" type="submit" name="action" value="Update"></div>
                 </div>
             </form>
-        <?php }?>
+        <?php } else if ($action === 'delete') { ?>
+            <div class="notification is-danger">
+                Are you sure you want to remove <?= $file ?>?
+            </div>
+            <a class="button is-danger" href="index.php?action=delete-confirmed&file=<?= $file ?>">DELETE</a>
+            <a class="button" href="index.php?file=<?= $file ?>">Cancel</a>
+        <?php } else if ($action === 'delete-confirmed') { ?>
+            <div class="notification is-success">
+                <?= $delete_status ?>
+            </div>
+        <?php } ?>
     </div>
 </div>
 </section>
