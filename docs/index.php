@@ -72,7 +72,7 @@ if (file_exists($file)) {
     if (!isset($file_content)) {
         $file_content = $file_service->read($file);
     }
-    require_once __DIR__ . '/vendor/autoload.php';
+    require_once __DIR__ . '/index-parsedown.php';
     $parsedown = new Parsedown();
     $template_result = $parsedown->text($file_content);
 } else {
