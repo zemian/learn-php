@@ -1,5 +1,8 @@
 <?php
 
+// Global Settings
+$settings_allow_admin = true;
+
 class FileService {
     var $scan_dir;
     var $file_ext;
@@ -40,11 +43,11 @@ $action = $_GET['action'] ?? "file";
 $file_service = new FileService(".", ".md");
 
 // Process POST - Create Form
-if (isset($_POST['action']) && ($_POST['action'] === 'Create' || $_POST['action'] === 'Update')) {
+if ($settings_allow_admin && isset($_POST['action']) && ($_POST['action'] === 'Create' || $_POST['action'] === 'Update')) {
     $file = $_POST['file'];
     $file_content = $_POST['file_content'];
     $file_service->write($file, $file_content);
-} else if ($action === 'edit') {
+} else if ($settings_allow_admin && $action === 'edit') {
     // Process GET Edit Form
     $file = $_GET['file'] ?? 'readme.md';
     if (file_exists($file)) {
@@ -52,7 +55,7 @@ if (isset($_POST['action']) && ($_POST['action'] === 'Create' || $_POST['action'
     } else {
         $file_content = "File not found: $file";
     }
-} else if ($action === 'delete-confirmed') {
+} else if ($settings_allow_admin && $action === 'delete-confirmed') {
     // Process GET - DELETE file
     $file = $_GET['file'];
     if (file_exists($file) && $file_service->delete($file)) {
@@ -90,7 +93,7 @@ if (file_exists($file)) {
 </head>
 <body>
 
-<?php if ($action === 'file') { ?>
+<?php if ($settings_allow_admin && $action === 'file') { ?>
     <div class="container is-pulled-right pr-1">
         <a href="index.php?action=edit&file=<?= $file ?>">EDIT</a>
         <a href="index.php?action=delete&file=<?= $file ?>">DELETE</a>
@@ -100,13 +103,16 @@ if (file_exists($file)) {
 <section class="section">
 <div class="columns">
     <div class="column is-3 menu">
-        <p class="menu-label">DOCS</p>
+        
+        <?php if ($settings_allow_admin) { ?>
+        <p class="menu-label">ADMIN</p>
         <ul class="menu-list">
             <li><a href='index.php'>Home</a></li>
             <li><a href='index.php?action=new'>New</a></li>
         </ul>
+        <?php } ?>
         
-        <p class="menu-label">FILES</p>
+        <p class="menu-label">DOCS</p>
         <ul class="menu-list">
             <?php
             foreach ($file_service->get_files() as $md_file) {
@@ -121,7 +127,7 @@ if (file_exists($file)) {
             <div class="content">
                 <?= $template_result ?>
             </div>
-        <?php } else if ($action === 'new') { ?>
+        <?php } else if ($settings_allow_admin && $action === 'new') { ?>
             <form method="POST" action="index.php">
                 <div class="field">
                     <div class="label">File Name</div>
@@ -135,7 +141,7 @@ if (file_exists($file)) {
                     <div class="control"><input class="button" type="submit" name="action" value="Create"></div>
                 </div>
             </form>
-        <?php } else if ($action === 'edit') { ?>
+        <?php } else if ($settings_allow_admin && $action === 'edit') { ?>
             <form method="POST" action="index.php">
                 <div class="field">
                     <div class="label">File Name</div>
@@ -149,15 +155,19 @@ if (file_exists($file)) {
                     <div class="control"><input class="button" type="submit" name="action" value="Update"></div>
                 </div>
             </form>
-        <?php } else if ($action === 'delete') { ?>
+        <?php } else if ($settings_allow_admin && $action === 'delete') { ?>
             <div class="notification is-danger">
                 Are you sure you want to remove <?= $file ?>?
             </div>
             <a class="button is-danger" href="index.php?action=delete-confirmed&file=<?= $file ?>">DELETE</a>
             <a class="button" href="index.php?file=<?= $file ?>">Cancel</a>
-        <?php } else if ($action === 'delete-confirmed') { ?>
+        <?php } else if ($settings_allow_admin && $action === 'delete-confirmed') { ?>
             <div class="notification is-success">
                 <?= $delete_status ?>
+            </div>
+        <?php } else { ?>
+            <div class="notification is-warning">
+                Oops. We can not process this request!
             </div>
         <?php } ?>
     </div>
