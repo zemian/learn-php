@@ -4,7 +4,7 @@ class FileService {
     var $scan_dir;
     var $file_ext;
     
-    function __construct($scan_dir = ".", $file_ext = ".md") {
+    function __construct($scan_dir, $file_ext) {
         $this->scan_dir = $scan_dir;
         $this->file_ext = $file_ext;
     }
@@ -22,23 +22,27 @@ class FileService {
         return $ret;
     }
     
+    function exists($file) {
+        return file_exists($this->scan_dir . "/" . $file);
+    }
+    
     function read($file) {
-        return file_get_contents($file);
+        return file_get_contents($this->scan_dir . "/" . $file);
     }
 
     function write($file, $contents) {
-        return file_put_contents($file, $contents);
+        return file_put_contents($this->scan_dir . "/" . $file, $contents);
     }
 
     function delete($file) {
-        return unlink($file);
+        return $this->exists($file) && unlink($this->scan_dir . "/" . $file);
     }
 }
 
 // Global Vars
 $allow_admin = true;
 $action = $_GET['action'] ?? "file";
-$file_service = new FileService(".", ".md");
+$file_service = new FileService(__DIR__, ".md");
 
 // Process POST - Create Form
 if ($allow_admin && isset($_POST['action']) && ($_POST['action'] === 'Create' || $_POST['action'] === 'Update')) {
@@ -47,8 +51,8 @@ if ($allow_admin && isset($_POST['action']) && ($_POST['action'] === 'Create' ||
     $file_service->write($file, $file_content);
 } else if ($allow_admin && $action === 'edit') {
     // Process GET Edit Form
-    $file = $_GET['file'] ?? 'readme.md';
-    if (file_exists($file)) {
+    $file = $_GET['file'];
+    if ($file_service->exists($file)) {
         $file_content = $file_service->read($file);
     } else {
         $file_content = "File not found: $file";
@@ -56,7 +60,7 @@ if ($allow_admin && isset($_POST['action']) && ($_POST['action'] === 'Create' ||
 } else if ($allow_admin && $action === 'delete-confirmed') {
     // Process GET - DELETE file
     $file = $_GET['file'];
-    if (file_exists($file) && $file_service->delete($file)) {
+    if ($file_service->delete($file)) {
         $delete_status = "File $file deleted";
     } else {
         $delete_status = "File not found: $file";
@@ -68,7 +72,7 @@ if ($allow_admin && isset($_POST['action']) && ($_POST['action'] === 'Create' ||
 
 // Continue Process GET - Convert Markdown template into HTML
 // We do this even after we process a Form
-if (file_exists($file)) {
+if ($file_service->exists($file)) {
     if (!isset($file_content)) {
         $file_content = $file_service->read($file);
     }
