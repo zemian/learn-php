@@ -7,12 +7,22 @@ $form_error = null;
 if (isset($_POST['action'])) {
     $username = $_POST['username'];
     $password = $_POST['password'];
-    try {
-        if ($app->login($username, $password)) {
-            $app->redirect('/login-app/admin/index.php');
+
+    if ($form_error === null && !$app->validate_regex($username, '/\w+/')) {
+        $form_error = 'Invalid username input';
+    }
+    if ($form_error === null && !$app->validate_regex($password, '/\w+/')) {
+        $form_error = 'Invalid password input';
+    }
+    
+    if ($form_error === null) {
+        try {
+            if ($app->login($username, $password)) {
+                $app->redirect('/login-app/admin/index.php');
+            }
+        } catch (PDOException $e) {
+            $form_error = "Failed: " . $e->getMessage();
         }
-    } catch (PDOException $e) {
-        $form_error = "Failed: " . $e.getMessage();
     }
 }
 ?>
