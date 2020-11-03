@@ -1,45 +1,74 @@
 <?php
+require_once 'app.php';
+$db = $app->db;
 $username = '';
 $password = '';
+$form_error = null;
+$new_user_id = null;
 if (isset($_POST['action'])) {
-  include_once "../db-config.php";
+    try {
+        $username = $_POST['username'];
+        $password = $_POST['password'];
+        $password_h = password_hash($password, PASSWORD_DEFAULT);
 
-  $username = $_POST['username'];
-  $password = $_POST['password'];
-
-  $password_h = password_hash($password, PASSWORD_DEFAULT);
-
-  $conn = create_conn();
-  $sql = "INSERT INTO users (username, password) VALUES (?, ?)";
-  $stmt = $conn->prepare($sql);
-  $stmt->bind_param('ss', $username, $password_h);
-  $result = $stmt->execute();
-  if ($result) {
-    $sucessMessage = "Username $username registered successfully. ID=$conn->insert_id";
-  } else {
-    $failureMessage = "Unable to registered: $conn->error";
-  }
-  $stmt->close();
-  $conn->close();
+        // Check to see if user already exists
+        $sql = "SELECT id FROM users WHERE username = ?";
+        $stmt = $db->prepare($sql);
+        $stmt->execute([$username]);
+        if ($stmt->fetch()) {
+            $form_error = "User already exists!";
+        } else {
+            // Ready to insert new user
+            $sql = "INSERT INTO users (username, password) VALUES (?, ?)";
+            $stmt = $db->prepare($sql);
+            if ($stmt->execute([$username, $password_h])) {
+//                $new_user_id = $db->lastInsertId();
+                $app->redirect('/login-app/register-success.php');
+            } else {
+                $form_error = "Unable to create user: $db->errorInfo()[0]";
+            }
+        }
+    } catch (PDOException $e) {
+        $form_error = "Unable to create user: $e";
+    }
 }
 ?>
 
-<h1>Register New User</h1>
-<?php if (isset($sucessMessage)) { ?>
-  <p><?= $sucessMessage ?></p>
-<?php } else if (isset($failureMessage)) { ?>
-  <p><?= $failureMessage ?></p>
-<?php } ?>
-<form method="POST">
-  <div>
-    <label>Name</label>
-    <input type="text" name="username" value="<?= $username ?>">
-  </div>
-  <div>
-    <label>Password</label>
-    <input type="password" name="password" value="<?= $password ?>">
-  </div>
-  <div>
-    <input type="submit" name="action" value="Submit">
-  </div>
-</form>
+<?php echo $app->header(); ?>
+<section class="section">
+    <div class="level">
+        <div class="level-item has-text-centered">
+            <div>
+                <p class="title">Create New User</p><h1>
+            </div>
+        </div>
+    </div>
+    <div class="columns">
+        <div class="column"></div>
+        <div class="column">
+            <div class="form">
+                <?php if ($form_error !== null) { ?>
+                    <div>
+                        <div class="notification is-danger"><?php echo $form_error; ?></div>
+                    </div>
+                <?php } ?>
+                <form method="POST">
+                    <div class="field">
+                        <div class="label">Name</div>
+                        <div class="control"><input class="input" type="text" name="username" value="<?= $username ?>"></div>
+                    </div>
+                    <div class="field">
+                        <div class="label">Password</div>
+                        <div class="control"><input class="input" type="password" name="password" value="<?= $password ?>"></div>
+                    </div>
+                    <div class="field">
+                        <div class="control"><input class="button" type="submit" name="action" value="Submit"></div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="column"></div>
+    </div>
+</section>
+
+<?php echo $app->footer(); ?>

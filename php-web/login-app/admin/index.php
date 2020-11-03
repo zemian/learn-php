@@ -1,9 +1,14 @@
 <?php
-session_start();
-if (!isset($_SESSION['user'])) {
-  header("Location: ../login.php");
-  exit();
+require_once '../app.php';
+
+if (!$app->isUserLoggedIn()) {
+    $app->redirect('/login-app/login.php');
 }
 ?>
+
+<?php $app->header('admin'); ?>
+
 <h1>You are logged in! Welcome <?= $_SESSION['user']['username'] ?>!</h1>
-<a href='logout.php'>Logout</a>
+
+<?php $app->footer(); ?>
+
