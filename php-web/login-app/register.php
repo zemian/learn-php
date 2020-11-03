@@ -6,30 +6,40 @@ $password = '';
 $form_error = null;
 $new_user_id = null;
 if (isset($_POST['action'])) {
-    try {
-        $username = $_POST['username'];
-        $password = $_POST['password'];
-        $password_h = password_hash($password, PASSWORD_DEFAULT);
 
-        // Check to see if user already exists
-        $sql = "SELECT id FROM users WHERE username = ?";
-        $stmt = $db->prepare($sql);
-        $stmt->execute([$username]);
-        if ($stmt->fetch()) {
-            $form_error = "User already exists!";
-        } else {
-            // Ready to insert new user
-            $sql = "INSERT INTO users (username, password) VALUES (?, ?)";
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+
+    if ($form_error === null && !$app->validate_regex($username, '/\w+/')) {
+        $form_error = 'Invalid username input';
+    }
+    if ($form_error === null && !$app->validate_regex($password, '/\w+/')) {
+        $form_error = 'Invalid password input';
+    }
+
+    if ($form_error === null) {
+        try {
+            // Check to see if user already exists
+            $sql = "SELECT id FROM users WHERE username = ?";
             $stmt = $db->prepare($sql);
-            if ($stmt->execute([$username, $password_h])) {
-//                $new_user_id = $db->lastInsertId();
-                $app->redirect('/login-app/register-success.php');
+            $stmt->execute([$username]);
+            if ($stmt->fetch()) {
+                $form_error = "User already exists!";
             } else {
-                $form_error = "Unable to create user: $db->errorInfo()[0]";
+                // Ready to insert new user
+                $sql = "INSERT INTO users (username, password) VALUES (?, ?)";
+                $stmt = $db->prepare($sql);
+                $password_h = password_hash($password, PASSWORD_DEFAULT);
+                if ($stmt->execute([$username, $password_h])) {
+//                $new_user_id = $db->lastInsertId();
+                    $app->redirect('/login-app/register-success.php');
+                } else {
+                    $form_error = "Unable to create user: $db->errorInfo()[0]";
+                }
             }
+        } catch (PDOException $e) {
+            $form_error = "Unable to create user: $e";
         }
-    } catch (PDOException $e) {
-        $form_error = "Unable to create user: $e";
     }
 }
 ?>

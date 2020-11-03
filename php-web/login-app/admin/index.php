@@ -8,7 +8,9 @@ if (!$app->isUserLoggedIn()) {
 
 <?php $app->header('admin'); ?>
 
-<h1>You are logged in! Welcome <?= $_SESSION['user']['username'] ?>!</h1>
+<section class="section">
+    <h1>You are in admin space!</h1>
+</section>
 
 <?php $app->footer(); ?>
 

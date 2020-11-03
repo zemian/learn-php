@@ -51,8 +51,12 @@ $app = new class {
         header("Location: $path");
         exit;
     }
+    
+    function validate_regex($input, $regex) {
+        return filter_var($input, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => $regex]]);
+    }
 
-    function header($navbar = 'default') {
+    function header($screen = 'default') {
         echo <<<EOT
 <!doctype html>
 <html lang="en">
@@ -66,20 +70,33 @@ $app = new class {
 </head>
 <body>
 EOT;
-        if ($navbar === 'default') {
+        if ($this->isUserLoggedIn()) {
+            echo <<<EOT
+<div class="navbar is-dark">
+    <div class="navbar-brand">
+        <a class="navbar-item" href="/login-app/index.php">$this->name</a>
+    </div>
+    <div class="navbar-menu">
+        <div class="navbar-end">
+            <div class="navbar-item">Welcome, {$this->user['username']}</div>
+            <div class="navbar-item"><a class="button" href="/login-app/admin/logout.php">Logout</a></div>
+        </div>
+    </div>
+</div>
+EOT;
+        } else {
             echo <<<EOT
 <div class="navbar is-primary">
     <div class="navbar-brand">
         <a class="navbar-item" href="/login-app/index.php">$this->name</a>
     </div>
-</div>
-EOT;
-        } else if ($navbar === 'admin') {
-            echo <<<EOT
-<div class="navbar is-dark">
-    <div class="navbar-brand">
-        <a class="navbar-item" href="/login-app/index.php">$this->name</a>
-        <a class="navbar-item" href="/login-app/admin/logout.php">Logout</a>
+    <div class="navbar-menu">
+        <div class="navbar-end">
+            <div class="navbar-item"><a class="button" href="/login-app/login.php">Login</a></div>
+            <div class="navbar-item"><a class="button is-info" href="/login-app/register.php">Register</a></div>
+        </div>
+    </div>
+    <div>
     </div>
 </div>
 EOT;
