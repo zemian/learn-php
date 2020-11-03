@@ -4,31 +4,31 @@
 //print_r($_SERVER);
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $error = [];
-    if (!filter_var($_POST['string'], FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => '/\w+/']])) {
+    if (false === filter_var($_POST['string'], FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => '/\w+/']])) {
         $error['string'] = 'Accept words only';
     }
-    if (!filter_var($_POST['int'], FILTER_VALIDATE_INT)) {
+    if (false === filter_var($_POST['int'], FILTER_VALIDATE_INT)) {
         $error['int'] = 'Accept int only';
     }
-    if (!filter_var($_POST['intrange'], FILTER_VALIDATE_INT, ['options' => ['min_range' => 1, 'max_range' => 100]])) {
+    if (false === filter_var($_POST['intrange'], FILTER_VALIDATE_INT, ['options' => ['min_range' => 1, 'max_range' => 100]])) {
         $error['intrange'] = 'Accept intrange only: 1 to 100';
     }
-    if (!filter_var($_POST['float'], FILTER_VALIDATE_FLOAT)) {
+    if (false === filter_var($_POST['float'], FILTER_VALIDATE_FLOAT)) {
         $error['float'] = 'Accept float only';
     }
-    if (filter_var($_POST['boolean'], FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE) === NULL) {
+    if (NULL === filter_var($_POST['boolean'], FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE)) {
         $error['boolean'] = 'Accept boolean only: true/false, 1/0, on/off, yes/no';
     }
-    if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
+    if (false === filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
         $error['email'] = 'Accept email only';
     }
-    if (!filter_var($_POST['url'], FILTER_VALIDATE_URL)) {
+    if (false === filter_var($_POST['url'], FILTER_VALIDATE_URL)) {
         $error['url'] = 'Accept url only';
     }
-    if (!filter_var($_POST['ip'], FILTER_VALIDATE_IP)) {
+    if (false === filter_var($_POST['ip'], FILTER_VALIDATE_IP)) {
         $error['ip'] = 'Accept ip only';
     }
-    if (!filter_var($_POST['hostname'], FILTER_VALIDATE_DOMAIN)) {
+    if (false === filter_var($_POST['hostname'], FILTER_VALIDATE_DOMAIN)) {
         $error['hostname'] = 'Accept hostname only';
     }
 }
