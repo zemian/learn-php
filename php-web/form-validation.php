@@ -1,4 +1,8 @@
 <?php
+// The form submit for all empty values will give you empty string, but the 'gender' is not
+// defined in POST if not selected! One way to ensure this is to always have a default value!
+//print_r($_POST);
+
 // define variables and set to empty values
 $name = $email = $gender = $comment = $website = "";
 
@@ -7,7 +11,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $email = test_input($_POST["email"]);
   $website = test_input($_POST["website"]);
   $comment = test_input($_POST["comment"]);
-  $gender = test_input($_POST["gender"]);
+  $gender = test_input($_POST["gender"] ?? '');
 }
 
 function test_input($data) {
@@ -47,13 +51,13 @@ https://www.w3schools.com/php/php_form_validation.asp
 
 <?php
 echo "<h2>Your Input:</h2>";
-echo $name;
+echo '$name: ' . $name;
 echo "<br>";
-echo $email;
+echo '$email: ' . $email;
 echo "<br>";
-echo $website;
+echo '$website: ' . $website;
 echo "<br>";
-echo $comment;
+echo '$comment: ' . $comment;
 echo "<br>";
-echo $gender;
+echo '$gender: ' . $gender;
 ?>
