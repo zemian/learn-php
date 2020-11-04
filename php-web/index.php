@@ -9,6 +9,7 @@ $dirs = [];
 $files = [];
 $browse_dir = '';
 $parent_browse_dir = $browse_dir = $_GET['parent'] ?? '';
+$error = '';
 
 // Find what $browse_dir and $list_path is
 $root_path = __DIR__;
@@ -20,15 +21,18 @@ if (isset($_GET['dir'])) {
 
 // Now get list of dirs and files
 // We get rid off the first two entries for "." and ".." returned by scandir().
-$list = array_slice(scandir($list_path), 2);
-foreach ($list as $item) {
-    if (is_dir("$list_path/$item")) {
-        array_push($dirs, $item);
-    } else {
-        array_push($files, $item);
+if (is_dir($list_path)) {
+    $list = array_slice(scandir($list_path), 2);
+    foreach ($list as $item) {
+        if (is_dir("$list_path/$item")) {
+            array_push($dirs, $item);
+        } else {
+            array_push($files, $item);
+        }
     }
+} else {
+    $error = "ERROR: Invalid directory.";
 }
-
 ?>
 <!doctype html>
 <html lang="en">
@@ -63,14 +67,20 @@ foreach ($list as $item) {
             </div>
         </div>
         <div class="column">
-            <!-- List of Files -->
-            <div class="content">
-                <ul>
-                    <?php foreach ($files as $item) { ?>
-                        <li><a href="<?= "$browse_dir/$item" ?>"><?= $item ?></a></li>
-                    <?php } ?>
-                </ul>
-            </div>
+            <?php if ($error) { ?>
+                <div class="notification is-danger">
+                    <?= $error ?>
+                </div>
+            <?php } else { ?>
+                <!-- List of Files -->
+                <div class="content">
+                    <ul>
+                        <?php foreach ($files as $item) { ?>
+                            <li><a href="<?= "$browse_dir/$item" ?>"><?= $item ?></a></li>
+                        <?php } ?>
+                    </ul>
+                </div>
+            <?php } ?>
         </div>
     </div>
 </div>
