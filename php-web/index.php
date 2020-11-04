@@ -69,7 +69,7 @@ if (!$error) {
     </div>
     <div class="columns">
         <div class="column is-one-third">
-            <!-- List of Sub Folders -->
+            <!-- List of Directories -->
             <div class="menu">                
                 <p class="menu-label">Directory: <?= $browse_dir; ?></p>
                 <ul class="menu-list">
