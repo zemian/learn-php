@@ -15,9 +15,9 @@ function create_conn() {
         die("Connection failed: " . $conn->connect_error);
     }
 
-    if ($conn->query('SELECT count(*) FROM contacts') === FALSE) {
-        die("Table 'contact' does not exist in DB: " . $conn->connect_error);
-    }
+//    if ($conn->query('SELECT count(*) FROM contacts') === FALSE) {
+//        die("Table 'contact' does not exist in DB: " . $conn->connect_error);
+//    }
 
     return $conn;
 }
