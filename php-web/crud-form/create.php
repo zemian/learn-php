@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if (!$is_error) {
-        include_once '../db-config.php';
+        include_once 'config.php';
         $conn = create_conn();
         $sql = 'INSERT INTO contacts (name, email, message) VALUES (?, ?, ?)';
         $stmt = $conn->prepare($sql);

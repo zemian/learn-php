@@ -1,7 +1,7 @@
 <?php
 // https://www.w3schools.com/php/php_mysql_delete.asp
 
-include_once '../db-config.php';
+include_once 'config.php';
 $conn = create_conn();
 // Check connection
 if ($conn->connect_error) {

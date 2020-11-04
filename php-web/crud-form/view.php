@@ -1,7 +1,7 @@
 <?php
 $contact_id = $_GET['id'];
 
-include_once '../db-config.php';
+include_once 'config.php';
 $conn = create_conn();
 $sql = 'SELECT * FROM contacts WHERE id = ?';
 $stmt = $conn->prepare($sql);

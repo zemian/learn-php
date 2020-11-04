@@ -1,5 +1,5 @@
 <?php
-include_once '../db-config.php';
+include_once 'config.php';
 $conn = create_conn();
 $sql = 'SELECT * FROM contacts ORDER BY create_date DESC';
 $stmt = $conn->prepare($sql);

@@ -1,6 +1,6 @@
 <?php
 
-include_once '../db-config.php';
+include_once 'config.php';
 $conn = create_conn();
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {

@@ -3,7 +3,7 @@ $confirmed = isset($_GET['confirmed']) ? $_GET['confirmed'] : "false";
 $contact_id = isset($_GET['id']) ? $_GET['id'] : -1;
 
 if ($confirmed === "true") {
-    include_once '../db-config.php';
+    include_once 'config.php';
     $conn = create_conn();
     $sql = 'DELETE FROM contacts WHERE id = ?';
     $stmt = $conn->prepare($sql);
