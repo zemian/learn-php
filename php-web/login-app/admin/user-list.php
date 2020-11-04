@@ -27,6 +27,7 @@ while ($row = $stmt->fetch()) {
                 <td>
                     <a href="user-edit.php?id=<?php echo $row['id']; ?>">Edit</a>
                     <a href="user-delete.php?id=<?php echo $row['id']; ?>">Delete</a>
+                    <a href="user-password.php?id=<?php echo $row['id']; ?>">Password</a>
                 </td>
             </tr>
         <?php } ?>

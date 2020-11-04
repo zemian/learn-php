@@ -10,15 +10,16 @@ $deleted = false;
 if ($record_id <= 0) {
     $form_error = "Missing id parameter.";
 } else if ($is_confirmed){
+    // Delete user
     try {
         $stmt = $app->db->prepare('DELETE FROM users WHERE id = ?');
         if ($stmt->execute([$record_id])) {
             $deleted = true;
         } else {
-            $form_error = "Unable to delete record.";
+            $form_error = "Unable to delete record ID $record_id";
         }
     } catch (PDOException $e) {
-        $form_error = "Unable to delete record: " . $e->getMessage();
+        $form_error = "Unable to delete record ID $record_id: " . $e->getMessage();
     }
 }
 ?>

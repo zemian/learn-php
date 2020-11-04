@@ -31,14 +31,13 @@ if (isset($_POST['action'])) {
                 $stmt = $db->prepare($sql);
                 $password_h = password_hash($password, PASSWORD_DEFAULT);
                 if ($stmt->execute([$username, $password_h])) {
-//                $new_user_id = $db->lastInsertId();
                     $app->redirect('/login-app/admin/user-list.php');
                 } else {
-                    $form_error = "Unable to create user: $db->errorInfo()[0]";
+                    $form_error = "Unable to create record: " . $db->errorInfo()[0];
                 }
             }
         } catch (PDOException $e) {
-            $form_error = "Unable to create user: $e";
+            $form_error = "Unable to create record: " . $e->getMessage();
         }
     }
 }
