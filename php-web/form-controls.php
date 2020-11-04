@@ -16,12 +16,13 @@ $weekdays = array(
 $form_error = '';
 $form_message = '';
 $form_data = '';
-$name = $_POST['name'] ?? '';
-$message = $_POST['message'] ?? '';
-$password = $_POST['password'] ?? '';
+$name = $_POST['name'] ?? 'test';
+$message = $_POST['message'] ?? 'test';
+$password = $_POST['password'] ?? 'test';
 $yes_no = $_POST['yes_no'] ?? 'yes';
-$checkbox_days = $_POST['checkbox_days'] ?? ['mon'];
+$checkbox_days = $_POST['checkbox_days'] ?? ['mon', 'wed'];
 $select_day = $_POST['select_day'] ?? 'mon';
+$select_days = $_POST['select_days'] ?? ['sun', 'sat'];
 
 if (isset($_POST['action'])) {
     // Validate data
@@ -57,7 +58,7 @@ if (isset($_POST['action'])) {
     
     // select_day
     if (!$form_error && !preg_match('/^\b(' . $valid_words . ')$/', $select_day)) {
-        $form_error = 'Invalid select_days. Must be one of ' . $valid_words . ' only.';
+        $form_error = 'Invalid select_day. Must be one of ' . $valid_words . ' only.';
     }
     
     if (!$form_error) {
@@ -113,6 +114,7 @@ if (isset($_POST['action'])) {
             <div class="label">Options</div>
             <div class="control">
                 <?php foreach($weekdays as $key => $val) { ?>
+                    <!-- NOTE: You must use '[]' suffix on checkbox name to submit array values! -->
                     <input class="checkbox" type="checkbox" name="checkbox_days[]" value="<?php echo $key; ?>" <?php echo (in_array($key, $checkbox_days)) ? 'checked' : ''; ?>> <?php echo $val; ?>
                 <?php } ?>
             </div>
@@ -122,8 +124,21 @@ if (isset($_POST['action'])) {
             <div class="control">
                 <div class="select">
                     <select name="select_day">
+                        <option value="">Please Select One...</option>
                         <?php foreach($weekdays as $key => $val) { ?>
                         <option value="<?php echo $key; ?>" <?php echo ($select_day === $key) ? 'selected' : ''; ?>><?php echo $val; ?></option>
+                        <?php } ?>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="field">
+            <div class="label">Multi Selections</div>
+            <div class="control">
+                <div class="select is-multiple">
+                    <select name="select_days[]" multiple size="7">
+                        <?php foreach($weekdays as $key => $val) { ?>
+                            <option value="<?php echo $key; ?>" <?php echo (in_array($key, $select_days)) ? 'selected' : ''; ?>><?php echo $val; ?></option>
                         <?php } ?>
                     </select>
                 </div>
