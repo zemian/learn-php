@@ -1,5 +1,7 @@
 <?php
 // This example will sanitize input with few built-in php functions
+// Example: htmlspecialchars() makes sure any characters that are special in html are properly
+//          encoded so people can't inject HTML tags or Javascript into your page. 
 
 // The form submit for all empty values will give you empty string, but the 'gender' is not
 // defined in POST if not selected! One way to ensure this is to always have a default value!
