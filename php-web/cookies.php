@@ -74,9 +74,19 @@ switch ($action) {
     echo "<p>$action_msg</p>";
 } ?>
 
-<h1>List of Cookies From Request</h1>
+<h1>Actions</h1>
+<ul>
+    <li><a href="?">get</a></li>
+    <li><a href="?action=delete?name=TestCookie">delete</a></li>
+    <li><a href="?action=delete-all">delete-all</a></li>
+    <li><a href="?action=delete-sample">delete-sample</a></li>
+    <li><a href="?action=add&name=TestCookie&value=foo">add</a></li>
+    <li><a href="?action=add-sample">add-sample</a></li>
+</ul>
+
+<h1>Cookies</h1>
 <!-- NOTE: You can read and get the expiration dates and other options from the browser cookie! -->
-<?php var_dump($_COOKIE); ?>
+<pre><?php print_r($_COOKIE); ?></pre>
 
 </body>
 </html>
