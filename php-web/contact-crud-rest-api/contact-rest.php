@@ -3,23 +3,7 @@
 // We will implement a typical Data CRUD (Create, Retrieve, Update and Delete) operations
 // in PHP with ajax RESTful solution here.
 
-You need to setup DB and a table first
-
-CREATE USER 'zemian'@'localhost' IDENTIFIED WITH mysql_native_password BY 'test123';
-CREATE DATABASE learnphpdb CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-GRANT ALL PRIVILEGES ON learnphpdb.* TO 'zemian'@'localhost';
-FLUSH PRIVILEGES;
-
-CREATE TABLE contacts (
-  id SERIAL,
-  create_ts TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL,
-  name VARCHAR(100) NOT NULL,
-  email VARCHAR(200) NOT NULL,
-  message VARCHAR(2000) NOT NULL
-);
-
-INSERT INTO contacts VALUES (NULL, NULL, 'test', 'test@test.com', 'just a test');
-INSERT INTO contacts VALUES (NULL, NULL, 'test2', 'test@test.com', 'just a test');
+You need to setup DB and a table first, see "db.sql".
 
 // How RESTful works:
 
