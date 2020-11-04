@@ -3,7 +3,7 @@ require_once 'app.php';
 ?>
 
 <?php $app->header(); ?>
-<div>
+<div class="container">
     <h1 class="title">User Created!</h1>
     <p>
         Thank you for registering with us! Your new user has been created successfully.
@@ -12,4 +12,3 @@ require_once 'app.php';
 </div>
 
 <?php $app->footer(); ?>
-

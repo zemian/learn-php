@@ -1,5 +1,5 @@
 <?php
-require_once 'app.php';
+require_once 'admin-app.php';
 $db = $app->db;
 $username = '';
 $password = '';
@@ -32,7 +32,7 @@ if (isset($_POST['action'])) {
                 $password_h = password_hash($password, PASSWORD_DEFAULT);
                 if ($stmt->execute([$username, $password_h])) {
 //                $new_user_id = $db->lastInsertId();
-                    $app->redirect('/login-app/register-success.php');
+                    $app->redirect('/login-app/admin/user-list.php');
                 } else {
                     $form_error = "Unable to create user: $db->errorInfo()[0]";
                 }
@@ -54,31 +54,25 @@ if (isset($_POST['action'])) {
             </div>
         </div>
     </div>
-    <div class="columns">
-        <div class="column"></div>
-        <div class="column">
-            <div class="form">
-                <?php if ($form_error !== null) { ?>
-                    <div>
-                        <div class="notification is-danger"><?php echo $form_error; ?></div>
-                    </div>
-                <?php } ?>
-                <form method="POST">
-                    <div class="field">
-                        <div class="label">Name</div>
-                        <div class="control"><input class="input" type="text" name="username" value="<?= $username ?>"></div>
-                    </div>
-                    <div class="field">
-                        <div class="label">Password</div>
-                        <div class="control"><input class="input" type="password" name="password" value="<?= $password ?>"></div>
-                    </div>
-                    <div class="field">
-                        <div class="control"><input class="button" type="submit" name="action" value="Submit"></div>
-                    </div>
-                </form>
+    <div class="form">
+        <?php if ($form_error !== null) { ?>
+            <div>
+                <div class="notification is-danger"><?php echo $form_error; ?></div>
             </div>
-        </div>
-        <div class="column"></div>
+        <?php } ?>
+        <form method="POST">
+            <div class="field">
+                <div class="label">Name</div>
+                <div class="control"><input class="input" type="text" name="username" value="<?= $username ?>"></div>
+            </div>
+            <div class="field">
+                <div class="label">Password</div>
+                <div class="control"><input class="input" type="password" name="password" value="<?= $password ?>"></div>
+            </div>
+            <div class="field">
+                <div class="control"><input class="button" type="submit" name="action" value="Submit"></div>
+            </div>
+        </form>
     </div>
 </div>
 

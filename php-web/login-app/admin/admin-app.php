@@ -58,6 +58,10 @@ EOT;
     function admin_menu() {
         echo <<<EOT
 <aside class="menu">
+    <p class="menu-label">Admin</p>
+    <ul class="menu-list">
+        <li class="menu-item"><a href="/login-app/admin/index.php">System</a></li>
+    </ul>
     <p class="menu-label">User</p>
     <ul class="menu-list">
         <li class="menu-item"><a href="/login-app/admin/user-list.php">List</a></li>
