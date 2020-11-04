@@ -1,6 +1,9 @@
 <?php
+// This example will sanitize input with few built-in php functions
+
 // The form submit for all empty values will give you empty string, but the 'gender' is not
 // defined in POST if not selected! One way to ensure this is to always have a default value!
+
 //print_r($_POST);
 
 // define variables and set to empty values
