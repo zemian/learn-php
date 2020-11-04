@@ -59,7 +59,7 @@ curl -X DELETE 'http://localhost:3000/php-app/crud-restful/contact-rest.php?/con
 // Make DB connection
 // ==================
 
-include_once "../db-config.php";
+include_once "config.php";
 $conn = create_conn();
 // Check connection
 if ($conn->connect_error) {

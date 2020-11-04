@@ -1,17 +1,20 @@
-<!DOCTYPE html>
 <!--
 // We will implement a typical Data CRUD (Create, Retrieve, Update and Delete) operations
 // in PHP with ajax RESTful solution here.
 // 
 // This page will be the UI using VueJS+BulmaCSS. See "contact-rest.php" for backend logic.
 -->
-<html>
+
+<!doctype html>
+<html lang="en">
 <head>
-	<meta charset="utf-8">
-    <title>Contact Example</title>
-    <link rel="stylesheet" type="text/css" href="https://unpkg.com/bulma@0.9.1/css/bulma.css">
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://unpkg.com/bulma">
     <script defer src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script>
-    <script src="https://unpkg.com/vue@2.6.12/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue"></script>
 </head>
 <body>
 	<div id="app">
@@ -31,19 +34,20 @@
                            @confirm-delete="submitDeleteRecord" 
                            @cancel-delete="showDeleteRecord = false" 
                            :contact-id="currentContact.id"></delete-record>
-            <h1 class="title">List of Contacts</h1>
             
-            <button @click="createRecord" class="button is-primary">Create</button>
+            <h1 class="title">Contacts</h1>
+            <button @click="createRecord" class="button is-primary">New Contact</button>
             
             <table class="table">
                 <tr v-for="contact in contacts">
+                    <td>{{ contact.name }}</td>
+                    <td>{{ contact.email }}</td>
+                    <td>{{ contact.create_ts }}</td>
                     <td>
+                        <a @click="viewRecord(contact.id)">View</a>
                         <a @click="updateRecord(contact.id)">Update</a>
                         <a @click="deleteRecord(contact.id)">Delete</a>
                     </td>
-                    <td><a @click="viewRecord(contact.id)">{{ contact.id }}</a></td>
-                    <td>{{ contact.create_ts }}</td>
-                    <td>{{ contact.name }}</td>
                 </tr>
             </table>
         </div>
