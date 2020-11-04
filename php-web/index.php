@@ -1,37 +1,53 @@
-<?php 
-// A simple php to browse a Document Root directory where it list all the learning PHP script.
-// - A "*.*" file should be listed as a link and load the page when clicked.
-// - A sub-folder should be listed separately and when clicked, it should browse the content for ".php" files again. 
-// - If we are in a sub-folder listing, we should provide a link to go back to parent directory.
+<?php
+/**
+ * A simple php to browse a DocumentRoot directory where it list all dirs and files.
+ *
+ * NOTE: 
+ * Exposing directory and files is consider security risk for publicly hosted server! This 
+ * script is only intended for internal web site and serve as tool. 
+ * 
+ * Features:
+ *   - List files alphabetically.
+ *   - Each file should be listed as a link and go to the page when clicked.
+ *   - List dir separately on the side as navigation.
+ *   - Each dir is a link to browse sub dir content recursively. 
+ *   - Provide parent link to go back up one directory when browsing sub dir.
+ * 
+ * Author: Zemian Deng
+ * Date: 2020-11-04
+ */
 
 // Page vars
+$title = 'Learning PHP';
+$browse_dir = $_GET['dir'] ?? '';
+$parent_browse_dir = $_GET['parent'] ?? '';
+$error = '';
 $dirs = [];
 $files = [];
-$browse_dir = '';
-$parent_browse_dir = $browse_dir = $_GET['parent'] ?? '';
-$error = '';
 
-// Find what $browse_dir and $list_path is
+// Internal vars
 $root_path = __DIR__;
-$list_path = $root_path;
-if (isset($_GET['dir'])) {
-    $browse_dir = $_GET['dir'];
-    $list_path .= "$browse_dir";
+$list_path = "$root_path/$browse_dir";
+
+// Validate Inputs
+if ( (substr_count($browse_dir, '.') > 0) /* It should not contains '.' or '..' relative paths */
+    || (!is_dir($list_path)) /* It should exists. */
+) {
+    $error = "ERROR: Invalid directory.";
 }
 
-// Now get list of dirs and files
-// We get rid off the first two entries for "." and ".." returned by scandir().
-if (is_dir($list_path)) {
+// Get files and dirs listing
+if (!$error) {
+    // We need to get rid of the first two entries for "." and ".." returned by scandir().
     $list = array_slice(scandir($list_path), 2);
     foreach ($list as $item) {
+        // NOTE: To avoid security risk, we always use $list_path as base path! Never go outside of it!
         if (is_dir("$list_path/$item")) {
             array_push($dirs, $item);
         } else {
             array_push($files, $item);
         }
     }
-} else {
-    $error = "ERROR: Invalid directory.";
 }
 ?>
 <!doctype html>
@@ -42,13 +58,13 @@ if (is_dir($list_path)) {
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="https://unpkg.com/bulma">
-    <title>Learning PHP</title>
+    <title><?= $title ?></title>
 </head>
 <body>
 <div class="section">
     <div class="level">
         <div class="level-item">
-            <a href="index.php"><h1 class="title">Learning PHP</h1></a>
+            <a href="index.php"><h1 class="title"><?= $title ?></h1></a>
         </div>
     </div>
     <div class="columns">
@@ -57,7 +73,7 @@ if (is_dir($list_path)) {
             <div class="menu">                
                 <p class="menu-label">Directory: <?= $browse_dir; ?></p>
                 <ul class="menu-list">
-                    <?php if ($browse_dir !== '') { ?>
+                    <?php if ($browse_dir) { ?>
                         <li><a href="index.php?dir=<?= $parent_browse_dir ?>">..</a></li>
                     <?php } ?>
                     <?php foreach ($dirs as $item) { ?>
