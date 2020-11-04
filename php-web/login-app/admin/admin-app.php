@@ -17,23 +17,23 @@ class AdminApp extends App {
         parent::header();
         
         echo <<<EOT
-<section class="section">
+<section class="section" style="min-height: 80vh;">
 <div class="columns">
-    <div class="column is-3">
+    <div class="column is-3"> <!-- admin menu -->
 EOT;
         
         $this->admin_menu();
         
         echo <<<EOT
-    </div>
-    <div class="column is-9">
+    </div> <!-- admin menu -->
+    <div class="column is-9"> <!-- content -->
 EOT;
     }
     
     function footer() {
         echo <<<EOT
-    </div>
-</div>
+    </div> <!-- content -->
+</div> <!-- columns layout -->
 </section>
 EOT;
         parent::footer();

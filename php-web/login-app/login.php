@@ -29,7 +29,7 @@ if (isset($_POST['action'])) {
 
 <?php echo $app->header(); ?>
 
-<section class="section">
+<div>
     <div class="level">
         <div class="level-item has-text-centered">
             <div>
@@ -63,6 +63,6 @@ if (isset($_POST['action'])) {
         </div>
         <div class="column"></div>
     </div>
-</section>
+</div>
 
 <?php echo $app->footer(); ?>

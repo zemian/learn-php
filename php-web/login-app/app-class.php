@@ -88,11 +88,16 @@ EOT;
 <body>
 EOT;
         $this->navbar();
+        echo <<<EOT
+            <div class="section" style="min-height: 80vh;">
+EOT;
+
     }
 
     function footer() {
         $year = date('Y');
         echo <<<EOT
+        </div> <!-- section -->
     <div class="footer">
         $year &copy; Zemian Deng
     </div>

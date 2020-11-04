@@ -6,7 +6,7 @@ $user_count_label = $user_count . ($user_count > 1 ? ' users' : ' user');
 ?>
 
 <?php echo $app->header(); ?>
-<section class="hero is-fullheight-with-navbar">
+<div class="hero is-large-with-navbar">
     <div class="hero-body">
         <div class="container">
             <h1 class="title">
@@ -17,5 +17,5 @@ $user_count_label = $user_count . ($user_count > 1 ? ' users' : ' user');
             </h2>
         </div>
     </div>
-</section>
+</div>
 <?php echo $app->footer(); ?>
