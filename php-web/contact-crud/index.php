@@ -1,7 +1,8 @@
 <?php
 include_once 'config.php';
+
 $conn = create_conn();
-$sql = 'SELECT * FROM contacts ORDER BY create_date DESC';
+$sql = 'SELECT * FROM contacts ORDER BY create_ts DESC';
 $stmt = $conn->prepare($sql);
 $stmt->execute();
 $result = $stmt->get_result();
@@ -14,8 +15,8 @@ $conn->close();
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Contact Example</title>
-    <link rel="stylesheet" type="text/css" href="https://unpkg.com/bulma@0.9.1/css/bulma.css">
+    <title>Contact</title>
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/bulma">
 </head>
 <body>
 <div id="app">
@@ -25,18 +26,18 @@ $conn->close();
                 <li class="is-active"><a href="#">List</a></li>
             </ul>
         </nav>
-        <a class="button is-primary" href="create.php">Create New Contact</a>
-        <h1 class="title">List of Contacts</h1>
+        <a class="button is-primary" href="create.php">New Contact</a>
         <table class="table">
             <?php foreach ($contacts as $contact) { ?>
             <tr>
+                <td><?php echo $contact['name'] ?></td>
+                <td><?php echo $contact['email'] ?></td>
+                <td><?php echo $contact['create_ts'] ?></td>
                 <td>
+                    <a href="view.php?id=<?php echo $contact['id'] ?>">View</a>
                     <a href="update.php?id=<?php echo $contact['id'] ?>">Update</a>
                     <a href="delete.php?id=<?php echo $contact['id'] ?>">Delete</a>
                 </td>
-                <td><a href="view.php?id=<?php echo $contact['id'] ?>"><?php echo $contact['id'] ?></a></td>
-                <td><?php echo $contact['create_date'] ?></td>
-                <td><?php echo $contact['name'] ?></td>
             </tr>
             <?php } ?>
         </table>

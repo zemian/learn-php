@@ -1,4 +1,9 @@
 <?php
+
+include_once 'config.php';
+$conn = create_conn();
+$contact_id = null;
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $notiMessage = null;
     $is_error = false;
@@ -12,29 +17,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if (!$is_error) {
-        include_once 'config.php';
-        $conn = create_conn();
-        $sql = 'INSERT INTO contacts (name, email, message) VALUES (?, ?, ?)';
+        $contact_id = $_POST['id'];
+        $sql = 'UPDATE contacts SET name = ?, email = ?, message = ? WHERE id = ?';
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param('sss', $_POST['name'], $_POST['email'], $_POST['message']);
+        $stmt->bind_param('sssi', $_POST['name'], $_POST['email'], $_POST['message'], $contact_id);
         $result = $stmt->execute();
         if ($result) {
-            $notiMessage = "Record inserted. ID=$conn->insert_id";
+            $notiMessage = "Record updated. ID=$contact_id";
         } else {
-            $notiMessage = "Failed to insert: $conn->error";
+            $notiMessage = "Failed to update: $conn->error";
         }
         $stmt->close();
-        $conn->close();
     }
+} else {
+    $contact_id = $_GET['id'];
 }
+
+$sql = 'SELECT * FROM contacts WHERE id = ?';
+$stmt = $conn->prepare($sql);
+$stmt->bind_param('i', $contact_id);
+$stmt->execute();
+$result = $stmt->get_result();
+$contact = $result->fetch_assoc();
+$stmt->close();
+
+$conn->close();
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Contact Example</title>
-    <link rel="stylesheet" type="text/css" href="https://unpkg.com/bulma@0.9.1/css/bulma.css">
+    <title>Contact</title>
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/bulma">
 </head>
 <body>
 <div id="app">
@@ -42,33 +57,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <nav class="breadcrumb">
             <ul>
                 <li><a href="index.php">List</a></li>
-                <li class="is-active"><a href="#">Create</a></li>
+                <li class="is-active"><a href="#">Update</a></li>
             </ul>
         </nav>
-        <h1 class="title">Create New Contact</h1>
+        <h1 class="title">Update Contact</h1>
         <?php if(!empty($notiMessage)) { ?>
             <div class="notification <?php echo ($is_error ? 'is-danger' : 'is-success') ?>">
                 <a class="delete" onclick="event.target.parentElement.style.display = 'none'"></a>
                 <p><?php echo $notiMessage ?></p>
             </div>
         <?php } ?>
-        <form method="POST" action="create.php">
+        <form method="POST" action="update.php">
+            <input type="hidden" name="id" value="<?php echo $contact_id; ?>">
             <div class="box">
                 <div class="box-body">
                     <div class="field">
                         <label class="label">Name</label>
-                        <div class="control"><input class="input" name="name" value="<?php echo $_POST['name'] ?? ''; ?>">
+                        <div class="control"><input class="input" name="name" value="<?php echo $contact['name']; ?>">
                         </div>
                     </div>
                     <div class="field">
                         <label class="label">Email</label>
-                        <div class="control"><input class="input" name="email" value="<?php echo $_POST['email'] ?? ''; ?>">
+                        <div class="control"><input class="input" name="email" value="<?php echo $contact['email']; ?>">
                         </div>
                     </div>
                     <div class="field">
                         <label class="label">Message</label>
                         <div class="control">
-                            <textarea class="textarea" name="message"><?php echo $_POST['message'] ?? ''; ?></textarea>
+                            <textarea class="textarea" name="message"><?php echo $contact['message']; ?></textarea>
                         </div>
                     </div>
                     <div class="field">

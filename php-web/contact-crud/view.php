@@ -17,8 +17,8 @@ $conn->close();
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Contact Example</title>
-    <link rel="stylesheet" type="text/css" href="https://unpkg.com/bulma@0.9.1/css/bulma.css">
+    <title>Contact</title>
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/bulma">
 </head>
 <body>
 <div id="app">
@@ -37,7 +37,7 @@ $conn->close();
             </tr>
             <tr>
                 <td>Create Date</td>
-                <td><?php echo $contact['create_date'] ?></td>
+                <td><?php echo $contact['create_ts'] ?></td>
             </tr>
             <tr>
                 <td>Name</td>

@@ -42,7 +42,7 @@
                         <a @click="deleteRecord(contact.id)">Delete</a>
                     </td>
                     <td><a @click="viewRecord(contact.id)">{{ contact.id }}</a></td>
-                    <td>{{ contact.create_date }}</td>
+                    <td>{{ contact.create_ts }}</td>
                     <td>{{ contact.name }}</td>
                 </tr>
             </table>
@@ -89,7 +89,7 @@
                 </tr>
                 <tr>
                     <td>Create Date</td>
-                    <td>{{ contact.create_date }}</td>
+                    <td>{{ contact.create_ts }}</td>
                 </tr>
                 <tr>
                     <td>Name</td>

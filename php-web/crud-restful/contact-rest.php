@@ -12,7 +12,7 @@ FLUSH PRIVILEGES;
 
 CREATE TABLE contacts (
   id SERIAL,
-  create_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL,
+  create_ts TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL,
   name VARCHAR(100) NOT NULL,
   email VARCHAR(200) NOT NULL,
   message VARCHAR(2000) NOT NULL
@@ -70,7 +70,7 @@ if ($conn->connect_error) {
 // ==================
 function getAll() {
 	global $conn;
-	$sql = "SELECT * FROM contacts ORDER BY create_date DESC";
+	$sql = "SELECT * FROM contacts ORDER BY create_ts DESC";
 	$result = $conn->query($sql);
 	$list = $result->fetch_all(MYSQLI_ASSOC);
 	//var_dump($body);
@@ -85,10 +85,10 @@ function create() {
 	$json_input = file_get_contents('php://input');
 	//var_dump($json_input);
 	$post_data = (array) json_decode($json_input);
-	$post_data['create_date'] = date('Y-m-d H:i:s');
-	$sql = 'INSERT INTO contacts (create_date, name, email, message) VALUES (?, ?, ?, ?)';
+	$post_data['create_ts'] = date('Y-m-d H:i:s');
+	$sql = 'INSERT INTO contacts (create_ts, name, email, message) VALUES (?, ?, ?, ?)';
 	$stmt = $conn->prepare($sql);
-	$stmt->bind_param('ssss', $post_data['create_date'], $post_data['name'], $post_data['email'], $post_data['message']);
+	$stmt->bind_param('ssss', $post_data['create_ts'], $post_data['name'], $post_data['email'], $post_data['message']);
 	$result = $stmt->execute();
 	if ($result) {
 		$post_data['id'] = $conn->insert_id;
