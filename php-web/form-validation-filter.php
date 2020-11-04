@@ -4,7 +4,7 @@
 //print_r($_SERVER);
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $error = [];
-    if (!filter_var($_POST['string'], FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => '/\w+/']])) {
+    if (!filter_var($_POST['string'], FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => '/^\w+$/']])) {
         $error['string'] = 'Accept words only';
     }
     if (!filter_var($_POST['int'], FILTER_VALIDATE_INT)) {
