@@ -1,4 +1,6 @@
-A CMS built with vanilla PHP
+A CMS built with vanilla PHP - using plain functions.
+
+It's using a DB for storage.
 
 To get started:
 
