@@ -1,12 +1,16 @@
 <?php
-// MarkNotes Constant Vars
-// - You may change these to customize for your need
-$title = 'MarkNotes';        // Use to display the HTML title and Admin logo text.
-$admin_password = '';        // Password to enter into admin area.
-$max_menu_levels = 3;        // Max number of depth level to list for menu links (sub-folders).
-$default_ext = '.md';        // File extension to manage. All else are ignore.
-$default_notes_dir = '';     // Specify the root dir for note files. Blank means current dir.
-$default_note = 'readme.md'; // Default page to load in a notes dir.
+// MarkNotes Config Parameters
+// - You may change these here to customize for your need, or better yet use ".marknotes.json" file
+//   to override these.
+$config = array(
+    'title' => 'MarkNotes',        // Use to display the HTML title and Admin logo text.
+    'admin_password' => '',        // Password to enter into admin area.
+    'max_menu_levels' => 3,        // Max number of depth level to list for menu links (sub-folders).
+    'default_ext' => '.md',        // File extension to manage. All else are ignore.
+    'default_notes_dir' => '',     // Specify the root dir for note files. Blank means current dir.
+    'default_note' => 'readme.md', // Default page to load in a notes dir.
+    'root_menu_label' => ''        // Set a value to be displayed as root menu label
+);
 
 /**
  * MarkNotes is a single `index.php` page application for managing Markdown notes.
@@ -25,6 +29,9 @@ $default_note = 'readme.md'; // Default page to load in a notes dir.
 // ## MarkNotes
 //
 $marknotes_version = '1.1.0';
+
+// Read in config file if there is one and let it override config parameters defined above
+$config = array_merge($config, read_config());
 
 //
 // ### The services
@@ -95,22 +102,31 @@ function redirect($path) {
     exit();
 }
 
+function read_config() {
+    $file = __DIR__ . "/.marknotes.json";
+    if (file_exists($file)) {
+        $json = file_get_contents($file);
+        return json_decode($json, true);
+    }
+    return array();
+}
+
 //
 // ### The index controller
 //
 
 // Page Vars
 $is_admin = isset($_GET['admin']);
-$notes_dir = $_GET['notes_dir'] ?? $default_notes_dir;
+$notes_dir = $_GET['notes_dir'] ?? $config['default_notes_dir'];
 $action = $_GET['action'] ?? "file"; // Default action is to GET file
-$file = $_GET['file'] ?? $default_note;
+$file = $_GET['file'] ?? $config['default_note'];
 $url_path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $controller = $url_path . '?' . ($is_admin ? 'admin=true&' : '');
 $form_error = null;
 
 // Internal Vars
 // NOTE: File service should never browse outside of where this index.php located for security purpose.
-$file_service = new FileService(__DIR__ . ($notes_dir ? "/$notes_dir"  : ''), $default_ext);
+$file_service = new FileService(__DIR__ . ($notes_dir ? "/$notes_dir"  : ''), $config['default_ext']);
 
 // Support functions
 function validate_note_name($file_service, $name, $is_exists_check, $ext, $max_depth) {
@@ -143,9 +159,10 @@ function validate_note_content($content) {
     return $error;
 }
 
-function echo_menu_links($max_levels, $notes_dir, $active_file, $file_service, $controller) {
+function echo_menu_links($notes_dir, $active_file, $file_service, $controller, $max_levels, $root_menu_label) {
     $base_name = basename($notes_dir);
-    echo "<p class='menu-label'>$base_name</p>";
+    $menu_label = $base_name ?: $root_menu_label;
+    echo "<p class='menu-label'>$menu_label</p>";
     echo "<ul class='menu-list'>";
 
     $files = $file_service->get_files($notes_dir);
@@ -164,7 +181,7 @@ function echo_menu_links($max_levels, $notes_dir, $active_file, $file_service, $
         $dirs = $file_service->get_dirs($notes_dir);
         foreach ($dirs as $item) {
             $path_name = $notes_dir ? "$notes_dir/$item" : $item;
-            echo_menu_links($max_levels - 1, $path_name, $active_file, $file_service, $controller);
+            echo_menu_links($path_name, $active_file, $file_service, $controller, $max_levels - 1, $root_menu_label);
         }
     }
     
@@ -192,7 +209,7 @@ function logout() {
 
 // Process Request
 
-if ($is_admin && $admin_password !== '') {
+if ($is_admin && $config['admin_password'] !== '') {
     session_start();
     if (get_admin_session() === null) {
         $action = "login";
@@ -209,7 +226,7 @@ if ($is_admin && isset($_POST['action'])) {
     
     if ($action === 'login_submit') {
         $password = $_POST['password'];
-        $form_error = login($password, $admin_password);
+        $form_error = login($password, $config['admin_password']);
 
         if ($form_error === null) {
             redirect($controller);
@@ -220,7 +237,7 @@ if ($is_admin && isset($_POST['action'])) {
         $file_content = $_POST['file_content'];
         if ($form_error === null) {
             $is_exists_check = $action === 'new_submit';
-            $form_error = validate_note_name($file_service, $file, $is_exists_check, $default_ext, $max_menu_levels);
+            $form_error = validate_note_name($file_service, $file, $is_exists_check, $config['default_ext'], $config['max_menu_levels']);
         }
         if ($form_error === null) {
             $form_error = validate_note_content($file, $file_content);
@@ -257,7 +274,7 @@ if ($is_admin && isset($_POST['action'])) {
 if ($form_error === null) {
     if ($action === 'file' &&
         $file_service->exists($file) &&
-        validate_note_name($file_service, $file, false, $default_ext, $max_menu_levels) === null) {
+        validate_note_name($file_service, $file, false, $config['default_ext'], $config['max_menu_levels']) === null) {
         if (!isset($file_content)) {
             $file_content = $file_service->read($file);
         }
@@ -294,7 +311,7 @@ if ($form_error === null) {
         <script src="https://unpkg.com/codemirror@5.58.2/mode/markdown/markdown.js"></script>
         <script src="https://unpkg.com/codemirror@5.58.2/mode/gfm/gfm.js"></script>
     <?php } ?>
-    <title><?php echo $title; ?></title>
+    <title><?php echo $config['title']; ?></title>
 </head>
 <body>
 
@@ -302,7 +319,7 @@ if ($form_error === null) {
     <div class="navbar">
         <div class="navbar-brand">
             <div class="navbar-item">
-                <a class="title" href='<?php echo $controller; ?>'><?php echo $title; ?></a>
+                <a class="title" href='<?php echo $controller; ?>'><?php echo $config['title']; ?></a>
             </div>
         </div>
         <div class="navbar-end">
@@ -349,7 +366,7 @@ if ($form_error === null) {
                 <ul class="menu-list">
                     <li><a href='<?php echo $controller; ?>action=new'>New</a></li>
                     
-                    <?php if ($admin_password !== '' && get_admin_session() !== null) { ?>
+                    <?php if ($config['admin_password'] !== '' && get_admin_session() !== null) { ?>
                         <li><a href='<?php echo $controller . "action=logout"; ?>'>Logout</a></li>
                     <?php } else { ?>
                         <li><a href='<?php echo $url_path; ?>'>Exit</a></li>
@@ -357,7 +374,7 @@ if ($form_error === null) {
                 </ul>
             <?php } ?>
             
-            <?php echo_menu_links($max_menu_levels, $notes_dir, $file, $file_service, $controller); ?>
+            <?php echo_menu_links($notes_dir, $file, $file_service, $controller, $config['max_menu_levels'], $config['root_menu_label']); ?>
         </div>
         <div class="column is-9">
             <?php if ($action === 'file') { ?>
