@@ -1,4 +1,13 @@
 <?php
+// MarkNotes Constant Vars
+// - You may change these to customize for your need
+$title = 'MarkNotes';        // Use to display the HTML title and Admin logo text.
+$admin_password = '';        // Password to enter into admin area.
+$max_menu_levels = 3;        // Max number of depth level to list for menu links (sub-folders).
+$default_ext = '.md';        // File extension to manage. All else are ignore.
+$default_notes_dir = '';     // Specify the root dir for note files. Blank means current dir.
+$default_note = 'readme.md'; // Default page to load in a notes dir.
+
 /**
  * MarkNotes is a single `index.php` page application for managing Markdown notes.
  * 
@@ -6,55 +15,78 @@
  * License: The MIT License (MIT)
  * Author: Zemian Deng
  * Date: 2020-11-04
- * Version: 1.0.0
+ * 
+ * Release Notes:
+ * - 1.0.0 2020-10-01 First release!
+ * - 1.1.0 2020-11-07 Add nested folders browsing
  */
 
 //
 // ## MarkNotes
 //
+$marknotes_version = '1.1.0';
 
 //
 // ### The services
 // 
 class FileService {
-    var $scan_dir;
-    var $file_ext;
+    var $root_dir; // Root of the directory to work with. All relative paths should base from this.
+    var $file_ext; // We only will work with this file extension
 
     function __construct($scan_dir, $file_ext) {
-        if ($scan_dir === '') {
-            $scan_dir = './';
-        }
-        $this->scan_dir = $scan_dir;
+        $this->root_dir = $scan_dir;
         $this->file_ext = $file_ext;
     }
 
-    function get_files() {
+    function get_files($sub_path = '') {
         $ret = [];
-        $files = scandir($this->scan_dir);
-        for ($i = 0; $i < count($files); $i++) {
-            $file = $files[$i];
-            $len = strlen($this->file_ext);
-            if (substr_compare($file, $this->file_ext, -$len) === 0) {
-                array_push($ret, $file);
+        $dir = $this->root_dir . ($sub_path ? "/$sub_path" : '');
+        $files = array_slice(scandir($dir), 2);
+        foreach ($files as $file) {
+            if (is_file("$dir/$file")) {
+                $len = strlen($this->file_ext);
+                if (substr_compare($file, $this->file_ext, -$len) === 0) {
+                    array_push($ret, $file);
+                }
+            }
+        }
+        return $ret;
+    }
+
+    function get_dirs($sub_path = '') {
+        $ret = [];
+        $dir = $this->root_dir . ($sub_path ? "/$sub_path" : '');
+        $files = array_slice(scandir($dir), 2);
+        foreach ($files as $file) {
+            if (is_dir("$dir/$file")) {
+                // Do not include hidden dot folders
+                if (substr_compare($file, '.', 0, 1) !== 0) {
+                    array_push($ret, $file);
+                }
             }
         }
         return $ret;
     }
 
     function exists($file) {
-        return file_exists($this->scan_dir . "/" . $file);
+        return file_exists($this->root_dir . "/" . $file);
     }
 
     function read($file) {
-        return file_get_contents($this->scan_dir . "/" . $file);
+        return file_get_contents($this->root_dir . "/" . $file);
     }
 
     function write($file, $contents) {
-        return file_put_contents($this->scan_dir . "/" . $file, $contents);
+        $file_path = $this->root_dir . "/" . $file;
+        $dir_path = pathinfo($file_path, PATHINFO_DIRNAME);
+        if (!is_dir($dir_path)) {
+            mkdir($dir_path, 0777, true);
+        }
+        return file_put_contents($file_path, $contents);
     }
 
     function delete($file) {
-        return $this->exists($file) && unlink($this->scan_dir . "/" . $file);
+        return $this->exists($file) && unlink($this->root_dir . "/" . $file);
     }
 }
 
@@ -67,35 +99,33 @@ function redirect($path) {
 // ### The index controller
 //
 
-// Temp Vars
-$url_path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-
 // Page Vars
-$default_ext = ".md";
-$default_note = 'readme.md';
 $is_admin = isset($_GET['admin']);
-$notes_dir = $_GET['notes_dir'] ?? '';
-$action = $_GET['action'] ?? "file";
+$notes_dir = $_GET['notes_dir'] ?? $default_notes_dir;
+$action = $_GET['action'] ?? "file"; // Default action is to GET file
 $file = $_GET['file'] ?? $default_note;
 $url_path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $controller = $url_path . '?' . ($is_admin ? 'admin=true&' : '');
 $form_error = null;
 
 // Internal Vars
-$file_service = new FileService($notes_dir, $default_ext);
+// NOTE: File service should never browse outside of where this index.php located for security purpose.
+$file_service = new FileService(__DIR__ . ($notes_dir ? "/$notes_dir"  : ''), $default_ext);
 
 // Support functions
-function validate_note_name($file_service, $name, $is_exists_check = true, $ext = '.md') {
+function validate_note_name($file_service, $name, $is_exists_check, $ext, $max_depth) {
     $error = 'Invalid name: ';
     $n = strlen($name);
-    if (!($n > 0 && $n < 100)) {
+    if (!($n > 0 && $n < 30 * $max_depth)) {
         $error .= 'Must not be empty and less than 100 chars.';
-    } else if (!preg_match('/^[\w_\-\.]+$/', $name)) {
+    } else if (!preg_match('/^[\w_\-\.\/]+$/', $name)) {
         $error .= "Must use alphabetic, numbers, '_', '-' characters only.";
     } else if (!preg_match('/' . $ext . '$/', $name)) {
         $error .= "Must have $ext extension.";
     } else if ($is_exists_check && $file_service->exists($name)) {
         $error .= "File already exists.";
+    } else if (substr_count($name, '/') > $max_depth) {
+        $error .= "File nested path be less than $max_depth levels.";
     } else {
         $error = null;
     }
@@ -113,7 +143,61 @@ function validate_note_content($content) {
     return $error;
 }
 
+function echo_menu_links($max_levels, $notes_dir, $active_file, $file_service, $controller) {
+    $base_name = basename($notes_dir);
+    echo "<p class='menu-label'>$base_name</p>";
+    echo "<ul class='menu-list'>";
+
+    $files = $file_service->get_files($notes_dir);
+    $i = 0; // Use to track last item in loop
+    $files_len = count($files);
+    foreach ($files as $item) {
+        $path_name = $notes_dir ? "$notes_dir/$item" : $item;
+        $is_active = ($path_name === $active_file) ? "is-active": "";
+        echo "<li><a class='$is_active' href='{$controller}file=$path_name'>$item</a>";
+        if ($i++ < ($files_len - 1)) {
+            echo "</li>"; // We close all <li> except last one so Bulma memu list can be nested
+        }
+    }
+    
+    if ($max_levels > 0) {
+        $dirs = $file_service->get_dirs($notes_dir);
+        foreach ($dirs as $item) {
+            $path_name = $notes_dir ? "$notes_dir/$item" : $item;
+            echo_menu_links($max_levels - 1, $path_name, $active_file, $file_service, $controller);
+        }
+    }
+    
+    echo "</li>"; // Last menu item
+    echo "</ul>";
+}
+
+function get_admin_session() {
+    return $_SESSION['login'] ?? null;
+}
+
+function login($password, $admin_password) {
+    $n = strlen($password);
+    if (!($n > 0 && $n < 20) || $password !== $admin_password) {
+        return "Invalid Password";
+    } else {
+        $_SESSION['login'] = array('login_ts' => time());
+        return null;
+    }
+}
+
+function logout() {
+    unset($_SESSION['login']);
+}
+
 // Process Request
+
+if ($is_admin && $admin_password !== '') {
+    session_start();
+    if (get_admin_session() === null) {
+        $action = "login";
+    }
+}
 
 // - If notes dir is not default, ensure we retain it on next request.
 if ($notes_dir !== 'notes') {
@@ -121,20 +205,30 @@ if ($notes_dir !== 'notes') {
 }
 
 if ($is_admin && isset($_POST['action'])) {
-    // Process both new_submit and edit_submit
     $action = $_POST['action'];
-    $file = $_POST['file'];
-    $file_content = $_POST['file_content'];
-    if ($form_error === null) {
-        $is_exists_check = $action === 'new_submit';
-        $form_error = validate_note_name($file_service, $file, $is_exists_check, $default_ext);
-    }
-    if ($form_error === null) {
-        $form_error = validate_note_content($file, $file_content);
-    }
-    if ($form_error === null) {
-        $file_service->write($file, $file_content);
-        redirect($controller . "file=$file");
+    
+    if ($action === 'login_submit') {
+        $password = $_POST['password'];
+        $form_error = login($password, $admin_password);
+
+        if ($form_error === null) {
+            redirect($controller);
+        }
+    } else {
+        // Process both new_submit and edit_submit
+        $file = $_POST['file'];
+        $file_content = $_POST['file_content'];
+        if ($form_error === null) {
+            $is_exists_check = $action === 'new_submit';
+            $form_error = validate_note_name($file_service, $file, $is_exists_check, $default_ext, $max_menu_levels);
+        }
+        if ($form_error === null) {
+            $form_error = validate_note_content($file, $file_content);
+        }
+        if ($form_error === null) {
+            $file_service->write($file, $file_content);
+            redirect($controller . "file=$file");
+        }
     }
 } else if ($is_admin && $action === 'new') {
     $file = '';
@@ -155,16 +249,21 @@ if ($is_admin && isset($_POST['action'])) {
     } else {
         $delete_status = "File not found: $file";
     }
+} else if ($action === 'logout') {
+    logout();
+    redirect($controller);
 }
 
 if ($form_error === null) {
-    if ($action === 'file' && $file_service->exists($file)) {
+    if ($action === 'file' &&
+        $file_service->exists($file) &&
+        validate_note_name($file_service, $file, false, $default_ext, $max_menu_levels) === null) {
         if (!isset($file_content)) {
             $file_content = $file_service->read($file);
         }
         $parsedown = new Parsedown();
         $file_content_formatted = $parsedown->text($file_content);
-    } else {
+    } else if ($action !== 'login') {
         $file_content_formatted = "File not found: $file";
     }
 }
@@ -195,7 +294,7 @@ if ($form_error === null) {
         <script src="https://unpkg.com/codemirror@5.58.2/mode/markdown/markdown.js"></script>
         <script src="https://unpkg.com/codemirror@5.58.2/mode/gfm/gfm.js"></script>
     <?php } ?>
-    <title>Docs</title>
+    <title><?php echo $title; ?></title>
 </head>
 <body>
 
@@ -203,7 +302,7 @@ if ($form_error === null) {
     <div class="navbar">
         <div class="navbar-brand">
             <div class="navbar-item">
-                <a class="title" href='<?php echo $controller; ?>'>MarkNotes</a>
+                <a class="title" href='<?php echo $controller; ?>'><?php echo $title; ?></a>
             </div>
         </div>
         <div class="navbar-end">
@@ -219,26 +318,46 @@ if ($form_error === null) {
     </div>
 <?php }?>
 
-<section class="section">
+<?php if ($is_admin && ($action === 'login' || $action === 'login_submit')) { ?>
+    <section class="section">
+        <?php if ($form_error !== null) { ?>
+            <div class="notification is-danger"><?php echo $form_error; ?></div>
+        <?php } ?>
+        <div class="level">
+            <div class="level-item has-text-centered">
+                <form method="POST" action="<?php echo $controller; ?>">
+                    <input type="hidden" name="action" value="login_submit">
+                    <div class="field">
+                        <div class="label">Admin Password</div>
+                        <div class="control"><input class="input" type="password" name="password"></div>
+                    </div>
+                    <div class="field">
+                        <div class="control">
+                            <input class="button is-info" type="submit" name="submit" value="Login">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+<?php } else { ?>
+    <section class="section">
     <div class="columns">
         <div class="column is-3 menu">
             <?php if ($is_admin) { ?>
                 <p class="menu-label">Admin</p>
                 <ul class="menu-list">
                     <li><a href='<?php echo $controller; ?>action=new'>New</a></li>
-                    <li><a href='index.php'>Exit</a></li>
+                    
+                    <?php if ($admin_password !== '' && get_admin_session() !== null) { ?>
+                        <li><a href='<?php echo $controller . "action=logout"; ?>'>Logout</a></li>
+                    <?php } else { ?>
+                        <li><a href='<?php echo $url_path; ?>'>Exit</a></li>
+                    <?php } ?>
                 </ul>
             <?php } ?>
-
-            <p class="menu-label"><?php echo $notes_dir ?></p>
-            <ul class="menu-list">
-                <?php
-                foreach ($file_service->get_files() as $item) {
-                    $is_active = ($item === $file) ? "is-active": "";
-                    echo "<li><a class='$is_active' href='{$controller}file=$item'>$item</a></li>";
-                }
-                ?>
-            </ul>
+            
+            <?php echo_menu_links($max_menu_levels, $notes_dir, $file, $file_service, $controller); ?>
         </div>
         <div class="column is-9">
             <?php if ($action === 'file') { ?>
@@ -318,6 +437,7 @@ if ($form_error === null) {
         </div>
     </div>
 </section>
+<?php } ?>
 
 <?php if ($action === 'new' || $action === 'edit') { ?>
 <script>
@@ -329,6 +449,13 @@ if ($form_error === null) {
     });
     editor.setSize(null, '500');
 </script>
+<?php } ?>
+
+<?php if ($is_admin) { ?>
+<div class="footer">
+    <p>This site is powered by <a href="https://github.com/zemian/marknotes">MarkNotes <?php echo $marknotes_version; ?></a></p>
+    <?php echo date('Y') . ' &copy; Zemian Deng' ?>
+</div>
 <?php } ?>
 
 </body>
