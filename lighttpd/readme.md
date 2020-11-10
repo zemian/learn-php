@@ -2,7 +2,7 @@
 
   brew install lighttpd
 
-## Setup for a web server on MacOS
+## Override conf Setup for a web server on MacOS
 
 The config file here assumes `/usr/local/var/www` is your DocumentRoot and port is 3001.
 
@@ -29,3 +29,34 @@ The `php-cgi` is easier to setup and you can simply use `/tmp/php.socket` in the
 
 
 The `php-fpm` usually is used for production uses and run as a daemon service with a port. We can also configure it to use a unix socket file if needed.
+
+## Modify exisitng conf web server
+
+1. Edit `/usr/local/etc/lighttpd/modules.conf` and enable `include "conf.d/fastcgi.conf"`.
+
+2. Edit `/usr/local/etc/lighttpd/conf.d/fastcgi.conf` and enable `fastcgi.server` section with only `php-local` entry. Change `socket`, `bin-path` and `mx-procs`.
+	
+	```
+	# Example
+	fastcgi.server = ( ".php" =>
+                   ( "php-local" =>
+                     (
+                       "socket" => "/tmp/php-fastcgi-1.socket",
+                       "bin-path" => "/usr/local/bin/php-cgi",
+                       "max-procs" => 4,
+                       "broken-scriptfilename" => "enable",
+                     ),
+                   ),
+                 )
+	```
+
+3. Edit `/usr/local/etc/lighttpd/lighttpd.conf` and change the following:
+
+	* Set `var.server_root = "/usr/local/var/www"`
+	* Set `server.port = 80`
+
+4. Now `/usr/local/var/www` is ready to run any PHP application.
+
+Should you need debug, see log file at `/usr/local/var/log/lighttpd/error.log`.
+
+For more details on `fastcgi.server` config, see https://redmine.lighttpd.net/projects/lighttpd/wiki/Docs_ModFastCGI
