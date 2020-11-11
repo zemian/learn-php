@@ -11,6 +11,7 @@
 <H1>PHP Lessons</H1>
 <ul>
     <?php
+    // List of PHP files
     $files = scandir(".");
     for ($i = 0; $i < count($files); $i++) {
         $file = $files[$i];
