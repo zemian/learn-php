@@ -1,35 +1,35 @@
 <?php
 /**
- * MarkNotes is a single `index.php` page application for managing Markdown notes.
+ * FirePage is a single `index.php` page application for managing Markdown notes.
  *
- * Project Home: https://github.com/zemian/marknotes
+ * Project Home: https://github.com/zemian/firepage
  * License: The MIT License (MIT)
  * Author: Zemian Deng
  */
 
 //
-// ## MarkNotes
+// ## FirePage
 //
 
 // Global Vars
-define('MARKNOTES_VERSION', '1.3.0');
-define('MARKNOTES_CONFIG_ENV_KEY', 'MARKNOTES_CONFIG');
-define('MARKNOTES_CONFIG_NAME', '.marknotes.json');
-define('MARKNOTES_DEAFULT_ROOT_DIR', __DIR__);
+define('FIREPAGE_VERSION', '1.4.0');
+define('FIREPAGE_CONFIG_ENV_KEY', 'FIREPAGE_CONFIG');
+define('FIREPAGE_CONFIG_NAME', '.firepage.json');
+define('FIREPAGE_DEAFULT_ROOT_DIR', __DIR__);
 
 //
-// ### The MarkNotes Application
+// ### The FirePage Application
 // 
 class MarkNotesApp {
     
     function __construct() {
         // Read in external config file for override
-        $config_file = getenv(MARKNOTES_CONFIG_ENV_KEY) ?: (MARKNOTES_DEAFULT_ROOT_DIR . "/" . MARKNOTES_CONFIG_NAME);
+        $config_file = getenv(FIREPAGE_CONFIG_ENV_KEY) ?: (FIREPAGE_DEAFULT_ROOT_DIR . "/" . FIREPAGE_CONFIG_NAME);
         $config = $this->read_config($config_file);
 
         // Config parameters
-        $this->root_dir = ($config['root_dir'] ?? '') ?: MARKNOTES_DEAFULT_ROOT_DIR;
-        $this->title = $config['title'] ?? 'MarkNotes';
+        $this->root_dir = ($config['root_dir'] ?? '') ?: FIREPAGE_DEAFULT_ROOT_DIR;
+        $this->title = $config['title'] ?? 'FirePage';
         $this->admin_password = $config['admin_password'] ?? '';
         $this->root_menu_label = $config['root_menu_label'] ?? 'Notes';
         $this->max_menu_levels = $config['max_menu_levels'] ?? 2;
@@ -211,7 +211,7 @@ class MarkNotesApp {
         $files = array_slice(scandir($dir), 2);
         foreach ($files as $file) {
             $dir_file = "$dir/$file";
-            if (is_file($dir_file) && $file !== MARKNOTES_CONFIG_NAME) {
+            if (is_file($dir_file) && $file !== FIREPAGE_CONFIG_NAME) {
                 if ($this->is_file_excluded($dir_file)) {
                     continue;
                 }
@@ -324,8 +324,8 @@ class MarkNotesApp {
             $error .= "Must use alphabetic, numbers, '_', '-' characters only.";
         } else if (!preg_match('/(' . $ext_words . ')$/', $name)) {
             $error .= "Must have $ext_words extension.";
-        } else if (preg_match('/' . MARKNOTES_CONFIG_NAME . '$/', $name)) {
-            $error .= "Must not be reversed file: " . MARKNOTES_CONFIG_NAME;
+        } else if (preg_match('/' . FIREPAGE_CONFIG_NAME . '$/', $name)) {
+            $error .= "Must not be reversed file: " . FIREPAGE_CONFIG_NAME;
         } else if (preg_match('#(^\.)|(/\.)#', $name)) {
             $error .= "Must not be a dot file or folder.";
         } else if ($is_exists_check && $this->exists($name)) {
@@ -714,7 +714,7 @@ $page = $app->process_request();
 <?php } /* End of Not login form. */ ?>
 
 <div class="footer">
-    <p>Powered by <a href="https://github.com/zemian/marknotes">MarkNotes <?php echo MARKNOTES_VERSION; ?></a></p>
+    <p>Powered by <a href="https://github.com/zemian/firepage">FirePage <?php echo FIREPAGE_VERSION; ?></a></p>
 </div>
 
 </body>
