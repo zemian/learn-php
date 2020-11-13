@@ -1,0 +1,5 @@
+/* Custom CSS for FoxPages - Shared by note.php and admin.php */
+
+.has-min-content-height {
+    min-height: 80vh;
+}

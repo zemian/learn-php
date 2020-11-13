@@ -1,0 +1,21 @@
+{
+  "admin_password": "",
+  "title" : "FoxPages",
+  "content_dir" : "notes",
+  "templates_dir" : "templates",
+  "allow_extensions" : [".html", ".md", ".txt", ".json"],
+  "root_menu_label" : "Notes",
+  "exclude_folders" : ["data"],
+  "max_menu_levels": 3,
+  "default_page" : "home.md",
+  "log_file" : "marknotes.log",
+  "log_level" : "off",
+  "is_pretty_link": true,
+  "is_auto_links": true,
+  "menu_links_override": {
+    "home.md": {"order":  1, "link_label":  "Home"},
+    "help.md": {"order":  2, "link_label":  "Help", "is_exclude_display": true},
+    ".config": {"menu_order": 1, "is_disable_pretty_link": true},
+    "data": {"menu_order": 2, "is_disable_pretty_link": true}
+  }
+}

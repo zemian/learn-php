@@ -1,0 +1,20 @@
+<script src="https://unpkg.com/vue"></script>
+<h1>VueJS Demo</h1>
+<div id="app">
+    {{message}}
+</div>
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            message: ''
+        },
+        created: function() {
+            fetch("index.php?note=data/hello.json")
+                .then(resp => resp.json())
+                .then(data => {
+                    this.message = data.message;
+                });
+        }
+    });
+</script>
