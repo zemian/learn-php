@@ -10,7 +10,7 @@
     $hostname = "localhost:3306";
     $username = "zemian";
     $password = "test123";
-    $dbname = "learnphpdb";
+    $dbname = "testdb";
 
     /*
     // == Older style of mysql_connect()

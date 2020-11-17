@@ -7,7 +7,7 @@ class App {
     var $user;
 
     function init() {
-        $this->db = new PDO('mysql:host=localhost;dbname=learnphpdb', 'zemian', 'test123');
+        $this->db = new PDO('mysql:host=localhost;dbname=testdb', 'zemian', 'test123');
 
         // Ensure DB raise error when fail with constraints
         $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

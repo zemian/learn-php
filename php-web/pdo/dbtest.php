@@ -1,5 +1,5 @@
 <?php
-$db = new PDO('mysql:host=localhost;dbname=learnphpdb', 'zemian', 'test123');
+$db = new PDO('mysql:host=localhost;dbname=testdb', 'zemian', 'test123');
 $stmt = $db->query('SELECT VERSION()');
 $mysql_version = $stmt->fetch()[0];
 ?>

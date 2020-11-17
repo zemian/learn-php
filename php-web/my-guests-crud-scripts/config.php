@@ -5,7 +5,7 @@ function create_conn() {
         "hostname" => "localhost",
         "username" => "zemian",
         "password" => "test123",
-        "dbname" => "learnphpdb"
+        "dbname" => "testdb"
     ];
     $conn = new mysqli($db_config["hostname"],
         $db_config["username"],

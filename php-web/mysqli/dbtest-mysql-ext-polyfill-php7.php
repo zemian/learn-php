@@ -14,7 +14,7 @@
     $hostname = "localhost";
     $username = "zemian";
     $password = "test123";
-    $dbname = "learnphpdb";
+    $dbname = "testdb";
 
     /*
     // == Older style of mysql_connect()

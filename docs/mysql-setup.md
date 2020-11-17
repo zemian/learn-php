@@ -59,12 +59,12 @@ In the DB server `my.cnf` config file, add the following:
 default-authentication-plugin=mysql_native_password
 ```
 
-## Backup and Restore `learnphpdb`
+## Backup and Restore `testdb`
 
 ```
 # Backup
-mysqldump --single-transaction --quick --no-autocommit --extended-insert=false -u root learnphpdb > learnphpdb-`date +%s`-dump.sql
+mysqldump --single-transaction --quick --no-autocommit --extended-insert=false -u root testdb > testdb-`date +%s`-dump.sql
 
 # Restore
-mysql -f -u root learnphpdb < learnphpdb-<date>-dump.sql
+mysql -f -u root testdb < testdb-<date>-dump.sql
 ```

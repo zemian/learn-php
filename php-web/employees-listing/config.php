@@ -3,7 +3,7 @@ $db_config = [
     "hostname" => "localhost",
     "username" => "zemian",
     "password" => "test123",
-    "dbname" => "learnphpdb"
+    "dbname" => "testdb"
 ];
 
 function create_conn() {

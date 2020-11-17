@@ -6,8 +6,8 @@
 You need to setup DB and a table first
 
 CREATE USER 'zemian'@'localhost' IDENTIFIED WITH mysql_native_password BY 'test123';
-CREATE DATABASE learnphpdb CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-GRANT ALL PRIVILEGES ON learnphpdb.* TO 'zemian'@'localhost';
+CREATE DATABASE testdb CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+GRANT ALL PRIVILEGES ON testdb.* TO 'zemian'@'localhost';
 FLUSH PRIVILEGES;
 
 CREATE TABLE MyGuests (
