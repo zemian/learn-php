@@ -73,9 +73,15 @@
 //$a2 = array_map(fn ($e) => $e * 2, $a);
 //print_r($a2);
 
-// Array filter callback
-// NOTE: First parameter is array!
-// See http://phpsadness.com/sad/6
-$a = range(1, 10);
-$a2 = array_filter($a, fn ($e) => $e % 2 == 0);
-print_r($a2);
+//// Array filter callback
+//// NOTE: First parameter is array!
+//// See http://phpsadness.com/sad/6
+//$a = range(1, 10);
+//$a2 = array_filter($a, fn ($e) => $e % 2 == 0);
+//print_r($a2);
+
+echo "\n\n";
+echo "Is array an object? :\n";
+// Note an array is not an object!
+$a = array();
+var_dump(is_object($a));

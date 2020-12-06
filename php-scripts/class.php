@@ -51,12 +51,19 @@
 //}
 //print_r(new Foo('test'));
 
-// Constants within Class
-class Foo {
-    const PI = 3.14;
-    function demoPI() {
-        echo "PI = " . Foo::PI;
-    }
-}
-echo "Access constant: " . Foo::PI, "\n";
-echo (new Foo())->demoPI(), "\n";
+//// Constants within Class
+//class Foo {
+//    const PI = 3.14;
+//    function demoPI() {
+//        echo "PI = " . Foo::PI;
+//    }
+//}
+//echo "Access constant: " . Foo::PI, "\n";
+//echo (new Foo())->demoPI(), "\n";
+
+// This is like associative array, but not same type!
+echo "\n\nThere is generic stdClass that act as map:\n";
+$a = new stdClass();
+$a->foo = "Foo";
+$a->bar = 99;
+print_r($a);
