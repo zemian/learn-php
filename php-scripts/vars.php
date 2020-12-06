@@ -52,3 +52,24 @@
 //echo $foo, "\n";
 //$bar = "test";
 //echo "Variable name: ${$foo}\n";
+
+// https://www.php.net/manual/en/ref.var.php
+//echo "\n\nChecking for variable types:\n";
+//var_dump("is_bool", is_bool("1"));
+//var_dump("is_bool", is_bool(boolval("1")));
+//var_dump("is_array", is_array([]));
+//var_dump("is_array", is_array(['foo' => 99]));
+//var_dump("is_array", is_array(explode(' ', 'a b c')));
+//var_dump("is_array", is_array(new stdClass()));
+//var_dump("is_object", is_object(new stdClass()));
+//var_dump("is_object", is_object([]));
+//var_dump("is_callable", is_callable('is_callable'));
+//var_dump("is_callable", is_callable('var_dump'));
+//var_dump("is_callable", is_callable(null));
+//var_dump("is_callable", is_callable('foo'));
+
+echo "\n\nGet types:\n";
+$data = array(1, 1., NULL, new stdClass, 'foo');
+foreach ($data as $value) {
+    echo gettype($value), "\n";
+}
