@@ -33,3 +33,25 @@ function bar2(&$a) {
 $s = "test";
 bar($s);
 echo "after bar(): $s\n";
+
+echo "\n\n";
+echo "Modifying object argument:\n";
+class Foo {
+    public string $name = '';
+}
+// Note that you don't need reference on "$a"
+function change_foo($a) {
+    $a->name = "foo edited";
+}
+$f = new Foo();
+$f->name = "foo";
+print_r($f);
+change_foo($f);
+echo "After change\n";
+print_r($f);
+
+// More on object and reference: https://www.php.net/manual/en/language.oop5.references.php
+// There is a difference between pointer and reference.
+// A pointer is memory address identifier to a object when using "new" operator assignment.
+// A reference is a alias (copy) of the address identifier.
+
