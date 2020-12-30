@@ -52,8 +52,7 @@ function process_request() {
 
 function print_json($payload) {
     header("Access-Control-Allow-Origin: *");
-    header("Content-Type: application/json; charset=UTF-8");
-    header('Content-Type: application/json');
+    header("Content-Type: application/json");
     echo json_encode($payload);
 }
 
@@ -70,33 +69,6 @@ function connect_db() {
     return $db;
 }
 
-function run_sql($sql, $options = []) {
-    $params = $options['params'] ?? [];
-    $paramTypes = $options['paramTypes'] ?? [];
-    $rowCount = $options['rowCount'] ?? false;
-    $db = connect_db();
-    $stmt = $db->prepare($sql);
-    $count = count($params);
-    if ($count > 0) {
-        for ($i = 0; $i < $count; $i++) {
-            $param = $params[$i];
-            $type = $paramTypes[$i] ?? PDO::PARAM_STR;
-            $stmt->bindValue($i + 1, $param, $type);
-        }
-    }
-    $success = $stmt->execute();
-    if (!$success) {
-        $msg = "Failed to execute SQL: $sql; Params: " . var_export($params, true);
-        $code = $db->errorCode();
-        $e =  new PDOException($msg, $code);
-        $e->errorInfo = $db->errorInfo();
-        throw $e;
-    }
-    if ($rowCount)
-        return $stmt->rowCount();
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
-}
-
 function test_db() {
     try {
         $sql = 'SELECT VERSION() AS mysql_version';
@@ -110,9 +82,9 @@ function test_db() {
 
 function init_table() {
     try {
-        // Drop table if exists!
-        run_sql('DROP TABLE IF EXISTS contacts');
-        run_sql('
+        $db = connect_db();
+        $db->exec('DROP TABLE IF EXISTS contacts');
+        $db->exec('
         CREATE TABLE contacts (
             id INT  NOT NULL AUTO_INCREMENT PRIMARY KEY,
             create_ts TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -127,14 +99,14 @@ function init_table() {
     }
 }
 
-function create_data() {
-    // Generate random tests data
-    $count = $_GET['count'] ?? 10;
-    $request_id = $_GET['request_id'] ?? time();
-    $name = $_GET['name'] ?? 'tester';
-    $message = $_GET['message'] ?? 'Just a test.';
-    
+function create_data() {    
     try {
+        // Generate random tests data
+        $count = $_GET['count'] ?? 10;
+        $request_id = $_GET['request_id'] ?? time();
+        $name = $_GET['name'] ?? 'tester';
+        $message = $_GET['message'] ?? 'Just a test.';
+        
         $sql = 'INSERT INTO contacts(name, email, message) VALUES (?, ?, ?)';
         $db = connect_db();
         $stmt = $db->prepare($sql);
@@ -163,7 +135,12 @@ function list_data() {
         $offset = $_GET['offset'] ?? 0;
         $limit = $_GET['limit'] ?? 20;
         $sql = 'SELECT * FROM contacts ORDER BY create_ts LIMIT ?, ?';
-        $result = run_sql($sql, ['params' => [$offset, $limit], 'paramTypes' => [PDO::PARAM_INT, PDO::PARAM_INT]]);
+        $db = connect_db();
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(1, $offset, PDO::PARAM_INT);
+        $stmt->bindValue(2, $limit, PDO::PARAM_INT);
+        $stmt->execute();
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
         print_json($result);
     } catch (PDOException $e) {
         print_error($e);
@@ -174,7 +151,11 @@ function delete_data() {
     try {
         $id = $_GET['id'] ?? 0;
         $sql = 'DELETE FROM contacts WHERE id = ?';
-        $result = run_sql($sql, ['params' => [$id], 'paramTypes' => [PDO::PARAM_INT], 'rowCount' => true]);
+        $db = connect_db();
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(1, $id, PDO::PARAM_INT);
+        $stmt->execute();
+        $result = $stmt->rowCount();
         if ($result > 0)
             print_json(['message' => "Record id $id has been deleted"]);
         else
@@ -188,7 +169,11 @@ function get_data() {
     try {
         $id = $_GET['id'] ?? 0;
         $sql = 'SELECT * FROM contacts WHERE id = ?';
-        $result = run_sql($sql, ['params' => [$id], 'paramTypes' => [PDO::PARAM_INT]]);
+        $db = connect_db();
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(1, $id, PDO::PARAM_INT);
+        $stmt->execute();
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
         if (count($result) > 0)
             print_json($result[0]);
         else
@@ -204,10 +189,14 @@ function update_data() {
         $data = json_decode($body, true); // true = parse into array instead of object
         $id = $data['id'];
         $sql = 'UPDATE contacts SET name = ?, email = ?, message = ? WHERE id = ?';
-        $result = run_sql($sql, [
-            'params' => [$data['name'], $data['email'], $data['message'], $id],
-            'paramTypes' => [PDO::PARAM_STR, PDO::PARAM_STR, PDO::PARAM_STR, PDO::PARAM_INT],
-            'rowCount' => true]);
+        $db = connect_db();
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(1, $data['name']);
+        $stmt->bindValue(2, $data['email']);
+        $stmt->bindValue(3, $data['message']);
+        $stmt->bindValue(4, $id, PDO::PARAM_INT);
+        $stmt->execute();
+        $result = $stmt->rowCount();
         if ($result > 0)
             print_json(['message' => "Record id $id has been updated"]);
         else
