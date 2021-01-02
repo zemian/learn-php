@@ -3,3 +3,4 @@
 temp/
 work/
 vendor/
+**/test*.php
