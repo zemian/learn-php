@@ -1,6 +1,4 @@
-<link rel="stylesheet" href="https://unpkg.com/@fortawesome/fontawesome-free@latest/css/all.min.css">
-<link rel="stylesheet" href="https://unpkg.com/bulma">
-<script src="https://unpkg.com/vue@next"></script>
+<?php require 'header.php' ?>
 <div id="app" class="section">
     <h1 class="title">Contacts</h1>
     <p>Total Items: {{totalItems}}</p>
@@ -91,7 +89,7 @@
         },
         methods: {
             fetchData: function () {
-                let url = `http://localhost/learn-php/data-api/contacts-api.php?offset=${this.offset}&limit=${this.pageSize}`;
+                let url = `api.php?offset=${this.offset}&limit=${this.pageSize}`;
                 fetch(url).then(resp => resp.json()).then(data => {
                     this.contacts = data.items;
                     this.totalItems = data.total_items;
@@ -125,3 +123,5 @@
         }
     }).mount('#app');
 </script>
+<?php require 'footer.php' ?>
+
