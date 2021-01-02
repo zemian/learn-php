@@ -11,7 +11,7 @@ http://localhost/learn-php/data-api/index.php?offset=20
 http://localhost/learn-php/data-api/index.php?action=get_data&id=1
 http://localhost/learn-php/data-api/index.php?action=delete_data&id=1
 curl \
-  -d '{"id":"1", "name":"tester","email":"tester@localhost.com","message":"Just a test for update"}' \
+  -d '{"id":"1", "name":"tester","email":"tester@localhost.com","subject": "Update test","message":"Just a test."}' \
   -H 'Content-Type: application/json' \
   http://localhost/learn-php/data-api/index.php?action=update_data
 
@@ -90,6 +90,7 @@ function init_table() {
             create_ts TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
             name VARCHAR(100) NOT NULL,
             email VARCHAR(200) NOT NULL,
+            subject VARCHAR(500) NOT NULL,
             message TEXT NOT NULL
         )'
         );
@@ -105,15 +106,18 @@ function create_data() {
         $count = $_GET['count'] ?? 10;
         $request_id = $_GET['request_id'] ?? time();
         $name = $_GET['name'] ?? 'tester';
+        $email = $_GET['email'] ?? '@localhost.com';
+        $subject = $_GET['subject'] ?? 'Test#' . $request_id;
         $message = $_GET['message'] ?? 'Just a test.';
         
-        $sql = 'INSERT INTO contacts(name, email, message) VALUES (?, ?, ?)';
+        $sql = 'INSERT INTO contacts(name, email, subject, message) VALUES (?, ?, ?, ?)';
         $db = connect_db();
         $stmt = $db->prepare($sql);
         for ($i = 0; $i < $count; $i++) {
             $stmt->bindValue(1, $name . $i);
-            $stmt->bindValue(2, $name . $i . '@localhost.com');
-            $stmt->bindValue(3, $message . '\nrequest_id=' . $request_id);
+            $stmt->bindValue(2, $name . $i . $email);
+            $stmt->bindValue(3, $subject);
+            $stmt->bindValue(4, $message);
             $success = $stmt->execute();
             if (!$success)
                 throw new PDOException("Failed to execute SQL: $sql");
@@ -134,7 +138,8 @@ function list_data() {
         // List and paginate data
         $offset = $_GET['offset'] ?? 0;
         $limit = $_GET['limit'] ?? 20;
-        $sql = 'SELECT * FROM contacts ORDER BY create_ts LIMIT ?, ?';
+        // We will not get message field for listing
+        $sql = 'SELECT id, create_ts, name, email, subject FROM contacts ORDER BY create_ts LIMIT ?, ?';
         $db = connect_db();
         $stmt = $db->prepare($sql);
         $stmt->bindValue(1, $offset, PDO::PARAM_INT);
@@ -185,6 +190,7 @@ function delete_data() {
 function get_data() {
     try {
         $id = $_GET['id'] ?? 0;
+        // Get all fields, including message
         $sql = 'SELECT * FROM contacts WHERE id = ?';
         $db = connect_db();
         $stmt = $db->prepare($sql);
@@ -210,6 +216,7 @@ function update_data() {
         $stmt = $db->prepare($sql);
         $stmt->bindValue(1, $data['name']);
         $stmt->bindValue(2, $data['email']);
+        $stmt->bindValue(2, $data['subject']);
         $stmt->bindValue(3, $data['message']);
         $stmt->bindValue(4, $id, PDO::PARAM_INT);
         $stmt->execute();
