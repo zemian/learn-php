@@ -138,9 +138,26 @@ function list_data() {
         $db = connect_db();
         $stmt = $db->prepare($sql);
         $stmt->bindValue(1, $offset, PDO::PARAM_INT);
-        $stmt->bindValue(2, $limit, PDO::PARAM_INT);
+        $stmt->bindValue(2, $limit + 1, PDO::PARAM_INT); // We want one extra so we can determine 'has_more' flag.
         $stmt->execute();
-        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $items = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $has_more = false;
+        if (count($items) > $limit) {
+            $has_more = true;
+            array_pop($items);
+        }
+        
+        $stmt = $db->query('SELECT COUNT(*) FROM contacts');
+        $stmt->execute();
+        $total_items = $stmt->fetchColumn();
+        
+        $result = [
+            'items' => $items,
+            'total_items' => intval($total_items),
+            'offset' => intval($offset),
+            'limit' => intval($limit),
+            'has_more' => $has_more
+        ];
         print_json($result);
     } catch (PDOException $e) {
         print_error($e);
