@@ -43,7 +43,7 @@
 
 //// Append to array
 //$a = [1, 2, 3];
-//$a[] = 4;
+//$a[] = 4; # For single element, it's better to use this!
 //array_push($a, 5);
 //print_r($a);
 
