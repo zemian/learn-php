@@ -17,9 +17,4 @@ $stmt = $db->query('SELECT * FROM tables');
 
 // Fetch all objects
 $results = $stmt->fetchAll(PDO::FETCH_OBJ);
-//var_dump($results);
-echo json_encode($results);
-//echo json_encode(array_filter($results, function ($e) { return preg_match('/columns_priv/i', $e->TABLE_NAME); }));
-
-//TODO: Why this result missing ']' in json ?
-echo json_encode(array_filter($results, function ($e) { return preg_match('/^a/i', $e->TABLE_NAME); }));
+var_dump($results);
