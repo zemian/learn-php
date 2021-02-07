@@ -1,3 +1,23 @@
+## Quick Setup
+You will need the following:
+
+* PHP (PHP 7 is much faster than 5!)
+* Database (MySQL or MariaDB)
+* WebServer (Apache, Nginx, Lighttpd or just PHP web server)
+
+If you are using Mac, then the following can setup the packages using Homebrew just as easily:
+
+	brew install services mysql php
+	brew services start mysql
+
+Then fires up your web server. PHP comes with a simple development server! Just run:
+
+	php -S localhost:3000
+
+Another way to get these software is to use a pre-package installer. See [php-pakcage-installer.md](docs/php-pakcage-installer.md) for more details.
+
+Now we will go over each software setup in more details below.
+
 ## PHP on Mac
 
 The easiest way is to use `brew install php`.
