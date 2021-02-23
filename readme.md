@@ -1,6 +1,7 @@
 ## About PHP
 
-[PHP](https://www.php.net/) is a popular general-purpose scripting language that is especially suited to web development.
+[PHP](https://www.php.net/) is a popular general-purpose scripting language that is especially 
+suited to web development.
 
 Getting started:
 
@@ -9,7 +10,6 @@ Getting started:
 php -a
 
 # Web Server
-cd php-web
 php -S localhost:3000
 open http://localhost:3000
 
@@ -18,7 +18,7 @@ bin/server.sh
 open http://localhost:3000
 
 # Run php scripts
-php php-scripts/hello.php
+php php-core/hello.php
 ```
 
 ## Learning Notes
