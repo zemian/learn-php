@@ -11,14 +11,14 @@ php -a
 
 # Web Server
 php -S localhost:3000
-open http://localhost:3000
+open http://localhost:3000/
 
 # Using startup script
 bin/server.sh
 open http://localhost:3000
 
 # Run php scripts
-php php-core/hello.php
+php hello.php
 ```
 
 ## Learning Notes
@@ -38,20 +38,14 @@ See [php-setup.md](docs/php-setup.md) for more details.
 
 Setup a new MySQL database to do PHP web development.
 
-```sql
-CREATE USER 'zemian'@'localhost' IDENTIFIED BY 'test123';
-CREATE DATABASE testdb CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-GRANT ALL PRIVILEGES ON testdb.* TO 'zemian'@'localhost';
+```
+bin/createdb.sh
 ```
 
-Now try `http://localhost:3000/dbtest.php`
+Now try `http://localhost:3000/dbinfo.php`
 
 See [mysql-setup.md](docs/mysql-setup.md) for more details.
 
 ## Setup Web Server
-
-Just run
-
-    php -S localhost:3000
 
 See [webserver-setup](docs/webserver-setup.md) for details.

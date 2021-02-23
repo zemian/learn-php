@@ -1,5 +1,14 @@
 See [MySQL Setup](https://github.com/zemian/learn-mysql) for details on general setup of the database.
 
+## Create DB
+
+```sql
+CREATE USER 'zemian'@'localhost' IDENTIFIED BY 'test123';
+CREATE DATABASE testdb CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+GRANT ALL PRIVILEGES ON testdb.* TO 'zemian'@'localhost';
+```
+
+
 ## MySQL PHP Drivers
 
 There are two main drivers starting PHP 5.1: mysqli or pdo_mysql. There is a third API called "ext/mysql" which is deprecated in PHP 5.5.
