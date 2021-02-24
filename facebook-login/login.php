@@ -19,7 +19,7 @@ if (isset($_GET['logout'])) {
         header("Location: $success_url");
         exit;
     }
-    
+
     // Process login
     if (isset($_POST['login'])) {
         $user_db = array(
@@ -35,8 +35,8 @@ if (isset($_GET['logout'])) {
         $check_password = $user_db[$username] ?? null;
         if ($check_password === $password) {
             $_SESSION['user_session'] = array(
-                    'username' => $username,
-                    'login_time' => time()
+                'login_time' => time(),
+                'username' => $username,
             );
             header("Location: $success_url");
             exit;
@@ -52,19 +52,45 @@ if (isset($_GET['logout'])) {
     <meta charset="UTF-8">
     <title>PHP App</title>
     <link rel="stylesheet" href="https://unpkg.com/bulma">
-</head>
-<body>
 
-<section class="hero is-primary is-fullheight">
+    <script src="https://unpkg.com/vue"></script>
+</head>
+
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
+<script>
+    window.fbAsyncInit = function () {
+        FB.init({
+            appId: '333980400998341',
+            version: 'v10.0',
+            cookie: true,
+        });
+
+        FB.login(function (response) {
+            if (response.authResponse) {
+                // console.log("Facebook authResponse", response.authResponse);
+                console.log('Welcome! You are logged in using Facebook user.');
+                // FB.api('/me', function(response) {
+                //     console.log("/me response", response);
+                //     console.log('Good to see you, ' + response.name + '.');
+                // });
+                window.location.href = "login-with-facebook.php";
+            } else {
+                console.error('User cancelled login or did not fully authorize.');
+            }
+        });
+    };
+</script>
+
+<section id="app" class="hero is-primary is-fullheight">
     <div class="hero-body">
         <div class="container">
             <div class="columns is-centered">
-                <div class="column is-4">
+                <div class="column is-6">
                     <div class="box">
                         <form action="login.php" method="POST">
-                            <?php 
+                            <?php
                             if ($error) {
-                                echo "<p class='notification is-danger'>$error</p>";   
+                                echo "<p class='notification is-danger'>$error</p>";
                             }
                             if ($message) {
                                 echo "<p class='notification is-info'>$message</p>";
@@ -82,9 +108,14 @@ if (isset($_GET['logout'])) {
                                     <input class="input" type="password" name="password">
                                 </div>
                             </div>
-                            <div class="field">
-                                <div class="control">
+                            <div class="columns is-centered">
+                                <div class="column">
                                     <input class="button is-primary" type="submit" value="Login" name="login">
+                                </div>
+                                <div class="column">
+                                    <div class="fb-login-button" data-width=""
+                                         data-size="large" data-button-type="continue_with" data-layout="default"
+                                         data-auto-logout-link="false" data-use-continue-as="false"></div>
                                 </div>
                             </div>
                         </form>
@@ -94,6 +125,9 @@ if (isset($_GET['logout'])) {
         </div>
     </div>
 </section>
+<script>
+    new Vue({}).$mount('#app');
+</script>
 
 </body>
 </html>
