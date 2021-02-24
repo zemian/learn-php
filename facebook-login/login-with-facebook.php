@@ -5,15 +5,17 @@
  */
 require_once 'vendor/autoload.php';
 
+// Global vars
 session_start();
 $success_url = 'index.php';
 
+// FB vars
+$config = json_decode(file_get_contents(getenv('HOME') . '/.learn-php.config'));
 $fb = new Facebook\Facebook([
     'app_id' => '333980400998341',
-    'app_secret' => '23b5d354ae4f2c4968668cc279c08879',
+    'app_secret' => $config->facebook_app_secret,
     'default_graph_version' => 'v2.2',
 ]);
-
 $helper = $fb->getJavaScriptHelper();
 
 try {

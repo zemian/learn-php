@@ -1,8 +1,12 @@
 <?php
-session_start();
+// Page vars
 $error = null;
 $message = null;
 $success_url = 'index.php';
+
+// Global vars
+session_start();
+$config = json_decode(file_get_contents(getenv('HOME') . '/.learn-php.config'));
 
 // Process logout if given in url param
 if (isset($_GET['logout'])) {
