@@ -1,8 +1,11 @@
 <?php
-session_start();
+// Page vars
 $error = null;
 $message = null;
 $success_url = 'index.php';
+
+// Global vars
+session_start();
 
 // Process logout if given in url param
 if (isset($_GET['logout'])) {
