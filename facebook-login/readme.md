@@ -1,3 +1,5 @@
+TODO: The FB Logout is not working yet!
+
 https://developers.facebook.com/docs/facebook-login/web
 
 ## JS SDK
