@@ -1,4 +1,8 @@
 <?php 
+// Despite these validation, this form is open for JS injection attack!
+// Try string input with:
+//   "><script>alert("hello");</script>
+//
 // https://www.php.net/manual/en/filter.filters.validate.php
 //print_r($_POST);
 //print_r($_SERVER);
