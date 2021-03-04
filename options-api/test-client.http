@@ -1,0 +1,28 @@
+GET http://localhost/learn-php/options-api/index.php
+
+###
+POST http://localhost/learn-php/options-api
+Content-Type: application/json
+
+{
+"name": "foo",
+"value": "abc"
+}
+
+###
+PUT http://localhost/learn-php/options-api
+Content-Type: application/json
+
+{
+"name": "foo",
+"value": "abc - updated"
+}
+
+###
+DELETE http://localhost/learn-php/options-api
+Content-Type: application/json
+
+{
+  "name": "foo",
+  "value": "abc - updated"
+}

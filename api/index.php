@@ -1,6 +1,6 @@
 <?php
 header('Content-Type: application/json');
-switch($_GET['resources'] ?? '') {
+switch($_GET['action'] ?? '') {
     case 'server':
         echo json_encode($_SERVER);
         break;
@@ -19,7 +19,7 @@ switch($_GET['resources'] ?? '') {
         break;
     default:
         echo json_encode(array(
-            'message' => 'Welcome to API service. Use "?resources=name" query parameter to choose an endpoint',
+            'queryParametersUsage' => '?action=server|request|cookie|env|locales',
             'timestamp' => date('c')
         ));
 }
