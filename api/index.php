@@ -19,5 +19,8 @@ switch($_GET['resources'] ?? '') {
         echo json_encode(ResourceBundle::getLocales(''));
         break;
     default:
-        echo json_encode(['message' => 'Hello World!', 'timestamp' => date('c')]);
+        echo json_encode(array(
+            'message' => 'Welcome to server API service.',
+            'timestamp' => date('c')
+        ));
 }
