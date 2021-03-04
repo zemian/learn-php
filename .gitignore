@@ -4,3 +4,5 @@ temp/
 work/
 vendor/
 **/test*.php
+
+env.ini

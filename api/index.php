@@ -1,5 +1,4 @@
 <?php
-// A simple API server: use "?resources=name" to choose an endpoint
 header('Content-Type: application/json');
 switch($_GET['resources'] ?? '') {
     case 'server':
@@ -20,7 +19,7 @@ switch($_GET['resources'] ?? '') {
         break;
     default:
         echo json_encode(array(
-            'message' => 'Welcome to server API service.',
+            'message' => 'Welcome to API service. Use "?resources=name" query parameter to choose an endpoint',
             'timestamp' => date('c')
         ));
 }
