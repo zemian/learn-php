@@ -1,28 +1,26 @@
+###
 GET http://localhost/learn-php/options-api/index.php
 
 ###
-POST http://localhost/learn-php/options-api
-Content-Type: application/json
-
-{
-"name": "foo",
-"value": "abc"
-}
+GET http://localhost/learn-php/options-api/index.php?offset=25
 
 ###
-PUT http://localhost/learn-php/options-api
-Content-Type: application/json
-
-{
-"name": "foo",
-"value": "abc - updated"
-}
+GET http://localhost/learn-php/options-api/index.php?name=foo2
 
 ###
-DELETE http://localhost/learn-php/options-api
+POST http://localhost/learn-php/options-api/index.php
 Content-Type: application/json
 
-{
-  "name": "foo",
-  "value": "abc - updated"
-}
+{"name": "foo2", "value": "new data", "comment":  "Just a test"}
+
+###
+PUT http://localhost/learn-php/options-api/index.php
+Content-Type: application/json
+
+{"name": "foo2", "value":  "updated"}
+
+###
+DELETE http://localhost/learn-php/options-api/index.php
+Content-Type: application/json
+
+{"name": "foo2"}
