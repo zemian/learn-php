@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Notes</title>
+	<link rel="stylesheet" type="text/css" href="https://unpkg.com/bulma@0.9.2/css/bulma.css">
+	<script type="text/javascript" src="https://unpkg.com/vue@2.6.12/dist/vue.js"></script>
+	<script type="text/javascript" src="https://unpkg.com/marked@2.0.1/lib/marked.js"></script>
+</head>
+<body>
+
+	<div id='app' class="section">
+		<div class="columns">
+			<div class="column is-narrow">
+				<div class="menu">
+				  <p class="menu-label">
+				  	<a @click="viewFiles('/')">ROOT</a>
+					<span class="menu-label" v-if="navDirs.length > 1">
+					  ( <a @click="viewUpDir">UP</a> )
+					</p>
+				  </p>
+				  <p class="menu-label" v-if="listSubDirs.length > 0">Dirs</p>
+				  <ul class="menu-list">
+				    <li v-for="subDir in listSubDirs" :key="subDir">
+				    	<a @click="viewFiles(subDir)">{{subDir}}</a>
+				    </li>
+				  </ul>
+				  <p class="menu-label">Files</p>
+				  <ul class="menu-list">
+				    <li v-for="file in listFiles" :key="file">
+				    	<a @click="getContent(file)">{{file}}</a>
+				    </li>
+				  </ul>
+				</div>
+			</div>
+			<div class="column">
+				<div v-if="contentPathInfo.extension === 'md'" v-html="markdownContent"></div>
+				<div v-else-if="content"><pre>{{content}}</pre></div>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		new Vue({
+			data: function () {
+				return {
+					url: 'api.php/files',
+					content: '',
+					contentPathInfo: {},
+					dir: '/',
+					listSubDirs: [],
+					listFiles: [],
+					navDirs: [],
+				}
+			},
+			computed: {
+				markdownContent: function () {
+					return marked(this.content);
+				}
+			},
+			created: function () {
+				this.viewFiles('/');
+			},
+			methods: {
+				fetchFiles: function (dirPath) {
+					fetch(this.url + '?dir=' + dirPath).then(resp => resp.json()).then(data => {
+						this.dir = data.dir;
+						this.listSubDirs = data.sub_dirs;
+						this.listFiles = data.files;
+						this.content = '';
+						this.contentPathInfo = {};
+					});
+				},
+				viewFiles: function (subDir) {
+					let dirPath = subDir;
+					if (subDir !== '/') {
+						dirPath = (this.dir === '/' ? '' :  this.dir) + '/' + subDir;
+					} else {
+						this.navDirs = [];
+					}
+					this.navDirs.push(dirPath);
+					this.fetchFiles(dirPath);
+				},
+				viewUpDir: function () {
+					let dirPath = '/';
+					this.navDirs.pop();
+					if (this.navDirs.length > 0)
+						dirPath = this.navDirs[this.navDirs.length - 1];
+					this.fetchFiles(dirPath);
+				},
+				getContent: function (file) {
+					fetch(this.url + '?name=' + file + '&dir=' + this.dir).then(resp => resp.json()).then(data => {
+						this.content = data.content;
+						this.contentPathInfo = data.pathinfo;
+					});
+				}
+			}
+		}).$mount('#app');
+	</script>
+
+</body>
+</html>
