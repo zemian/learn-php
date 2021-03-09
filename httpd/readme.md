@@ -8,6 +8,27 @@ Troubleshooting:
 * To debug server errors: `tail -f /usr/local/var/log/httpd/error_log`
 * To check config syntax: `apachectl configtest`
 
+## Setup Apache using vhosts
+
+1. Setup web folder:
+
+```
+echo "Test" > /usr/local/var/www-mydev/index.hml
+```
+
+2. Copy "httpd-vhosts-www-mydev.conf" into "/usr/local/etc/httpd/extra"
+
+3. Add to httpd.conf
+
+```
+# www-mydev
+Include /usr/local/etc/httpd/extra/httpd-vhosts-www-mydev.conf
+```
+
+NOTE: You might have to adjust default "ServerName" and "Listen" port in 
+"httpd.conf" file.
+
+
 ## Using default Apache httpd.conf with minimum changes
 
 1. Set hostname and port
