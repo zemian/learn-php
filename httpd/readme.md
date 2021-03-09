@@ -1,8 +1,35 @@
 ## Install on Mac
 
 	brew install httpd
+	apachectl start
 
-## Setup for a web server on MacOS
+Troubleshooting:
+
+* To debug server errors: `tail -f /usr/local/var/log/httpd/error_log`
+* To check config syntax: `apachectl configtest`
+
+## Using default Apache httpd.conf with minimum changes
+
+1. Set hostname and port
+
+	Listen 80
+	ServerName localhost
+
+2. Add PHP
+	
+	# Enable PHP in Apache
+	LoadModule php7_module /usr/local/opt/php@7.4/lib/httpd/modules/libphp7.so
+	<FilesMatch \.php$>
+	    SetHandler application/x-httpd-php
+	</FilesMatch>
+
+3. Add index.php as dir index
+
+	<IfModule dir_module>
+	    DirectoryIndex index.html index.php
+	</IfModule>
+
+## Setup for a web server on MacOS - Custom httpd.conf
 
 The config file here assumes `/usr/local/var/www` is your DocumentRoot and port is 3000.
 
@@ -13,11 +40,6 @@ The config file here assumes `/usr/local/var/www` is your DocumentRoot and port 
 3. Re/start server: `brew services start httpd`
 
 4. Open open http://localhost:3000/learn-php/php-web/
-
-Troubleshooting:
-
-* To debug server errors: `tail -f /usr/local/var/log/httpd/error_log`
-* To check config syntax: `apachectl configtest`
 
 ## How to setup php-fpm in Apache?
 
