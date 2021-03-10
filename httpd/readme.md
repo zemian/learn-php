@@ -111,3 +111,18 @@ NOTE: You would need to shutdown `php-fpm` process manually with `kill` command 
 ## What's in the `lib/httpd/modules/libphp7.so` file?
 
 When you building PHP from source, it usually replace file such as `lib/httpd/modules/libphp7.so` in your Apache lib directly. If you are using Hombrew to install PHP, then the httpd modules usually resides where the PHP package is (eg: `/usr/local/opt/php/lib/httpd/modules/libphp7.so`). You can use the `phpinfo.php` page to verify the version.
+
+
+## How to Secured DocumentRoot
+
+How to secure a directory and remove all access
+
+```
+<Directory />
+    Order Deny,Allow
+    Deny from all
+    Options None
+    AllowOverride None
+    Require all denied
+</Directory>
+```
