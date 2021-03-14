@@ -126,3 +126,56 @@ How to secure a directory and remove all access
     Require all denied
 </Directory>
 ```
+
+
+## PHP and Apache HTTPD Dev
+
+Install httpd werver: `brew install httpd`.
+
+* Ensure it's using the right PHP version before continue.
+
+Get httpd package info by `brew info httpd`
+
+* Conf: `/usr/local/etc/httpd/httpd.conf` and `/usr/local/etc/httpd/extra/httpd-ssl.conf`
+* Logs: `/usr/local/var/log/httpd`
+* Start: `apachectl start` or `brew services start httpd`
+
+* How to setup Local Dev
+
+1. Edit `/usr/local/etc/httpd/httpd.conf` and append the following at the end:
+
+```
+# A virtual host setup for PHP development
+<VirtualHost *:80>
+    DocumentRoot "/usr/local/var/www-mydev"
+    ServerName www-mydev
+    ErrorLog "/usr/local/var/log/httpd/www-mydev-error_log"
+    CustomLog "/usr/local/var/log/httpd/www-mydev-access_log" common
+
+    DirectoryIndex index.html index.php
+    
+    <Directory "/usr/local/var/www-mydev">
+        Options Indexes FollowSymLinks
+        AllowOverride All
+        Require all granted
+
+        <IfModule mod_rewrite.c>
+            RewriteEngine On
+            RewriteBase /
+            RewriteRule ^index\.php$ - [L]
+            RewriteCond %{REQUEST_FILENAME} !-f
+            RewriteCond %{REQUEST_FILENAME} !-d
+            RewriteRule . /index.php [L]
+        </IfModule>
+    </Directory>
+
+    # Enable PHP in Apache
+    LoadModule php7_module /usr/local/opt/php@7.4/lib/httpd/modules/libphp7.so
+    <FilesMatch \.php$>
+        SetHandler application/x-httpd-php
+    </FilesMatch>
+</VirtualHost>
+```
+
+2. Check config: `apachectl configtest`
+3. Restart server `apachectl restart`
