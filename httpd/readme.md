@@ -169,14 +169,14 @@ Get httpd package info by `brew info httpd`
         Options Indexes FollowSymLinks
         AllowOverride All
         Require all granted
-
+        
         <IfModule mod_rewrite.c>
             RewriteEngine On
-            RewriteBase /
-            RewriteRule ^index\.php$ - [L]
+            RewriteBase /unicopnext/
+            RewriteRule ^unicopnext/index\.php$ - [L]
             RewriteCond %{REQUEST_FILENAME} !-f
             RewriteCond %{REQUEST_FILENAME} !-d
-            RewriteRule . /index.php [L]
+            RewriteRule . /unicopnext/index.php [L]
         </IfModule>
     </Directory>
 </VirtualHost>
@@ -184,3 +184,17 @@ Get httpd package info by `brew info httpd`
 
 2. Check config: `apachectl configtest`
 3. Restart server `apachectl restart`
+
+
+NOTE: If you were to deploy into a root of the domain, then you need redirect like this:
+
+```
+<IfModule mod_rewrite.c>
+	RewriteEngine On
+	RewriteBase /
+	RewriteRule ^index\.php$ - [L]
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteCond %{REQUEST_FILENAME} !-d
+	RewriteRule . /index.php [L]
+</IfModule>
+```
