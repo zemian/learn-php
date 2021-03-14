@@ -145,15 +145,26 @@ Get httpd package info by `brew info httpd`
 1. Edit `/usr/local/etc/httpd/httpd.conf` and append the following at the end:
 
 ```
-# A virtual host setup for PHP development
 <VirtualHost *:80>
+    
+    # Enable Modules
+    LoadModule php7_module /usr/local/opt/php@7.4/lib/httpd/modules/libphp7.so
+    LoadModule rewrite_module lib/httpd/modules/mod_rewrite.so
+    
+    # Enable PHP in Apache
+    <FilesMatch \.php$>
+        SetHandler application/x-httpd-php
+    </FilesMatch>
+
+    # Server Config
     DocumentRoot "/usr/local/var/www-mydev"
     ServerName www-mydev
     ErrorLog "/usr/local/var/log/httpd/www-mydev-error_log"
     CustomLog "/usr/local/var/log/httpd/www-mydev-access_log" common
 
     DirectoryIndex index.html index.php
-    
+
+    # Document Root Config
     <Directory "/usr/local/var/www-mydev">
         Options Indexes FollowSymLinks
         AllowOverride All
@@ -168,12 +179,6 @@ Get httpd package info by `brew info httpd`
             RewriteRule . /index.php [L]
         </IfModule>
     </Directory>
-
-    # Enable PHP in Apache
-    LoadModule php7_module /usr/local/opt/php@7.4/lib/httpd/modules/libphp7.so
-    <FilesMatch \.php$>
-        SetHandler application/x-httpd-php
-    </FilesMatch>
 </VirtualHost>
 ```
 
