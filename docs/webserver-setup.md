@@ -17,7 +17,7 @@ See `nginx` folder
 
 The `nginx` web server configuration file is the cleanest and easy to setup. The only draw back is that you must start PHP fastcgi server (or php-fpm) as separate process.
 
-## Using Apahce httpd
+## Using Apache httpd
 
 See `httpd` folder
 

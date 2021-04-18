@@ -8,6 +8,65 @@ Troubleshooting:
 * To debug server errors: `tail -f /usr/local/var/log/httpd/error_log`
 * To check config syntax: `apachectl configtest`
 
+## PHP and Apache HTTPD Dev
+
+* How to setup Local Dev
+
+a. Edit `/usr/local/etc/httpd/httpd.conf` with following:
+
+    # Change httpd port from 8080 to 80 for easy dev
+    Listen 80
+    #...
+    # Comment out default DocumentRoot and <Directory> below it b/c we will use virtual host below
+    #...
+    # Append bellow <VirtualHost> config at the end of the config file
+
+```
+# A virtual host setup for PHP development
+<VirtualHost *:80>
+
+    # Enable Modules
+    LoadModule php7_module /usr/local/opt/php@7.4/lib/httpd/modules/libphp7.so
+    LoadModule rewrite_module lib/httpd/modules/mod_rewrite.so
+    
+    # Enable PHP in Apache
+    <FilesMatch \.php$>
+        SetHandler application/x-httpd-php
+    </FilesMatch>
+
+    # Server Config
+    DocumentRoot "/usr/local/var/www"
+    ServerName localhost
+    ErrorLog "/usr/local/var/log/httpd/error_log"
+    CustomLog "/usr/local/var/log/httpd/access_log" common
+
+    DirectoryIndex index.html index.php
+
+    # Document Root Config
+    <Directory "/usr/local/var/www">
+        Options Indexes FollowSymLinks
+        AllowOverride All
+        Require all granted
+
+        <IfModule mod_rewrite.c>
+            RewriteEngine on
+            RewriteCond %{REQUEST_FILENAME} !-f
+            RewriteCond %{REQUEST_FILENAME} !-d
+            RewriteRule ^.*$ /index.php [L,QSA]
+        </IfModule>
+    </Directory>
+</VirtualHost>
+```
+
+b. Restart Apache: `brew services restart httpd`
+
+c. Test PHP
+
+```
+echo '<?php phpinfo();' > /usr/local/var/www/phpinfo.php
+open http://localhost/phpinfo.php
+```
+
 ## Setup Apache using vhosts
 
 1. Setup web folder:
@@ -25,7 +84,7 @@ echo "Test" > /usr/local/var/www-mydev/index.hml
 Include /usr/local/etc/httpd/extra/httpd-vhosts-www-mydev.conf
 ```
 
-NOTE: You might have to adjust default "ServerName" and "Listen" port in 
+NOTE: You might have to adjust default "ServerName" and "Listen" port in
 "httpd.conf" file.
 
 
@@ -33,22 +92,22 @@ NOTE: You might have to adjust default "ServerName" and "Listen" port in
 
 1. Set hostname and port
 
-	Listen 80
-	ServerName localhost
+   Listen 80
+   ServerName localhost
 
 2. Add PHP
-	
-	# Enable PHP in Apache
-	LoadModule php7_module /usr/local/opt/php@7.4/lib/httpd/modules/libphp7.so
-	<FilesMatch \.php$>
-	    SetHandler application/x-httpd-php
-	</FilesMatch>
+
+   # Enable PHP in Apache
+   LoadModule php7_module /usr/local/opt/php@7.4/lib/httpd/modules/libphp7.so
+   <FilesMatch \.php$>
+   SetHandler application/x-httpd-php
+   </FilesMatch>
 
 3. Add index.php as dir index
 
-	<IfModule dir_module>
-	    DirectoryIndex index.html index.php
-	</IfModule>
+   <IfModule dir_module>
+       DirectoryIndex index.html index.php
+   </IfModule>
 
 ## Setup for a web server on MacOS - Custom httpd.conf
 
@@ -68,9 +127,9 @@ Ref: https://cwiki.apache.org/confluence/display/HTTPD/PHP-FPM
 
 1. Start php-fpm: `brew services start php@`
 
-	Run `tail -f /usr/local/var/log/php-fpm.log` to check for activity
+   Run `tail -f /usr/local/var/log/php-fpm.log` to check for activity
 
-	Config is at `/usr/local/etc/php/7.4/php-fpm.conf`
+   Config is at `/usr/local/etc/php/7.4/php-fpm.conf`
 
 2. Use `httpd-php-fpm.conf`
 
@@ -79,28 +138,28 @@ Ref: https://cwiki.apache.org/confluence/display/HTTPD/PHP-FPM
 NOTE: As of MacOS 10.15.6, we can't run both php-fpm with `php` (7.4) and `php5.6` with brew. If you need both of them, you would need to build your own from source.
 
 1. Locate custom PHP installations:
-	
-	/usr/local/php-7.4.9/bin/php
-	/usr/local/php-7.4.9/sbin/php-fpm
 
-	/usr/local/php-5.6.40/bin/php
-	/usr/local/php-5.6.40/sbin/php-fpm
+   /usr/local/php-7.4.9/bin/php
+   /usr/local/php-7.4.9/sbin/php-fpm
+
+   /usr/local/php-5.6.40/bin/php
+   /usr/local/php-5.6.40/sbin/php-fpm
 
 2. Edit `etc/php-fpm.conf` for each installation to have a unique listenign port:
 
-	For `/usr/local/php-5.6.40/etc/php-fpm.conf` let's use 
+   For `/usr/local/php-5.6.40/etc/php-fpm.conf` let's use
 
-		listen = 127.0.0.1:9001
+   	listen = 127.0.0.1:9001
 
-	For `/usr/local/php-7.4.9/etc/php-fpm.conf` let's use (it's the default anyway)
+   For `/usr/local/php-7.4.9/etc/php-fpm.conf` let's use (it's the default anyway)
 
-		listen = 127.0.0.1:9000
+   	listen = 127.0.0.1:9000
 
 3. Start all the php-fpm for all your PHP versions:
 
-	/usr/local/php-7.4.9/sbin/php-fpm
-	/usr/local/php-5.6.40/sbin/php-fpm
-	ps -ef |grep php
+   /usr/local/php-7.4.9/sbin/php-fpm
+   /usr/local/php-5.6.40/sbin/php-fpm
+   ps -ef |grep php
 
 4. Use `httpd-php-multiple-fpm.conf`
 
@@ -125,76 +184,4 @@ How to secure a directory and remove all access
     AllowOverride None
     Require all denied
 </Directory>
-```
-
-
-## PHP and Apache HTTPD Dev
-
-Install httpd werver: `brew install httpd`.
-
-* Ensure it's using the right PHP version before continue.
-
-Get httpd package info by `brew info httpd`
-
-* Conf: `/usr/local/etc/httpd/httpd.conf` and `/usr/local/etc/httpd/extra/httpd-ssl.conf`
-* Logs: `/usr/local/var/log/httpd`
-* Start: `apachectl start` or `brew services start httpd`
-
-* How to setup Local Dev
-
-1. Edit `/usr/local/etc/httpd/httpd.conf` and append the following at the end:
-
-```
-<VirtualHost *:80>
-    
-    # Enable Modules
-    LoadModule php7_module /usr/local/opt/php@7.4/lib/httpd/modules/libphp7.so
-    LoadModule rewrite_module lib/httpd/modules/mod_rewrite.so
-    
-    # Enable PHP in Apache
-    <FilesMatch \.php$>
-        SetHandler application/x-httpd-php
-    </FilesMatch>
-
-    # Server Config
-    DocumentRoot "/usr/local/var/www-mydev"
-    ServerName www-mydev
-    ErrorLog "/usr/local/var/log/httpd/www-mydev-error_log"
-    CustomLog "/usr/local/var/log/httpd/www-mydev-access_log" common
-
-    DirectoryIndex index.html index.php
-
-    # Document Root Config
-    <Directory "/usr/local/var/www-mydev">
-        Options Indexes FollowSymLinks
-        AllowOverride All
-        Require all granted
-        
-        <IfModule mod_rewrite.c>
-            RewriteEngine On
-            RewriteBase /unicopnext/
-            RewriteRule ^unicopnext/index\.php$ - [L]
-            RewriteCond %{REQUEST_FILENAME} !-f
-            RewriteCond %{REQUEST_FILENAME} !-d
-            RewriteRule . /unicopnext/index.php [L]
-        </IfModule>
-    </Directory>
-</VirtualHost>
-```
-
-2. Check config: `apachectl configtest`
-3. Restart server `apachectl restart`
-
-
-NOTE: If you were to deploy into a root of the domain, then you need redirect like this:
-
-```
-<IfModule mod_rewrite.c>
-	RewriteEngine On
-	RewriteBase /
-	RewriteRule ^index\.php$ - [L]
-	RewriteCond %{REQUEST_FILENAME} !-f
-	RewriteCond %{REQUEST_FILENAME} !-d
-	RewriteRule . /index.php [L]
-</IfModule>
 ```
