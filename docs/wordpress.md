@@ -23,3 +23,11 @@ WordPress is easy to setup and can be used to verify your PHP env setup.
 ## Import WordPress Sample Site
 
 Install Astra Theme and then add one of the free Theme that has sample data.
+
+## Permalinks
+
+We have setup UC site to use pretty URL in permalinks settings. The WP Permalinks selection actually
+will generate `.htaccess` in the `wordpress` folder. This file is specific to your installation, hence
+we will ignore by Git. There is a `.htaccess-sample` should you want to manually change the settings.
+
+NOTE: The Apache `<Directory>` config must have "AllowOverride All" in order for `.htaccess` to work.
