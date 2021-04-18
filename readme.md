@@ -118,9 +118,16 @@ a. Edit `/usr/local/etc/httpd/httpd.conf` with following:
 </VirtualHost>
 ```
 
-b. Restart Apache: `brew services restart httpd`
+b. Add `favicon.ico` to avoid redirect error
 
-c. Test PHP
+    cp httpd/favicon.ico /usr/local/var/www/favicon.ico
+
+NOTE: If this file is missing, the Apache server will give 
+    "AH00124: Request exceeded the limit of 10 internal redirects" error!
+
+c. Restart Apache: `brew services restart httpd`
+
+d. Test PHP
 
 ```
 echo '<?php phpinfo();' > /usr/local/var/www/phpinfo.php
