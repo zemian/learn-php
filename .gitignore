@@ -1,9 +1,5 @@
 .DS_store
 .idea/
 temp/
-work/
 vendor/
-**/test*.php
-
-env.ini
-env.php
+public/env.php

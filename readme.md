@@ -145,5 +145,5 @@ you need copy the environment file and change the DB connection info:
 
 Next, link the folder to the Apache DocumentRoot:
 
-    ln -s $HOME/my-php/learn-php /usr/local/var/www
+    ln -s $HOME/my-php/learn-php/public /usr/local/var/www/learn-php
     open http://localhost/learn-php
