@@ -13,7 +13,7 @@
                     <a href="api.php?action=init_table">Create Table</a>
                 </div>
                 <div class="panel-block">
-                    <a href="api.php?action=create_data?count=40">Create Data</a>
+                    <a href="api.php?action=create_data&count=40">Create Data</a>
                 </div>
                 <div class="panel-block">
                     <a href="api.php?action=test_db">Test DB</a>

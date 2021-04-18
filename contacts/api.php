@@ -17,6 +17,17 @@ curl \
 
  */
 
+// Define DB connection using env file
+require_once '../env.php';
+$db = null;
+function connect_db() {
+    // Caching global $db object.
+    global $db;
+    if ($db === null)
+        $db = new PDO(DB_DSN, DB_USER, DB_PASSWORD);
+    return $db;
+}
+
 // Main Script - process request
 process_request();
 
@@ -58,15 +69,6 @@ function print_json($payload) {
 
 function print_error($error) {
     print_json(['error' => $error]);
-}
-
-$db = null;
-function connect_db() {
-    // Caching global $db object.
-    global $db;
-    if ($db === null)
-        $db = new PDO('mysql:host=localhost;dbname=testdb', 'zemian', 'test123');
-    return $db;
 }
 
 function test_db() {

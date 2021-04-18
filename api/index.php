@@ -1,7 +1,7 @@
 <?php
 $output = array(
     'timestamp' => date('c'),
-    'resource' => $_SERVER['PATH_INFO'],
+//    'resource' => $_SERVER['PATH_INFO'],
     'cwd' => getcwd(),
     'cwd_pathinfo' => pathinfo(getcwd()),
     'server' => $_SERVER,
