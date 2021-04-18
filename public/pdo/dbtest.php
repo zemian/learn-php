@@ -1,5 +1,6 @@
 <?php
-$db = new PDO('mysql:host=localhost;dbname=testdb', 'zemian', 'test123');
+require_once '../env.php';
+$db = new PDO(DB_DSN, DB_USER, DB_PASSWORD);
 $stmt = $db->query('SELECT VERSION()');
 $mysql_version = $stmt->fetch()[0];
 ?>

@@ -1,5 +1,6 @@
-<?php 
-$db = new PDO('mysql:host=localhost;dbname=employees', 'zemian', 'test123');
+<?php
+require_once '../env.php';
+$db = new PDO(DB_DSN, DB_USER, DB_PASSWORD);
 $stmt = $db->query('SELECT * FROM employees ORDER BY hire_date DESC LIMIT 10');
 ?>
 <!doctype html>

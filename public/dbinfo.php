@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/env.php';
+require_once 'env.php';
 $db = new PDO(DB_DSN, DB_USER, DB_PASSWORD);
 $stmt = $db->query('SELECT VERSION()');
 $mysql_version = $stmt->fetch()[0];

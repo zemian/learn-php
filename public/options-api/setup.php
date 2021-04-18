@@ -1,8 +1,6 @@
 <?php
-$env = parse_ini_file("../env.ini", true);
-$pdocfg = $env['pdo'];
-$db = new PDO($pdocfg['dsn'], $pdocfg['username'], $pdocfg['password']);
-
+require_once '../env.php';
+$db = new PDO(DB_DSN, DB_USER, DB_PASSWORD);
 function create_table() {
     global $db;
     $sql = <<< HERE
