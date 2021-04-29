@@ -2,4 +2,5 @@
 .idea/
 temp/
 vendor/
-public/env.php
+
+env-local.php
