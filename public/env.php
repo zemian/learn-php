@@ -1,8 +1,18 @@
 <?php
+/*
+ * Provide default environment variables if env-local.php is not given.
+ */
+if (file_exists('env-local.php'))
+	require_once 'env-local.php';
+
 /* Application Absolute Path */
-define('APP_PATH', __DIR__);
+if (!defined('APP_PATH'))
+	define('APP_PATH', __DIR__);
 
 /* Database Connection Settings */
-define('DB_DSN', 'mysql:host=localhost;dbname=mydb');
-define('DB_USER', 'zemian');
-define('DB_PASSWORD', 'test123');
+if (!defined('DB_DSN'))
+	define('DB_DSN', 'mysql:host=localhost;dbname=mydb');
+if (!defined('DB_USER'))
+	define('DB_USER', 'root');
+if (!defined('DB_PASSWORD'))
+	define('DB_PASSWORD', '');

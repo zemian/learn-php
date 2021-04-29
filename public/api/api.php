@@ -7,6 +7,7 @@
  *   GET /content - Retrieve content of a file
  */
 
+require_once 'env.php';
 
 class App {
 	function __construct() {
