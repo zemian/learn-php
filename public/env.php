@@ -11,7 +11,7 @@ if (!defined('APP_PATH'))
 
 /* Database Connection Settings */
 if (!defined('DB_DSN'))
-	define('DB_DSN', 'mysql:host=localhost;dbname=mydb');
+	define('DB_DSN', 'mysql:host=localhost;dbname=learnphp');
 if (!defined('DB_USER'))
 	define('DB_USER', 'root');
 if (!defined('DB_PASSWORD'))
