@@ -45,6 +45,8 @@ echo "Date creation#3 America/New_York timezone ", (new DateTime("1959-01-31 17:
 echo "Date creation#3 America/Los_Angeles timezone ", (new DateTime("1959-01-31 17:00:01", new DateTimeZone('America/Los_Angeles')))->format('c'), "\n";
 
 // Dates conversions
+// TODO: Is this a proper way to convert Time in different timezone? Wouldn't be more accurate using the
+//       DateTime.getOffset()?
 $dt1 = new DateTime("1959-01-31 17:00:01", new DateTimeZone('America/Los_Angeles'));
 //$dt2 = new DateTime($dt1->format('Y-m-d H:i:s'), new DateTimeZone('America/New_York')); // This does not work.
 $dt2 = new DateTime("now", new DateTimeZone('America/New_York'));
