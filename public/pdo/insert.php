@@ -3,9 +3,9 @@ require_once '../env.php';
 $error = null;
 $data = [];
 $pdo = new PDO(DB_DSN, DB_USER, DB_PASSWORD);
-$stmt = $pdo->prepare('INSERT INTO category(name) VALUE(?)');
 
 // Perform insert using statement.execute() and params in one call.
+$stmt = $pdo->prepare('INSERT INTO category(name) VALUE(?)');
 $result = $stmt->execute(['Foo']);
 if ($result === false) {
     $error = $stmt->errorInfo();
