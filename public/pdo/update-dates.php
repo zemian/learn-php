@@ -7,6 +7,9 @@
 //
 // It's good practice to use a consistent timezone (eg: UTC) to deal with all dates on
 // DB and PHP, and only convert when needed before display.
+//
+// NOTE3:
+// MySQL default DATETIME string format is "YYYY-MM-DD HH:MM:SS", which equivalent of PHP "date('Y-m-d H:i:s')"
 
 require_once '../env.php';
 $error = null;
@@ -16,23 +19,11 @@ $stmt = $pdo->prepare('UPDATE category SET modified_dt = ? WHERE id = ?');
 
 // Update modified date column with string input
 // NOTE: The PHP date() can return UTC time, depending on your php.ini.
-$id = 1;
-$stmt->bindValue(1, date('Y-m-d H:i:s'));
-$stmt->bindValue(2, $id, PDO::PARAM_INT);
-$result = $stmt->execute();
-if ($result === false) {
-    $error = $stmt->errorInfo();
-} else {
-    $data[] = ['updated_count' => $stmt->rowCount(), 'id' => $id];
-}
-
-// Update modified date with local datetime
-// Note that we are storing mix timezone datatime into the DB records, which can cause
-// major confusion! It's better to stick with only one timezone storage reference.
-$stmt = $pdo->prepare('UPDATE category SET modified_dt = ? WHERE id = ?');
-$id = 2;
-$dt = new DateTime("now", new DateTimeZone('America/New_York'));
-$stmt->bindValue(1, $dt->format('Y-m-d H:i:s'));
+$id = 61;
+//$stmt->bindValue(1, date('Y-m-d H:i:s'));
+//$stmt->bindValue(1, date('Y-m-d H:i:s', mktime(0, 0, 0, 1, 1, 2021)));
+//$stmt->bindValue(1, date('c', strtotime("1959-01-31 17:00:01"))); // This will not work: Wrong MySQL datetime format!
+$stmt->bindValue(1, date('Y-m-d H:i:s', strtotime("1959-01-31 17:00:01")));
 $stmt->bindValue(2, $id, PDO::PARAM_INT);
 $result = $stmt->execute();
 if ($result === false) {

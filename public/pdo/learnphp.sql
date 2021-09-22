@@ -3,13 +3,13 @@ select * from category;
 select * from category where parent_id is not null;
 
 -- Test table
-drop table if exists test;
+drop table if exists datatype;
 create table datatype (
     id int primary key auto_increment,
     created_dt timestamp default current_timestamp,
+    modified_dt datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     name varchar(100),
     comment text,
-    modified_dt datetime,
     birth_date date,
     start_time time,
     count int,
@@ -31,12 +31,13 @@ insert into datatype(name, modified_dt) values('CURRENT_TIMESTAMP()', CURRENT_TI
 insert into datatype(name, modified_dt) values('ds string', '2021-12-31 08:00:01');
 
 -- default value
+-- What happen if user manually update "modified_dt" ?
 create table defvalue (
     id int primary key auto_increment,
     created_dt timestamp default current_timestamp,
+    modified_dt datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     name varchar(100) default 'test-name',
     comment text default 'test-comment',
-    modified_dt datetime default now,
     birth_date date,
     start_time time,
     count int,
