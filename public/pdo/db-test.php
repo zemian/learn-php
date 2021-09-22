@@ -2,8 +2,8 @@
 require_once '../env.php';
 $error = null;
 $data = [];
-$db = new PDO(DB_DSN, DB_USER, DB_PASSWORD);
-$stmt = $db->query('SELECT VERSION() as mysql_version');
+$pdo = new PDO(DB_DSN, DB_USER, DB_PASSWORD);
+$stmt = $pdo->query('SELECT VERSION() as mysql_version');
 if ($stmt === false) {
     $error = $stmt->errorInfo();
 } else {

@@ -4,10 +4,10 @@ $pdocfg = $env['pdo'];
 $db = new PDO($pdocfg['dsn'], $pdocfg['username'], $pdocfg['password']);
 
 function rest_options_list() {
-    global $db;
+    global $pdo;
     $offset = $_GET['offset'] ?? 0;
     $limit = min($_GET['limit'] ?? 25, 500);
-    $stmt = $db->prepare('SELECT * FROM options LIMIT ?, ?');
+    $stmt = $pdo->prepare('SELECT * FROM options LIMIT ?, ?');
     $stmt->bindParam(1, $offset, PDO::PARAM_INT);
     $stmt->bindParam(2, $limit, PDO::PARAM_INT);
     if ($stmt->execute()) {
@@ -19,11 +19,11 @@ function rest_options_list() {
 }
 
 function rest_options_get($name) {
-    global $db;
+    global $pdo;
     if (!$name) {
         return array("error" => "You need 'name' parameter.");
     }
-    $stmt = $db->prepare('SELECT * FROM options WHERE name = ?');
+    $stmt = $pdo->prepare('SELECT * FROM options WHERE name = ?');
     $stmt->bindParam(1, $name);
     if ($stmt->execute()) {
         $row = $stmt->fetch(PDO::FETCH_OBJ);
@@ -35,11 +35,11 @@ function rest_options_get($name) {
 }
 
 function rest_options_delete($opt) {
-    global $db;
+    global $pdo;
     if (!$opt->name) {
         return array("error" => "You need 'name' parameter.");
     }
-    $stmt = $db->prepare('DELETE FROM options WHERE name = ?');
+    $stmt = $pdo->prepare('DELETE FROM options WHERE name = ?');
     $stmt->bindParam(1, $opt->name);
     if ($stmt->execute()) {
         return array("status" => "Deleted successfully.");
@@ -48,8 +48,8 @@ function rest_options_delete($opt) {
 }
 
 function rest_options_update($opt) {
-    global $db;
-    $stmt = $db->prepare('UPDATE options SET value = ? WHERE name = ?');
+    global $pdo;
+    $stmt = $pdo->prepare('UPDATE options SET value = ? WHERE name = ?');
     $stmt->bindParam(1, $opt->value);
     $stmt->bindParam(2, $opt->name);
     if ($stmt->execute()) {
@@ -59,8 +59,8 @@ function rest_options_update($opt) {
 }
 
 function rest_options_create($opt) {
-    global $db;
-    $stmt = $db->prepare('INSERT INTO options (name, value, comment) VALUE (?, ?, ?)');
+    global $pdo;
+    $stmt = $pdo->prepare('INSERT INTO options (name, value, comment) VALUE (?, ?, ?)');
     $stmt->bindParam(1, $opt->name);
     $stmt->bindParam(2, $opt->value);
     $stmt->bindParam(3, $opt->comment);

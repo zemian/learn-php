@@ -1,8 +1,9 @@
 <?php
 require_once '../env.php';
 $error = null;
-$db = new PDO(DB_DSN, DB_USER, DB_PASSWORD);
-$result = $db->exec(<<<HERE
+$data = [];
+$pdo = new PDO(DB_DSN, DB_USER, DB_PASSWORD);
+$result = $pdo->exec(<<<HERE
 DROP TABLE IF EXISTS category;
 CREATE TABLE category (
     id INT PRIMARY KEY AUTO_INCREMENT,
@@ -16,7 +17,9 @@ CREATE TABLE category (
 HERE
 );
 if ($result === false) {
-    $error = $db->errorInfo();
+    $error = $pdo->errorInfo();
+} else {
+    $data[]= ['result' => $result];
 }
 ?>
 <!doctype html>

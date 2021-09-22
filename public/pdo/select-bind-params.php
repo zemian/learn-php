@@ -1,7 +1,7 @@
 <?php
 require_once '../env.php';
-$db = new PDO(DB_DSN, DB_USER, DB_PASSWORD);
-$stmt = $db->prepare('SELECT * FROM employees WHERE last_name = ? ORDER BY hire_date DESC LIMIT 10');
+$pdo = new PDO(DB_DSN, DB_USER, DB_PASSWORD);
+$stmt = $pdo->prepare('SELECT * FROM employees WHERE last_name = ? ORDER BY hire_date DESC LIMIT 10');
 $last_name = $_GET['last_name'] ?? 'Flexer';
 $stmt->execute([$last_name]);
 ?>

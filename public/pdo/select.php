@@ -1,7 +1,7 @@
 <?php
 require_once '../env.php';
-$db = new PDO(DB_DSN, DB_USER, DB_PASSWORD);
-$stmt = $db->query('SELECT VERSION()');
+$pdo = new PDO(DB_DSN, DB_USER, DB_PASSWORD);
+$stmt = $pdo->query('SELECT VERSION()');
 $result = $stmt->fetch()[0];
 ?>
 <!doctype html>

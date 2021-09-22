@@ -2,15 +2,15 @@
 require_once '../env.php';
 $error = null;
 $data = [];
-$db = new PDO(DB_DSN, DB_USER, DB_PASSWORD);
-$stmt = $db->prepare('INSERT INTO category(name) VALUE(?)');
+$pdo = new PDO(DB_DSN, DB_USER, DB_PASSWORD);
+$stmt = $pdo->prepare('INSERT INTO category(name) VALUE(?)');
 for ($i = 0; $i < 100; $i++) {
     $result = $stmt->execute(["Bar Category#$i"]);
     if ($result === false) {
         $error = $stmt->errorInfo();
         break;
     }
-    $data []= ['id' => $db->lastInsertId()];
+    $data []= ['id' => $pdo->lastInsertId()];
 }
 ?>
 <!doctype html>
