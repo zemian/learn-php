@@ -7,9 +7,11 @@ DROP TABLE IF EXISTS category;
 CREATE TABLE category (
     id INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(100) NOT NULL,
-    code VARCHAR(48) NOT NULL,
     parent_id INT,
-    created_dt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+    sort_order SMALLINT DEFAULT 0,
+    created_dt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    modified_dt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    deleted BOOLEAN NOT NULL DEFAULT false
 );
 HERE
 );
@@ -27,7 +29,7 @@ if ($result === false) {
 <?php if ($error) { ?>
     <pre>ERROR: <?php print_r($error); ?></pre>
 <?php } else { ?>
-    <pre>RESULT: <?php print_r($result); ?></pre>
+    <pre>SUCCESS: <?php print_r($result); ?></pre>
 <?php } ?>
 </body>
 </html>

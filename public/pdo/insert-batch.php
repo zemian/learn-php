@@ -1,11 +1,11 @@
 <?php
 require_once '../env.php';
 $error = null;
-$db = new PDO(DB_DSN, DB_USER, DB_PASSWORD);
-$stmt = $db->prepare('INSERT INTO category(name, code) VALUE(?, ?)');
 $data = [];
+$db = new PDO(DB_DSN, DB_USER, DB_PASSWORD);
+$stmt = $db->prepare('INSERT INTO category(name) VALUE(?)');
 for ($i = 0; $i < 100; $i++) {
-    $result = $stmt->execute(["Bar Category#$i", "BAR$i"]);
+    $result = $stmt->execute(["Bar Category#$i"]);
     if ($result === false) {
         $error = $stmt->errorInfo();
         break;
@@ -23,7 +23,7 @@ for ($i = 0; $i < 100; $i++) {
 <?php if ($error) { ?>
     <pre>ERROR: <?php print_r($error); ?></pre>
 <?php } else { ?>
-    <pre>RESULT: <?php print_r($data); ?></pre>
+    <pre>SUCCESS: <?php print_r($data); ?></pre>
 <?php } ?>
 </body>
 </html>
