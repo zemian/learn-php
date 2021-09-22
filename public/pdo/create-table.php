@@ -12,7 +12,11 @@ CREATE TABLE category (
     sort_order SMALLINT DEFAULT 0,
     created_dt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     modified_dt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    deleted BOOLEAN NOT NULL DEFAULT false
+    deleted BOOLEAN NOT NULL DEFAULT false,
+    INDEX(deleted, name),
+    INDEX(deleted, parent_id, sort_order),
+    INDEX(deleted, parent_id, name),
+    INDEX(deleted, modified_dt)
 );
 HERE
 );
