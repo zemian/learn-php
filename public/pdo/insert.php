@@ -1,14 +1,13 @@
 <?php
 require_once '../env.php';
 $error = null;
-$data = [];
 $db = new PDO(DB_DSN, DB_USER, DB_PASSWORD);
-$stmt = $db->query('SELECT VERSION()');
-if ($stmt === false) {
+$stmt = $db->prepare('INSERT INTO category(name, code) VALUE(?, UUID())');
+$result = $stmt->execute(['Test Category']);
+if ($result === false) {
     $error = $stmt->errorInfo();
-} else {
-    $data = $stmt->fetch();
 }
+$data = ['id' => $db->lastInsertId()];
 ?>
 <!doctype html>
 <html lang="en">
@@ -17,12 +16,10 @@ if ($stmt === false) {
     <title>php</title>
 </head>
 <body>
-<pre>
 <?php if ($error) { ?>
     <pre>ERROR: <?php print_r($error); ?></pre>
 <?php } else { ?>
     <pre>RESULT: <?php print_r($data); ?></pre>
 <?php } ?>
-</pre>
 </body>
 </html>
