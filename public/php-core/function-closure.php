@@ -37,3 +37,7 @@ $cube2 = function ($n) use ($size) {
 };
 $b = array_map($cube2, $a);
 print_r($b);
+
+// Capturing parent scope vars using fat arrow
+$c = array_map(fn($n) => pow($n, $size), $a);
+print_r(["fat arrow result: ", $c]);
