@@ -60,12 +60,29 @@ The httpd WebServer info:
 
 ## Setup Database
 
-Create a new MySQL DB and user
+Create a new MySQL DB and user and a sample of table
 
 ```
-CREATE DATABASE mydb CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 CREATE USER zemian@localhost IDENTIFIED BY 'secret123';
+
+CREATE DATABASE mydb CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 GRANT ALL PRIVILEGES ON mydb.* TO zemian@localhost;
+
+USE mydb;
+
+CREATE TABLE options (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    created_dt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    modified_dt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    name VARCHAR(100) NOT NULL,
+    value TEXT NULL,
+    comment TEXT NULL,
+    INDEX (name)
+);
+INSERT INTO options(name, value, comment) VALUES
+    ('hello', 'Hello World!', NULL),
+    ('mydata', '{"message": "Hello"}', 'The value contains JSON data.'),
+    ('mynum', '999', NULL);
 ```
 
 For more, see [mysql-setup.md](docs/mysql-setup.md)
