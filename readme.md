@@ -63,7 +63,7 @@ The httpd WebServer info:
 Create a new MySQL DB and user and a sample of table
 
 ```
-CREATE USER zemian@localhost IDENTIFIED BY 'secret123';
+CREATE USER zemian@localhost IDENTIFIED BY 'test123';
 
 CREATE DATABASE mydb CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 GRANT ALL PRIVILEGES ON mydb.* TO zemian@localhost;
@@ -90,14 +90,16 @@ For more, see [mysql-setup.md](docs/mysql-setup.md)
 ### How to setup more user access
 
 ```
--- Enable user to connect form remote hosts
-CREATE USER zemian@'%';
+-- Enable user to connect from any remote hosts
+-- NOTE: You must give password again here!
+CREATE USER zemian@'%' IDENTIFIED BY 'test123';
 GRANT ALL PRIVILEGES ON mydb.* TO zemian@'%';
+SELECT * FROM mysql.user WHERE User='zemian' \G;
 --
 
 -- Removing Host from user
-select Host,User,account_locked from mysql.user where User='zemian';
-delete from mysql.user where User='zemian' and Host='%';
+SELECT * FROM mysql.user WHERE User='zemian' \G;
+DELETE FROM mysql.user WHERE User='zemian' AND Host='%';
 FLUSH PRIVILEGES;
 --
 ```
