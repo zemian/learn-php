@@ -95,11 +95,6 @@ CREATE USER zemian@'%';
 GRANT ALL PRIVILEGES ON mydb.* TO zemian@'%';
 --
 
--- Host with sub domain in name
-CREATE USER zemian@'%.%.mycompany.com';
-GRANT ALL PRIVILEGES ON mydb.* TO zemian@'%.%.mycompany.com';
---
-
 -- Removing Host from user
 select Host,User,account_locked from mysql.user where User='zemian';
 delete from mysql.user where User='zemian' and Host='%';
