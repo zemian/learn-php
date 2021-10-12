@@ -68,6 +68,11 @@ CREATE USER zemian@localhost IDENTIFIED BY 'secret123';
 CREATE DATABASE mydb CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 GRANT ALL PRIVILEGES ON mydb.* TO zemian@localhost;
 
+-- Optional: Enable user to connect form remote hosts
+CREATE USER zemian@'%';
+GRANT ALL PRIVILEGES ON mydb.* TO zemian@'%';
+--
+
 USE mydb;
 
 CREATE TABLE options (
