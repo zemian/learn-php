@@ -68,11 +68,6 @@ CREATE USER zemian@localhost IDENTIFIED BY 'secret123';
 CREATE DATABASE mydb CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 GRANT ALL PRIVILEGES ON mydb.* TO zemian@localhost;
 
--- Optional: Enable user to connect form remote hosts
-CREATE USER zemian@'%';
-GRANT ALL PRIVILEGES ON mydb.* TO zemian@'%';
---
-
 USE mydb;
 
 CREATE TABLE options (
@@ -91,6 +86,26 @@ INSERT INTO options(name, value, comment) VALUES
 ```
 
 For more, see [mysql-setup.md](docs/mysql-setup.md)
+
+### How to setup more user access
+
+```
+-- Enable user to connect form remote hosts
+CREATE USER zemian@'%';
+GRANT ALL PRIVILEGES ON mydb.* TO zemian@'%';
+--
+
+-- Host with sub domain in name
+CREATE USER zemian@'%.%.mycompany.com';
+GRANT ALL PRIVILEGES ON mydb.* TO zemian@'%.%.mycompany.com';
+--
+
+-- Removing Host from user
+select Host,User,account_locked from mysql.user where User='zemian';
+delete from mysql.user where User='zemian' and Host='%';
+FLUSH PRIVILEGES;
+--
+```
 
 ## PHP and Apache HTTPD Setup
 
