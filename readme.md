@@ -58,7 +58,6 @@ mysql -u zemian -p
     sql> INSERT INTO OPTIONS(name, value) VALUES('test', 'Hello World!');
 ```
 
-
 ## mysql
 
 ```
