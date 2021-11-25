@@ -1,6 +1,98 @@
 This repopository contains various notes and scripts that helped me learn PHP
 programming language.
 
+## Quick macOS PHP dev setup
+
+Install `brew` from https://brew.sh
+
+Then install dev tools:
+
+```
+brew install mysql httpd php
+brew services start mysql
+brew services start httpd
+brew services start php
+
+brew install git
+git config --global user.name "Zemian Deng"
+git config --global user.email zemiandeng@gmail.com
+
+
+mysql -u root
+
+    CREATE USER IF NOT EXISTS 'zemian'@'localhost' IDENTIFIED BY 'test123';
+    GRANT ALL PRIVILEGES ON *.* TO 'zemian'@'localhost';
+
+    CREATE DATABASE test CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+    CREATE TABLE OPTIONS(name VARCHAR(100) PRIMARY KEY, value TEXT);
+    INSERT INTO OPTIONS(name, value) VALUES('test', 'Hello World!');
+```
+
+## mysql
+
+```
+==> Caveats
+We've installed your MySQL database without a root password. To secure it run:
+    mysql_secure_installation
+
+MySQL is configured to only allow connections from localhost by default
+
+To connect run:
+    mysql -uroot
+
+To restart mysql after an upgrade:
+  brew services restart mysql
+Or, if you don't want/need a background service you can just run:
+  /opt/homebrew/opt/mysql/bin/mysqld_safe --datadir=/opt/homebrew/var/mysql
+```
+
+## httpd
+
+```
+==> Caveats
+DocumentRoot is /opt/homebrew/var/www.
+
+The default ports have been set in /opt/homebrew/etc/httpd/httpd.conf to 8080 and in
+/opt/homebrew/etc/httpd/extra/httpd-ssl.conf to 8443 so that httpd can run without sudo.
+
+To restart httpd after an upgrade:
+  brew services restart httpd
+Or, if you don't want/need a background service you can just run:
+  /opt/homebrew/opt/httpd/bin/httpd -D FOREGROUND
+```
+
+## php
+
+```
+==> Caveats
+To enable PHP in Apache add the following to httpd.conf and restart Apache:
+    LoadModule php_module /opt/homebrew/opt/php/lib/httpd/modules/libphp.so
+
+    <FilesMatch \.php$>
+        SetHandler application/x-httpd-php
+    </FilesMatch>
+
+Finally, check DirectoryIndex includes index.php
+    DirectoryIndex index.php index.html
+
+The php.ini and php-fpm.ini file can be found in:
+    /opt/homebrew/etc/php/8.0/
+
+To restart php after an upgrade:
+  brew services restart php
+Or, if you don't want/need a background service you can just run:
+  /opt/homebrew/opt/php/sbin/php-fpm --nodaemonize
+```
+
+## Test apache with php
+
+```
+cd www
+ln -s ~/my-php/learn-php/webroot learn-php
+open http://localhost:8080/learn-php/phpinfo.php
+open http://localhost:8080/learn-php/dbtest.php
+```
+
 ## About PHP
 
 [PHP](https://www.php.net/) is a popular general-purpose scripting language 
@@ -26,7 +118,7 @@ built-in web server:
 Or you may setup a Aphace httpd web server to serve PHP script. See `docs`
 folder for more detials.
 
-## PHP Setup on MacOS
+## PHP 7.4 Setup on MacOS
 
 Setup Homebrew package manager:
 
