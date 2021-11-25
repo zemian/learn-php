@@ -1,11 +1,12 @@
 This repopository contains various notes and scripts that helped me learn PHP
 programming language.
 
+
 ## Quick macOS PHP dev setup
 
-Install `brew` from https://brew.sh
+1. Install `brew` from https://brew.sh
 
-Then install dev tools:
+2. Install PHP and dev tools:
 
 ```
 brew install mysql httpd php
@@ -13,20 +14,50 @@ brew services start mysql
 brew services start httpd
 brew services start php
 
+# Setup Git the first time
 brew install git
+#   Replace your own name here!
 git config --global user.name "Zemian Deng"
 git config --global user.email zemiandeng@gmail.com
 
-
+# Setup MySQL database with a db user:
 mysql -u root
 
-    CREATE USER IF NOT EXISTS 'zemian'@'localhost' IDENTIFIED BY 'test123';
-    GRANT ALL PRIVILEGES ON *.* TO 'zemian'@'localhost';
-
-    CREATE DATABASE test CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-    CREATE TABLE OPTIONS(name VARCHAR(100) PRIMARY KEY, value TEXT);
-    INSERT INTO OPTIONS(name, value) VALUES('test', 'Hello World!');
+    sql> CREATE USER IF NOT EXISTS 'zemian'@'localhost' IDENTIFIED BY 'test123';
+    sql> GRANT ALL PRIVILEGES ON *.* TO 'zemian'@'localhost';
 ```
+
+3. Setup Apache web server `httpd.conf` for PHP
+
+``` 
+# 1. Enable PHP in Apache add the following to httpd.conf and restart Apache:
+    LoadModule php_module /opt/homebrew/opt/php/lib/httpd/modules/libphp.so
+
+    <FilesMatch \.php$>
+        SetHandler application/x-httpd-php
+    </FilesMatch>
+
+# 2. Check DirectoryIndex includes index.php
+    DirectoryIndex index.php index.html
+
+# 3. Suport Pretty URL rewrite
+    LoadModule rewrite_module lib/httpd/modules/mod_rewrite.so
+
+    <Directory "/opt/homebrew/var/www">
+      ...
+      AllowOverride All
+    </Directory>
+```
+
+4. Setup a test database
+
+```
+mysql -u zemian -p
+    sql> CREATE DATABASE test CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+    sql> CREATE TABLE OPTIONS(name VARCHAR(100) PRIMARY KEY, value TEXT);
+    sql> INSERT INTO OPTIONS(name, value) VALUES('test', 'Hello World!');
+```
+
 
 ## mysql
 
