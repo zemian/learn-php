@@ -1,0 +1,15 @@
+{
+  "name": "zemian/learn-php",
+  "description": "Learning PHP",
+  "authors": [
+    {
+      "name": "Zemian Deng",
+      "email": "zemiandeng@gmail.com"
+    }
+  ],
+  "require": {
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^9"
+  }
+}

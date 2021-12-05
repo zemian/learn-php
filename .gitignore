@@ -1,5 +1,7 @@
 .DS_store
 .idea/
 temp/
-vendor/
 .env
+vendor/
+/.phpunit.result.cache
+composer.lock
