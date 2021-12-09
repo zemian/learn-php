@@ -303,3 +303,12 @@ Next, link the folder to the Apache DocumentRoot:
 
     ln -s $HOME/my-php/learn-php/public /usr/local/var/www/learn-php
     open http://localhost/learn-php
+
+## How to create new Application with Composer
+
+```
+mkdir my-composer
+cd my-composer
+composer init
+# Just hit ENTER to accept all default values
+```
