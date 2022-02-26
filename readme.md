@@ -312,3 +312,36 @@ cd my-composer
 composer init
 # Just hit ENTER to accept all default values
 ```
+
+## How to Install xdebugger for PHP on macOS
+
+See https://www.jetbrains.com/help/phpstorm/php-debugging-session.html
+
+1. Install xdebugger for PHP
+   See https://xdebug.org/docs/install#pecl
+    ```
+    pecl install xdebug
+    ```
+
+   Edit `php.ini` (use phpinfo() to find location) and ensure it contains the following:
+    ```
+    ; Xdebug
+    zend_extension="xdebug.so"
+    xdebug.mode=debug
+    ```    
+
+2. Restart Apache server!
+
+3. Install Xdebug helper for Chrome with extension
+   See https://chrome.google.com/webstore/detail/xdebug-helper/eadndfjplgieldjbigjakmdgkmoaaaoc
+
+4. In PhpStorm, start listening for PHP debug
+
+5. Create a `test.php` and set breakpoint
+
+    ```
+    //var_dump(php_ini_loaded_file(), php_ini_scanned_files());
+    //phpinfo();
+    xdebug_info();
+    ```
+   
