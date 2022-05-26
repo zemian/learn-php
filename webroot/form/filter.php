@@ -1,8 +1,12 @@
-<!-- 
+<?php
+/*
+https://www.php.net/manual/en/function.filter-input.php
+
 https://www.w3schools.com/php/php_filter.asp
 https://www.php.net/manual/en/function.filter-var.php
 https://www.php.net/manual/en/filter.filters.php
--->
+*/
+?>
 <table>
     <tr>
         <td>Filter Name</td>

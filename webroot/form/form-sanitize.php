@@ -2,9 +2,16 @@
 // This example will sanitize input with few built-in php functions
 // Example: htmlspecialchars() makes sure any characters that are special in html are properly
 //          encoded so people can't inject HTML tags or Javascript into your page. 
-
+//
 // The form submit for all empty values will give you empty string, but the 'gender' is not
 // defined in POST if not selected! One way to ensure this is to always have a default value!
+//
+// The htmlentities-vs-htmlspecialchars (use htmlspecialchars if possible)
+// https://stackoverflow.com/questions/46483/htmlentities-vs-htmlspecialchars
+//
+// > The difference is what gets encoded. The choices are everything (entities) or "special" characters,
+// > like ampersand, double and single quotes, less than, and greater than (specialchars).
+//
 
 //print_r($_POST);
 
