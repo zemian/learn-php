@@ -24,6 +24,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 ?>
+
+<!--
+NOTE: What is MAX_FILE_SIZE, and does it really matter?
+
+See https://stackoverflow.com/questions/1381364/max-file-size-in-php-whats-the-point
+
+Until we find browsers that support it, there's no point on the client side.
+However, on the server side, MAX_FILE_SIZE does affect the values you get from $_FILES['your_file'].
+-->
+
 <!-- The data encoding type, enctype, MUST be specified as below -->
 <form enctype="multipart/form-data" action="file-upload.php" method="POST">
     <!-- MAX_FILE_SIZE must precede the file input field -->

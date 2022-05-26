@@ -19,11 +19,14 @@ Send this file: <input id="fileinput" type="file" />
 
     // This will upload the file after having read it
     const upload = (file) => {
+        console.log("Uploading file", file);
+
         // NOTE: Without using FormData, the browser will automatically set Content-Type header
         // based on the file type! So using it will force browser to submit with "multipart/form-data".
         const formData = new FormData();
-        console.log("Uploading file", file);
+        formData.append('MAX_FILE_SIZE', "2000000");
         formData.append(file.name, file);
+
         fetch('upload.php', { // Your POST endpoint
             method: 'POST',
             // headers: {
