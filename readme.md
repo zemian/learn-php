@@ -1,6 +1,11 @@
-This repopository contains various notes and scripts that helped me learn PHP
+This repository contains various notes and scripts that helped me learn PHP
 programming language.
 
+## Quick start
+
+```
+php -S localhost:3000 -t webroot
+```
 
 ## Quick macOS PHP dev setup
 
