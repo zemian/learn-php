@@ -2,9 +2,12 @@
 /*
 https://www.php.net/manual/en/function.filter-input.php
 
-https://www.w3schools.com/php/php_filter.asp
-https://www.php.net/manual/en/function.filter-var.php
-https://www.php.net/manual/en/filter.filters.php
+How is PHP email validated?
+
+It uses regex based on by Michael Rushton, but not identical.
+
+See https://github.com/php/php-src/blob/8200d667fbf66b388194a8e612e836a976f8496d/ext/filter/logical_filters.c
+    "void php_filter_validate_email(PHP_INPUT_FILTER_PARAM_DECL)"
 */
 ?>
 <table>
