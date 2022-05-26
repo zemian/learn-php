@@ -6,7 +6,7 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Learn PHP</title>
-    <link rel="stylesheet" href="https://unpkg.com/bulma@0.9.4/css/bulma.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
