@@ -1,4 +1,5 @@
 <?php
+// PHP Attribute is like Annotation in Java.
 // https://www.php.net/manual/en/language.attributes.overview.php
 
 interface ActionHandler
