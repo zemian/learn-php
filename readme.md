@@ -327,7 +327,7 @@ See https://www.jetbrains.com/help/phpstorm/php-debugging-session.html
     ```
     pecl install xdebug
     ```
-
+   NOTE: Above should auto update `php.ini` file, but if it does not, do it manually:
    Edit `php.ini` (use phpinfo() to find location) and ensure it contains the following:
     ```
     ; Xdebug
@@ -342,11 +342,12 @@ See https://www.jetbrains.com/help/phpstorm/php-debugging-session.html
 
 4. In PhpStorm, start listening for PHP debug
 
-5. Create a `test.php` and set breakpoint
+5. Create a `test-xdebugger.php` and set breakpoint
 
     ```
     //var_dump(php_ini_loaded_file(), php_ini_scanned_files());
     //phpinfo();
     xdebug_info();
     ```
-   
+6. Start a built-in web server: `php -S localhost:3000`
+7. Open http://localhost:3000/test-xdebugger.php
