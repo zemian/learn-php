@@ -1,0 +1,13 @@
+<!-- This HTML is meant to test JS only, not PHP code, hence there is no "action" set in form. -->
+<form method="POST">
+    <input name="field[]" value="foo"><p/>
+    <input name="field[]" value="bar"><p/>
+    <input type="submit">
+</form>
+<script>
+    // Notice that in JS, unlike in PHP, we need to query element by the 'field[]'.
+    const elms = document.getElementsByName('field[]');
+    for (const elm of elms) {
+        console.log('Input value: ' + elm.value);
+    }
+</script>
