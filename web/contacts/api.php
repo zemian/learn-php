@@ -22,10 +22,10 @@ require_once '../env.php';
 $db = null;
 function connect_db() {
     // Caching global $db object.
-    global $pdo;
-    if ($pdo === null)
-        $pdo = new PDO(DB_DSN, DB_USER, DB_PASSWORD);
-    return $pdo;
+    global $dbh;
+    if ($dbh === null)
+        $dbh = new PDO(DB_DSN, DB_USER, DB_PASSWORD);
+    return $dbh;
 }
 
 // Main Script - process request

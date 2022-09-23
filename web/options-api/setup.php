@@ -2,7 +2,7 @@
 require_once '../env.php';
 $db = new PDO(DB_DSN, DB_USER, DB_PASSWORD);
 function create_table() {
-    global $pdo;
+    global $dbh;
     $sql = <<< HERE
         CREATE TABLE IF NOT EXISTS options (
             id INT PRIMARY KEY AUTO_INCREMENT,
@@ -13,17 +13,17 @@ function create_table() {
             comment TEXT NULL
         )
 HERE;
-    $stmt = $pdo->prepare($sql);
+    $stmt = $dbh->prepare($sql);
     if ($stmt->execute()) {
         return array("status" => "Table is created.");
     } else {
-        return array("status" => "Create failed.", "error" => $pdo->errorInfo());
+        return array("status" => "Create failed.", "error" => $dbh->errorInfo());
     }
 }
 
 function create_sample() {
-    global $pdo;
-    $stmt = $pdo->prepare('INSERT INTO options (name, value) VALUE (?, ?)');
+    global $dbh;
+    $stmt = $dbh->prepare('INSERT INTO options (name, value) VALUE (?, ?)');
     $count = 0;
     foreach ($_SERVER as $k => $v) {
         $stmt->bindParam(1, $k);
