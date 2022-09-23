@@ -1,5 +1,0 @@
-CREATE TABLE content (
-  id SERIAL,
-  content TEXT,
-  created_ts TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
