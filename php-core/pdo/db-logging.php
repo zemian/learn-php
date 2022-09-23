@@ -5,8 +5,8 @@ $result = $dbh->exec("CREATE TABLE IF NOT EXISTS logs(datetime, source, level, m
 
 $sth = $dbh->prepare("INSERT INTO logs VALUES(?, ?, ?, ?)");
 for ($i = 0; $i < 100; $i++) {
-    echo "Writing to log\n";
-    $sth->execute([date('c'), 'db-logging.php', 'debug', "Just a test #i"]);
+    echo date('c') . " Writing to log\n";
+    $sth->execute([date('c'), 'db-logging.php', 'debug', "Just a test #{$i}"]);
     sleep((rand(1, 3)));
 }
 echo "Done\n";
