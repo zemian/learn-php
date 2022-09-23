@@ -1,5 +1,5 @@
 <?php
-$db = new PDO('sqlite:test.db');
-$stmt = $db->query('SELECT 1 + 2');
-$mysql_version = $stmt->fetch()[0];
-echo $mysql_version;
+$dbh = new PDO('sqlite:test.db');
+$stmt = $dbh->query('SELECT 1 + 2');
+$result = $stmt->fetch();
+print_r($result);
