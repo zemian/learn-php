@@ -1,5 +1,6 @@
 <?php
-$db = new PDO('mysql:host=localhost;dbname=information_schema', 'zemian', 'test123');
-$stmt = $db->query('SELECT VERSION()');
-$mysql_version = $stmt->fetch()[0];
-echo $mysql_version;
+$dbh = new PDO('mysql:host=localhost;dbname=mysql', 'zemian', 'test123');
+$stmt = $dbh->query('SELECT 1 + 2');
+//$stmt = $dbh->query('SELECT VERSION()');
+$result = $stmt->fetch();
+print_r($result);
