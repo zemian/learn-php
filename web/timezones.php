@@ -1,10 +1,8 @@
 <?php
-// echo json_encode(DateTimeZone::listIdentifiers());
-?>
 
-<label>Time Zone</label>
-<select>
-	<?php foreach (DateTimeZone::listIdentifiers() as $id): ?>
-		<option name="localeId"><?php echo $id; ?></option>
-	<?php endforeach; ?>
-</select>
+// Get data structure
+$timezones = DateTimeZone::listAbbreviations();
+
+// Return JSON data
+header('Content-Type: application/json');
+echo json_encode($timezones, JSON_PRETTY_PRINT);
